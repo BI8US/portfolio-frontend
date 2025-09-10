@@ -1,0 +1,14 @@
+.header {
+    background-color: #282c34;
+    color: white;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header nav a {
+    color: white;
+    margin-left: 1rem;
+    text-decoration: none;
+}
