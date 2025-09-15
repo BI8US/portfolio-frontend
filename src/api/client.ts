@@ -1,8 +1,8 @@
 import axios from "axios";
-import { getToken } from "../utils/auth";
+import {getToken} from "../utils/auth";
 
 export const api = axios.create({
-    baseURL: "http://localhost:8080/api",
+    baseURL: "http://localhost:8080/api/resume",
 });
 
 api.interceptors.request.use((config) => {

@@ -1,9 +1,9 @@
 import React from "react";
-import { ResumeItem } from "../types/resumeTypes";
+import {ResumeListItem} from "../types/resumeTypes";
 
 interface ResumeCardProps {
-    resume: ResumeItem;
-    onEdit: (resume: ResumeItem) => void;
+    resume: ResumeListItem;
+    onEdit: (resumeId: number) => void;
 }
 
 export const ResumeListItemCard: React.FC<ResumeCardProps> = ({ resume, onEdit }) => {
@@ -28,7 +28,7 @@ export const ResumeListItemCard: React.FC<ResumeCardProps> = ({ resume, onEdit }
                 </p>
             </div>
             <button
-                onClick={() => onEdit(resume)}
+                onClick={() => onEdit(resume.id)}
                 className="mt-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
             >
                 Edit

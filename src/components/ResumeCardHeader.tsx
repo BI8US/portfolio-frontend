@@ -1,11 +1,13 @@
 import React from "react";
-import { ResumeItem } from "../types/resumeTypes";
+import {ResumeItem} from "../types/resumeTypes";
+import {MediaLinkItem} from "../types/mediaLinkTypes";
+import {ResumeCardMediaLinks} from "./ResumeCardMediaLinks";
 
 interface ResumeCardProps {
     resume: ResumeItem;
 }
 
-export const ResumeCard: React.FC<ResumeCardProps> = ({ resume }) => {
+export const ResumeCardHeader: React.FC<ResumeCardProps> = ({ resume }) => {
     return (
         <div className="bg-white border border-gray-200 rounded-xl shadow-lg p-6 mb-6 flex gap-6 items-start max-w-2xl mx-auto">
             {resume.picture && (
@@ -29,7 +31,9 @@ export const ResumeCard: React.FC<ResumeCardProps> = ({ resume }) => {
                         {resume.isActive ? "Active" : "Inactive"}
                     </span>
                 </div>
-
+                {resume.mediaLinks && (
+                    <ResumeCardMediaLinks mediaLinks={resume.mediaLinks}/>
+                )}
                 <div className="flex flex-wrap gap-4 text-gray-700 mb-2">
                     {resume.email && <p>Email: {resume.email}</p>}
                     {resume.phone && <p>Phone: {resume.phone}</p>}

@@ -1,5 +1,5 @@
-import { api } from "./client"
-import { ProjectItem } from "../types";
+import {api} from "./client"
+import {ProjectItem} from "../types/projectTypes";
 
 export const getAllProjects = async (resumeId: number): Promise<ProjectItem[]> => {
     const res = await api.get<ProjectItem[]>(`/${resumeId}/projects`);

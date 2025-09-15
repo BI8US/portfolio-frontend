@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useLogin } from "../hooks/useAuth";
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {useLogin} from "../hooks/useAuth";
 
 export const LoginPage = () => {
     const [username, setUsername] = useState("");

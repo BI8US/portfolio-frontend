@@ -1,11 +1,11 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom";
 import Header from "./components/Header";
 import ActiveResumePage from "./pages/ActiveResumePage";
-import { ResumeListPage } from "./pages/ResumeListPage";
-import { ResumeEditPage } from "./pages/ResumeEditPage";
-import { LoginPage } from "./pages/LoginPage";
-import { PrivateRoute } from "./components/PrivateRoute";
+import {ResumeListPage} from "./pages/ResumeListPage";
+import {ResumeEditPage} from "./pages/ResumeEditPage";
+import {LoginPage} from "./pages/LoginPage";
+import {PrivateRoute} from "./components/PrivateRoute";
 
 function App() {
     return (

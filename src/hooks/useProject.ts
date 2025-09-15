@@ -1,6 +1,6 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getAllProjects, addProject, updateProject, deleteProject } from "../api/projectApi";
-import { ProjectItem } from "../types";
+import {useQuery, useMutation, useQueryClient} from "@tanstack/react-query";
+import {getAllProjects, addProject, updateProject, deleteProject} from "../api/projectApi";
+import {ProjectItem} from "../types/projectTypes";
 
 export function useGetAllProjects(resumeId: number) {
     return useQuery<ProjectItem[]>({

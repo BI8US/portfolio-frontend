@@ -1,12 +1,12 @@
 // src/features/skill/hooks/useSkill.ts
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {useQuery, useMutation, useQueryClient} from "@tanstack/react-query";
 import {
     getAllSkills,
     addSkill,
     updateSkill,
     deleteSkill,
 } from "../api/skillApi";
-import { SkillItem } from "../types";
+import {SkillItem} from "../types/skillTypes";
 
 export function useGetAllSkills(resumeId: number) {
     return useQuery<SkillItem[]>({

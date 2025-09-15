@@ -1,5 +1,5 @@
-import { api } from "./client"
-import { EducationItem } from "../types";
+import {api} from "./client"
+import {EducationItem} from "../types/educationTypes";
 
 export const getAllEducations = async (resumeId: number): Promise<EducationItem[]> => {
     const res = await api.get<EducationItem[]>(`/${resumeId}/educations`);

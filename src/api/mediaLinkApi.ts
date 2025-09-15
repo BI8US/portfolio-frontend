@@ -1,5 +1,5 @@
-import { api } from "./client"
-import { MediaLinkItem } from "../types";
+import {api} from "./client"
+import {MediaLinkItem} from "../types/mediaLinkTypes";
 
 export const getAllMediaLinks = async (resumeId: number): Promise<MediaLinkItem[]> => {
     const res = await api.get<MediaLinkItem[]>(`/${resumeId}/media-links`);

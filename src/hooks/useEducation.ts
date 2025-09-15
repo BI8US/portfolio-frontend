@@ -1,11 +1,11 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {useQuery, useMutation, useQueryClient} from "@tanstack/react-query";
 import {
     getAllEducations,
     addEducation,
     updateEducation,
     deleteEducation,
 } from "../api/educationApi";
-import { EducationItem } from "../types";
+import {EducationItem} from "../types/educationTypes";
 
 export function useGetAllEducations(resumeId: number) {
     return useQuery<EducationItem[]>({

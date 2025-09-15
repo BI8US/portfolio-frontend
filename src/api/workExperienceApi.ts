@@ -1,5 +1,5 @@
-import { api } from "./client"
-import { WorkExperienceItem } from "../types";
+import {api} from "./client"
+import {WorkExperienceItem} from "../types/workExperienceTypes";
 
 export const getAllWorkExperiences = async (resumeId: number): Promise<WorkExperienceItem[]> => {
     const res = await api.get<WorkExperienceItem[]>(`/${resumeId}/workexperience`);

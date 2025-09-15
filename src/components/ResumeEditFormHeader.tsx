@@ -1,40 +1,36 @@
-import React, { useState, useEffect } from "react";
-import { ResumeItem, ResumeItemPartial } from "../types/resumeTypes";
+import React, {useState, useEffect} from "react";
+import {ResumeItem} from "../types/resumeTypes";
+import {ResumeHeaderItemPartial} from "../types/resumeHeaderTypes";
 
-interface ResumeFormProps {
-    resumeEditItem?: ResumeItem;
-    onSubmit: (resume: ResumeItemPartial) => void;
+interface ResumeEditFormHeaderProps {
+    resumeItem: ResumeItem;
+    onSubmit: (resume: ResumeHeaderItemPartial) => void;
 }
 
-export const ResumeForm: React.FC<ResumeFormProps> = ({
-                                                          resumeEditItem,
-                                                          onSubmit,
-                                                      }) => {
-    const isEditForm = !!resumeEditItem;
-    const title = isEditForm ? "Edit resume" : "Create new resume";
-
-    const [resumeName, setResumeName] = useState("");
-    const [fullName, setFullName] = useState("");
-    const [email, setEmail] = useState("");
-    const [phone, setPhone] = useState("");
-    const [summary, setSummary] = useState("");
-    const [isActive, setIsActive] = useState(false);
+export const ResumeEditFormHeader: React.FC<ResumeEditFormHeaderProps> = ({
+                                                                              resumeItem,
+                                                                              onSubmit,
+                                                                          }) => {
+    const [resumeName, setResumeName] = useState(resumeItem.resumeName || "");
+    const [fullName, setFullName] = useState(resumeItem.fullName || "");
+    const [email, setEmail] = useState(resumeItem.email || "");
+    const [phone, setPhone] = useState(resumeItem.phone || "");
+    const [summary, setSummary] = useState(resumeItem.summary || "");
+    const [isActive, setIsActive] = useState(!!resumeItem.isActive);
 
     useEffect(() => {
-        if (resumeEditItem) {
-            setResumeName(resumeEditItem.resumeName || "");
-            setFullName(resumeEditItem.fullName || "");
-            setEmail(resumeEditItem.email || "");
-            setPhone(resumeEditItem.phone || "");
-            setSummary(resumeEditItem.summary || "");
-            setIsActive(!!resumeEditItem.isActive);
-        }
-    }, [resumeEditItem]);
+        setResumeName(resumeItem.resumeName || "");
+        setFullName(resumeItem.fullName || "");
+        setEmail(resumeItem.email || "");
+        setPhone(resumeItem.phone || "");
+        setSummary(resumeItem.summary || "");
+        setIsActive(!!resumeItem.isActive);
+    }, [resumeItem]);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        const payload: ResumeItemPartial = {
+        const payload: ResumeHeaderItemPartial = {
             resumeName,
             fullName,
             email,
@@ -44,20 +40,11 @@ export const ResumeForm: React.FC<ResumeFormProps> = ({
         };
 
         onSubmit(payload);
-
-        if (!isEditForm) {
-            setResumeName("");
-            setFullName("");
-            setEmail("");
-            setPhone("");
-            setSummary("");
-            setIsActive(false);
-        }
     };
 
     return (
         <form onSubmit={handleSubmit} className="border p-4 rounded-lg shadow-md mb-4">
-            <h2 className="text-lg font-semibold mb-2">{title}</h2>
+            <h2 className="text-lg font-semibold mb-2">Edit resume</h2>
 
             <input
                 type="text"
@@ -73,7 +60,6 @@ export const ResumeForm: React.FC<ResumeFormProps> = ({
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 className="border p-2 w-full mb-2 rounded"
-                required
             />
             <input
                 type="email"
@@ -81,7 +67,6 @@ export const ResumeForm: React.FC<ResumeFormProps> = ({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="border p-2 w-full mb-2 rounded"
-                required
             />
             <input
                 type="text"
@@ -96,7 +81,6 @@ export const ResumeForm: React.FC<ResumeFormProps> = ({
                 onChange={(e) => setSummary(e.target.value)}
                 className="border p-2 w-full mb-2 rounded"
                 rows={4}
-                required
             />
 
             <label className="flex items-center gap-2 mb-2">
@@ -112,7 +96,7 @@ export const ResumeForm: React.FC<ResumeFormProps> = ({
                 type="submit"
                 className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
             >
-                {isEditForm ? "Save changes" : "Create resume"}
+                Save changes
             </button>
         </form>
     );

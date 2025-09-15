@@ -1,5 +1,5 @@
-import { api } from "./client"
-import { SkillItem } from "../types";
+import {api} from "./client"
+import {SkillItem} from "../types/skillTypes";
 
 export const getAllSkills = async (resumeId: number): Promise<SkillItem[]> => {
     const res = await api.get<SkillItem[]>(`/${resumeId}/skills`);

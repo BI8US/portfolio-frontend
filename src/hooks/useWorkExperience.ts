@@ -1,11 +1,11 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {useQuery, useMutation, useQueryClient} from "@tanstack/react-query";
 import {
     getAllWorkExperiences,
     addWorkExperience,
     updateWorkExperience,
     deleteWorkExperience,
 } from "../api/workExperienceApi";
-import { WorkExperienceItem } from "../types";
+import {WorkExperienceItem} from "../types/workExperienceTypes";
 
 export function useGetAllWorkExperiences(resumeId: number) {
     return useQuery<WorkExperienceItem[]>({

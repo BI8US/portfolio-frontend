@@ -1,11 +1,11 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {useQuery, useMutation, useQueryClient} from "@tanstack/react-query";
 import {
     getAllMediaLinks,
     addMediaLink,
     updateMediaLink,
     deleteMediaLink,
 } from "../api/mediaLinkApi";
-import { MediaLinkItem } from "../types";
+import {MediaLinkItem} from "../types/mediaLinkTypes";
 
 export function useGetAllMediaLinks(resumeId: number) {
     return useQuery<MediaLinkItem[]>({
