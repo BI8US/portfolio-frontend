@@ -2,6 +2,7 @@ import React from "react";
 import {ResumeItem} from "../types/resumeTypes";
 import {MediaLinkItem} from "../types/mediaLinkTypes";
 import {ResumeCardMediaLinks} from "./ResumeCardMediaLinks";
+import {ContentCard} from "./ContentCard";
 
 interface ResumeCardProps {
     resume: ResumeItem;
@@ -9,7 +10,7 @@ interface ResumeCardProps {
 
 export const ResumeCardHeader: React.FC<ResumeCardProps> = ({ resume }) => {
     return (
-        <div className="bg-white border border-gray-200 rounded-xl shadow-lg p-6 mb-6 flex gap-6 items-start max-w-2xl mx-auto">
+        <ContentCard>
             {resume.picture && (
                 <img
                     src={resume.picture}
@@ -25,7 +26,7 @@ export const ResumeCardHeader: React.FC<ResumeCardProps> = ({ resume }) => {
                     </div>
                     <span
                         className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                            resume.isActive ? "bg-green-100 text-green-800" : "bg-red-300 text-gray-600"
+                            resume.isActive ? "bg-green-300 text-white" : "bg-red-400 text-white"
                         }`}
                     >
                         {resume.isActive ? "Active" : "Inactive"}
@@ -43,6 +44,6 @@ export const ResumeCardHeader: React.FC<ResumeCardProps> = ({ resume }) => {
                     <p className="text-gray-600 whitespace-pre-line">{resume.summary}</p>
                 )}
             </div>
-        </div>
+        </ContentCard>
     );
 };

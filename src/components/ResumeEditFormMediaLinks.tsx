@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { MediaLinkItem, MediaLinkItemPartial } from "../types/mediaLinkTypes";
-import { MediaLinkFormModal } from "./MediaLinkFormModal";
+import React, {useState, useEffect} from "react";
+import {MediaLinkItem, MediaLinkItemPartial} from "../types/mediaLinkTypes";
+import {MediaLinkFormModal} from "./MediaLinkFormModal";
+import {ContentCard} from "./ContentCard";
 
 interface ResumeEditFormMediaLinksProps {
     mediaLinks?: MediaLinkItem[];
@@ -74,7 +75,7 @@ export const ResumeEditFormMediaLinks: React.FC<ResumeEditFormMediaLinksProps> =
     };
 
     return (
-        <div className="border p-4 rounded-lg shadow-md mb-4">
+        <ContentCard>
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-lg font-semibold">Media Links</h2>
                 <button
@@ -139,6 +140,6 @@ export const ResumeEditFormMediaLinks: React.FC<ResumeEditFormMediaLinksProps> =
                 onSave={handleSaveLink}
                 linkToEdit={linkToEdit}
             />
-        </div>
+        </ContentCard>
     );
 };

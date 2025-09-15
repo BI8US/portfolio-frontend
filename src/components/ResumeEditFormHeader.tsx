@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {ResumeItem} from "../types/resumeTypes";
 import {ResumeHeaderItemPartial} from "../types/resumeHeaderTypes";
+import {ContentCard} from "./ContentCard";
 
 interface ResumeEditFormHeaderProps {
     resumeItem: ResumeItem;
@@ -43,61 +44,63 @@ export const ResumeEditFormHeader: React.FC<ResumeEditFormHeaderProps> = ({
     };
 
     return (
-        <form onSubmit={handleSubmit} className="border p-4 rounded-lg shadow-md mb-4">
-            <h2 className="text-lg font-semibold mb-2">Edit resume</h2>
+        <ContentCard>
+            <form onSubmit={handleSubmit}>
+                <h2 className="text-lg font-semibold mb-2">Edit resume</h2>
 
-            <input
-                type="text"
-                placeholder="Resume name"
-                value={resumeName}
-                onChange={(e) => setResumeName(e.target.value)}
-                className="border p-2 w-full mb-2 rounded"
-                required
-            />
-            <input
-                type="text"
-                placeholder="Full name"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                className="border p-2 w-full mb-2 rounded"
-            />
-            <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="border p-2 w-full mb-2 rounded"
-            />
-            <input
-                type="text"
-                placeholder="Phone"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className="border p-2 w-full mb-2 rounded"
-            />
-            <textarea
-                placeholder="Summary"
-                value={summary}
-                onChange={(e) => setSummary(e.target.value)}
-                className="border p-2 w-full mb-2 rounded"
-                rows={4}
-            />
-
-            <label className="flex items-center gap-2 mb-2">
                 <input
-                    type="checkbox"
-                    checked={isActive}
-                    onChange={(e) => setIsActive(e.target.checked)}
+                    type="text"
+                    placeholder="Resume name"
+                    value={resumeName}
+                    onChange={(e) => setResumeName(e.target.value)}
+                    className="border p-2 w-full mb-2 rounded"
+                    required
                 />
-                Active
-            </label>
+                <input
+                    type="text"
+                    placeholder="Full name"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    className="border p-2 w-full mb-2 rounded"
+                />
+                <input
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="border p-2 w-full mb-2 rounded"
+                />
+                <input
+                    type="text"
+                    placeholder="Phone"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    className="border p-2 w-full mb-2 rounded"
+                />
+                <textarea
+                    placeholder="Summary"
+                    value={summary}
+                    onChange={(e) => setSummary(e.target.value)}
+                    className="border p-2 w-full mb-2 rounded"
+                    rows={4}
+                />
 
-            <button
-                type="submit"
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-            >
-                Save changes
-            </button>
-        </form>
+                <label className="flex items-center gap-2 mb-2">
+                    <input
+                        type="checkbox"
+                        checked={isActive}
+                        onChange={(e) => setIsActive(e.target.checked)}
+                    />
+                    Active
+                </label>
+
+                <button
+                    type="submit"
+                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                >
+                    Save changes
+                </button>
+            </form>
+        </ContentCard>
     );
 };

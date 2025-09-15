@@ -1,7 +1,7 @@
 export interface ProjectItem {
     id: number;
     title: string;
-    subtitle?: string;
+    subTitle?: string;
     description?: string;
     media?: string;
 }
@@ -9,7 +9,7 @@ export interface ProjectItem {
 export interface ProjectItemPartial {
     id?: number;
     title?: string;
-    subtitle?: string;
+    subTitle?: string;
     description?: string;
     media?: string;
 }

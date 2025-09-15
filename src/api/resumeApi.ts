@@ -18,7 +18,11 @@ export const getResumeById = async (id: number): Promise<ResumeItem> => {
 };
 
 export const createResume = async (resumeName: string): Promise<ResumeItem> => {
-    const response = await api.post<ResumeItem>("", resumeName);
+    const response = await api.post<ResumeItem>("", resumeName, {
+        headers: {
+            'Content-Type': 'text/plain'
+        }
+    });
     return response.data;
 };
 
