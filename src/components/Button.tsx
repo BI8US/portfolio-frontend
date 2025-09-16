@@ -7,7 +7,7 @@ interface ButtonProps {
     className?: string;
 }
 
-const Button: React.FC<ButtonProps> = ({ type = 'primary', children, onClick, className }) => {
+export const Button: React.FC<ButtonProps> = ({ type = 'primary', children, onClick, className }) => {
     const baseClasses = 'py-2 px-4 rounded-xl font-bold transition-colors duration-200';
 
     let typeClasses = '';
@@ -33,4 +33,3 @@ const Button: React.FC<ButtonProps> = ({ type = 'primary', children, onClick, cl
     );
 };
 
-export default Button;

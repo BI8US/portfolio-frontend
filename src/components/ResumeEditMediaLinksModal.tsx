@@ -14,7 +14,7 @@ interface NewMediaLinkItem extends MediaLinkItemPartial {
 
 type AllMediaLinkItems = MediaLinkItem | NewMediaLinkItem;
 
-export const ResumeEditFormMediaLinks: React.FC<ResumeEditFormMediaLinksProps> = ({ mediaLinks = [], onSubmit }) => {
+export const ResumeEditMediaLinksModal: React.FC<ResumeEditFormMediaLinksProps> = ({ mediaLinks = [], onSubmit }) => {
     const [currentLinks, setCurrentLinks] = useState<AllMediaLinkItems[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [linkToEdit, setLinkToEdit] = useState<AllMediaLinkItems | undefined>(undefined);

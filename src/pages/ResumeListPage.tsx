@@ -4,13 +4,17 @@ import {useCreateResume, useGetAllResumes, useDeleteResume} from "../hooks/useRe
 import {useNavigate} from "react-router-dom";
 import {ContentPage} from "../components/ContentPage";
 import {ContentCard} from "../components/ContentCard";
-import Button from "../components/Button";
+import {Button} from "../components/Button";
+import {ConfirmationModal} from "../components/ConfirmationModal";
 
 export const ResumeListPage: React.FC = () => {
     const { data: resumes, isLoading } = useGetAllResumes();
     const navigate = useNavigate();
     const createResumeMutation = useCreateResume();
     const deleteResumeMutation = useDeleteResume();
+
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [resumeToDeleteId, setResumeToDeleteId] = useState<number | null>(null);
 
     const [newResumeName, setNewResumeName] = useState('');
 
@@ -34,7 +38,24 @@ export const ResumeListPage: React.FC = () => {
     };
 
     const handleDelete = (resumeId: number) => {
-        deleteResumeMutation.mutate(resumeId);
+        setResumeToDeleteId(resumeId);
+        setIsDeleteModalOpen(true);
+    };
+
+    const handleConfirmDelete = () => {
+        if (resumeToDeleteId !== null) {
+            deleteResumeMutation.mutate(resumeToDeleteId, {
+                onSuccess: () => {
+                    setIsDeleteModalOpen(false);
+                    setResumeToDeleteId(null);
+                },
+            });
+        }
+    };
+
+    const handleCancelDelete = () => {
+        setIsDeleteModalOpen(false);
+        setResumeToDeleteId(null);
     };
 
     if (isLoading) return <p>Loading resumes...</p>;
@@ -62,6 +83,14 @@ export const ResumeListPage: React.FC = () => {
                     <ResumeListItemCard key={resume.id} resume={resume} onEdit={handleEdit} onDelete={handleDelete} />
                 ))}
             </div>
+
+            <ConfirmationModal
+                isOpen={isDeleteModalOpen}
+                title="Delete resume"
+                message="Are you sure you want to delete this resume? This action cannot be undone."
+                onCancel={handleCancelDelete}
+                onConfirm={handleConfirmDelete}
+            />
         </ContentPage>
     );
 };

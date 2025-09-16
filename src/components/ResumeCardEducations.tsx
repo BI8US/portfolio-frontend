@@ -1,15 +1,28 @@
 import React from "react";
 import {EducationItem} from "../types/educationTypes";
 import {ContentCard} from "./ContentCard";
+import {Button} from "./Button";
 
 export interface ResumeCardEducationsProps {
     educations: EducationItem[];
+    onEditClick?: () => void;
 }
 
-export const ResumeCardEducations = ({ educations }: ResumeCardEducationsProps) => {
+export const ResumeCardEducations = ({ educations, onEditClick }: ResumeCardEducationsProps) => {
     return (
         <ContentCard>
-            <h2 className="text-2xl font-bold mb-4">Education</h2>
+            <div className="flex justify-between items-center mb-4">
+                <h2 className="text-2xl font-bold">Education</h2>
+                {onEditClick && (
+                    <Button
+                        type="secondary"
+                        onClick={onEditClick}
+                        className="px-3 py-1"
+                    >
+                        Edit
+                    </Button>
+                )}
+            </div>
             <div className="flex flex-col gap-4">
                 {educations.map((item) => (
                     <div key={item.id}>

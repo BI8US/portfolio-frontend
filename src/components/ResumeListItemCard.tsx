@@ -1,6 +1,6 @@
 import React from "react";
 import {ResumeListItem} from "../types/resumeTypes";
-import Button from "./Button";
+import {Button} from "./Button";
 
 interface ResumeCardProps {
     resume: ResumeListItem;
@@ -33,18 +33,18 @@ export const ResumeListItemCard: React.FC<ResumeCardProps> = ({ resume, onEdit, 
             </div>
             <div className="flex gap-2 mt-4">
                 <Button
+                    type="secondary"
+                    onClick={() => onEdit(resume.id)}
+                    className="flex-1"
+                >
+                    View
+                </Button>
+                <Button
                     type="danger"
                     onClick={() => onDelete(resume.id)}
                     className="flex-1"
                 >
                     Delete
-                </Button>
-                <Button
-                    type="secondary"
-                    onClick={() => onEdit(resume.id)}
-                    className="flex-1"
-                >
-                    Edit
                 </Button>
             </div>
         </div>

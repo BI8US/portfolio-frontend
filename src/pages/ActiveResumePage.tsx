@@ -6,23 +6,16 @@ import {ResumeCardWorkExperiences} from "../components/ResumeCardWorkExperiences
 import {ResumeCardProjects} from "../components/ResumeCardProjects";
 import {ResumeCardSkills} from "../components/ResumeCardSkills";
 import {ContentPage} from "../components/ContentPage";
+import {StatusMessage} from "../components/StatusMessage";
 
 export default function ActiveResumePage() {
-    const {data: activeResume, isLoading, error} = useGetActiveResume();
+    const {data: activeResume, isLoading, isError} = useGetActiveResume();
 
-    if (isLoading) {
-        return <p>Loading...</p>;
-    }
+    if (isLoading) {return (<StatusMessage message="Loading resume..." />);}
+    if (isError) {return (<StatusMessage message="An error occurred while fetching the resume." />);}
+    if (!activeResume) {return (<StatusMessage message={`Active resume not found`} />);}
 
-    if (error) {
-        return <p>Loading error</p>;
-    }
-
-    if (!activeResume) {
-        return <p>No active resume found.</p>;
-    }
-
-    const {educations, mediaLinks, projects, skills, workExperiences} = activeResume;
+    const {educations, projects, skills, workExperiences} = activeResume;
 
     return (
         <ContentPage>
