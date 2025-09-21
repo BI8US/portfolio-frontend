@@ -8,7 +8,6 @@ export function useLogin() {
         mutationFn: login,
         onSuccess: (data) => {
             setToken(data.token);
-            console.log(data.token);
         },
     });
 }

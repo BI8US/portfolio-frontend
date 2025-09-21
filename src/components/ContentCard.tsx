@@ -6,7 +6,7 @@ interface ContentCardProps {
 }
 
 export const ContentCard: React.FC<ContentCardProps> = ({ children, className }) => {
-    const baseClasses = "bg-white border border-gray-200 rounded-xl shadow-md p-6 mb-4 max-w-2xl mx-auto";
+    const baseClasses = "bg-white border border-gray-200 rounded-xl shadow-md max-w-4xl p-6 mb-4 w-full mx-auto";
     const combinedClasses = `${baseClasses} ${className || ""}`;
 
     return (

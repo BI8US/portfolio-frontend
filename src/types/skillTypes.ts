@@ -6,6 +6,6 @@ export interface SkillItem {
 
 export interface SkillItemPartial {
     id?: number;
-    skillGroup?: string;
-    name?: string;
+    skillGroup: string;
+    name: string;
 }

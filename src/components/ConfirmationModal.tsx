@@ -1,5 +1,7 @@
 import React from "react";
 import {Button} from "./Button";
+import {Modal} from "./Modal";
+import {ContentCard} from "./ContentCard";
 
 interface ConfirmationComponentProps {
     isOpen: boolean;
@@ -27,27 +29,29 @@ export const ConfirmationModal: React.FC<ConfirmationComponentProps> = ({
     }
 
     return (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <div className={`bg-white rounded-lg shadow-xl p-6 w-full max-w-md ${className}`}>
-                <h3 className="text-xl font-bold mb-4">{title}</h3>
-                <div className="text-gray-700 mb-6">
-                    {message}
+        <Modal>
+            <ContentCard className={`max-w-md ${className}`}>
+                <div>
+                    <h3 className="text-xl font-bold mb-4">{title}</h3>
+                    <div className="text-gray-700 mb-6">
+                        {message}
+                    </div>
+                    <div className="flex justify-end space-x-2">
+                        <Button
+                            type="secondary"
+                            onClick={onCancel}
+                        >
+                            {cancelText}
+                        </Button>
+                        <Button
+                            type="danger"
+                            onClick={onConfirm}
+                        >
+                            {confirmText}
+                        </Button>
+                    </div>
                 </div>
-                <div className="flex justify-end space-x-2">
-                    <Button
-                        type="secondary"
-                        onClick={onCancel}
-                    >
-                        {cancelText}
-                    </Button>
-                    <Button
-                        type="danger"
-                        onClick={onConfirm}
-                    >
-                        {confirmText}
-                    </Button>
-                </div>
-            </div>
-        </div>
+            </ContentCard>
+        </Modal>
     )
 };

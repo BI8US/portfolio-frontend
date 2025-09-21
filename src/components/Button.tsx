@@ -2,12 +2,13 @@ import React from 'react';
 
 interface ButtonProps {
     type?: 'primary' | 'secondary' | 'danger';
+    htmlType?: 'button' | 'submit' | 'reset';
     children: React.ReactNode;
     onClick?: () => void;
     className?: string;
 }
 
-export const Button: React.FC<ButtonProps> = ({ type = 'primary', children, onClick, className }) => {
+export const Button: React.FC<ButtonProps> = ({ type = 'primary', htmlType = 'submit', children, onClick, className }) => {
     const baseClasses = 'py-2 px-4 rounded-xl font-bold transition-colors duration-200';
 
     let typeClasses = '';
@@ -27,7 +28,7 @@ export const Button: React.FC<ButtonProps> = ({ type = 'primary', children, onCl
     const allClasses = `${baseClasses} ${typeClasses} ${className || ''}`;
 
     return (
-        <button className={allClasses} onClick={onClick}>
+        <button type={htmlType} className={allClasses} onClick={onClick}>
             {children}
         </button>
     );

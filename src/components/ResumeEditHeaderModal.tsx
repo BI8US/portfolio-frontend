@@ -1,10 +1,11 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import {ResumeItem} from "../types/resumeTypes";
 import {ResumeHeaderItemPartial} from "../types/resumeHeaderTypes";
 import {ContentCard} from "./ContentCard";
 import {Input} from "./Input";
 import {Button} from "./Button";
 import {MediaLinkItemPartial} from "../types/mediaLinkTypes";
+import {Modal} from "./Modal";
 
 export interface Payload {
     header: ResumeHeaderItemPartial;
@@ -12,31 +13,20 @@ export interface Payload {
 }
 
 interface ResumeEditFormHeaderProps {
-    isOpen: boolean;
     resumeItem: ResumeItem;
     onSubmit: (payload: Payload) => void;
     onCancel: () => void;
 }
 
-export const ResumeEditHeaderModal: React.FC<ResumeEditFormHeaderProps> = ({isOpen, resumeItem, onSubmit, onCancel
+export const ResumeEditHeaderModal: React.FC<ResumeEditFormHeaderProps> = ({resumeItem, onSubmit, onCancel
 }) => {
-    const [resumeName, setResumeName] = useState(resumeItem.resumeName || "");
-    const [fullName, setFullName] = useState(resumeItem.fullName || "");
-    const [email, setEmail] = useState(resumeItem.email || "");
-    const [phone, setPhone] = useState(resumeItem.phone || "");
-    const [summary, setSummary] = useState(resumeItem.summary || "");
-    const [isActive, setIsActive] = useState(resumeItem.isActive);
-    const [mediaLinks, setMediaLinks] = useState<MediaLinkItemPartial[]>(resumeItem.mediaLinks || []);
-
-    useEffect(() => {
-        setResumeName(resumeItem.resumeName || "");
-        setFullName(resumeItem.fullName || "");
-        setEmail(resumeItem.email || "");
-        setPhone(resumeItem.phone || "");
-        setSummary(resumeItem.summary || "");
-        setIsActive(resumeItem.isActive);
-        setMediaLinks(resumeItem.mediaLinks || []);
-    }, [resumeItem]);
+    const [resumeName, setResumeName] = React.useState(resumeItem.resumeName || "");
+    const [fullName, setFullName] = React.useState(resumeItem.fullName || "");
+    const [email, setEmail] = React.useState(resumeItem.email || "");
+    const [phone, setPhone] = React.useState(resumeItem.phone || "");
+    const [summary, setSummary] = React.useState(resumeItem.summary || "");
+    const [isActive, setIsActive] = React.useState(resumeItem.isActive);
+    const [mediaLinks, setMediaLinks] = React.useState<MediaLinkItemPartial[]>(resumeItem.mediaLinks || []);
 
     const handleLinkChange = (index: number, key: keyof MediaLinkItemPartial, value: string) => {
         const updatedLinks = [...mediaLinks];
@@ -71,13 +61,11 @@ export const ResumeEditHeaderModal: React.FC<ResumeEditFormHeaderProps> = ({isOp
         onSubmit(payload);
     };
 
-    if (!isOpen) {return null}
-
     return (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <ContentCard className="w-full max-w-2xl">
+        <Modal>
+            <ContentCard>
                 <form onSubmit={handleSubmit}>
-                    <h2 className="text-lg font-semibold mb-2">Edit resume</h2>
+                    <h2 className="text-lg font-semibold mb-2">Edit header</h2>
 
                     <Input
                         type="text"
@@ -98,38 +86,40 @@ export const ResumeEditHeaderModal: React.FC<ResumeEditFormHeaderProps> = ({isOp
 
                     {mediaLinks.map((link, index) => (
                         <div key={index} className="flex gap-2 mb-2 items-start">
-                            <Input
-                                type="text"
-                                placeholder="Media"
-                                value={link.name}
-                                onChange={(e) => handleLinkChange(index, 'name', e.target.value)}
-                            />
-                            <Input
-                                type="text"
-                                placeholder="URL"
-                                value={link.link}
-                                onChange={(e) => handleLinkChange(index, 'link', e.target.value)}
-                            />
-                            <button
-                                type="button"
+                            <div className="basis-1/3">
+                                <Input
+                                    type="text"
+                                    placeholder="Media"
+                                    value={link.name}
+                                    onChange={(e) => handleLinkChange(index, 'name', e.target.value)}
+                                />
+                            </div>
+                            <div className="basis-2/3">
+                                <Input
+                                    type="text"
+                                    placeholder="URL"
+                                    value={link.link}
+                                    onChange={(e) => handleLinkChange(index, 'link', e.target.value)}
+                                />
+                            </div>
+                            <Button
+                                type="secondary"
                                 onClick={() => handleRemoveLink(index)}
-                                className="w-8 h-8 text-2xl font-semiboldbold rounded-full bg-gray-200 hover:bg-red-400 hover:text-white text-gray-600 flex-shrink-0 items-center justify-center transition-colors duration-200"
-                                aria-label="Remove link"
+                                className="flex-shrink-0"
                             >
                                 -
-                            </button>
+                            </Button>
                         </div>
                     ))}
 
                     <div className="flex justify-end">
-                        <button
-                            type="button"
+                        <Button
+                            type="secondary"
                             onClick={handleAddLink}
-                            className="w-8 h-8 text-xl font-semiboldbold rounded-full bg-gray-200 hover:bg-green-500 hover:text-white text-gray-600 flex items-center justify-center transition-colors duration-200"
-                            aria-label="Add new link"
+                            htmlType="button"
                         >
-                            +
-                        </button>
+                            + Add Link
+                        </Button>
                     </div>
                     <Input type="email"
                         label="Email"
@@ -171,6 +161,6 @@ export const ResumeEditHeaderModal: React.FC<ResumeEditFormHeaderProps> = ({isOp
                     </div>
                 </form>
             </ContentCard>
-        </div>
+        </Modal>
     );
 };

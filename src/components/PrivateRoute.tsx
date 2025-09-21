@@ -22,8 +22,7 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, role }) =>
     try {
         const decodedToken: JwtPayload = jwtDecode(token);
         const currentTime = Date.now() / 1000;
-        console.log(decodedToken.exp);
-        console.log(currentTime);
+
 
         if (decodedToken.exp < currentTime) {
             return <Navigate to="/login" replace/>;

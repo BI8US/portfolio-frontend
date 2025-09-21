@@ -3,7 +3,7 @@ export interface WorkExperienceItem {
     company: string;
     position: string;
     startDate: string;
-    endDate: string;
+    endDate?: string;
     descriptionPoints?: string[];
 }
 

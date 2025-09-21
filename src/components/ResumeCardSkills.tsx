@@ -2,6 +2,7 @@ import React from "react";
 import {SkillItem} from "../types/skillTypes";
 import {ContentCard} from "./ContentCard";
 import {Button} from "./Button";
+import {getGroupedSkillsNames} from "../utils/skillUtils";
 
 export interface ResumeCardSkillsProps {
     skills: SkillItem[];
@@ -9,14 +10,7 @@ export interface ResumeCardSkillsProps {
 }
 
 export const ResumeCardSkills = ({ skills, onEditClick }: ResumeCardSkillsProps) => {
-    console.log(skills);
-    const groupedSkills = skills.reduce((acc, item) => {
-        if (!acc[item.skillGroup]) {
-            acc[item.skillGroup] = [];
-        }
-        acc[item.skillGroup].push(item.name);
-        return acc;
-    }, {} as Record<string, string[]>);
+    const groupedSkills = getGroupedSkillsNames(skills);
 
     return (
         <ContentCard>

@@ -1,7 +1,8 @@
-import React, {useState} from "react";
+import React from "react";
 import {useParams} from "react-router-dom";
-import {useGetResumeById, useUpdateHeader, useUpdateMediaLinks} from "../hooks/useResume";
+import {useGetResumeById, useUpdateHeader, useUpdateMediaLinks, useUpdateSkills} from "../hooks/useResume";
 import {Payload, ResumeEditHeaderModal} from "../components/ResumeEditHeaderModal";
+import {ResumeEditSkillsModal} from "../components/ResumeEditSkillsModal";
 import {ContentPage} from "../components/ContentPage";
 import {ResumeCardHeader} from "../components/ResumeCardHeader";
 import {ResumeCardSkills} from "../components/ResumeCardSkills";
@@ -9,15 +10,29 @@ import {ResumeCardEducations} from "../components/ResumeCardEducations";
 import {ResumeCardProjects} from "../components/ResumeCardProjects";
 import {ResumeCardWorkExperiences} from "../components/ResumeCardWorkExperiences";
 import {StatusMessage} from "../components/StatusMessage";
+import {SkillItemPartial} from "../types/skillTypes";
+import {ResumeEditEducationsModal} from "../components/ResumeEditEducationsModal";
 
 export const ResumeEditPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
 
-    const [activeModal, setActiveModal] = useState<string | null>(null);
+    const [activeModal, setActiveModal] = React.useState<string | null>(null);
+
+    React.useEffect(() => {
+        if (activeModal) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
+        return () => {
+            document.body.style.overflow = "";
+        };
+    }, [activeModal]);
 
     const { data: resume, isLoading, isError } = useGetResumeById(Number(id));
     const updateHeaderMutation = useUpdateHeader();
     const updateMediaLinksMutation = useUpdateMediaLinks();
+    const updateSkillsMutation = useUpdateSkills();
 
     if (isLoading) {return (<StatusMessage message="Loading resume..." />);}
     if (isError) {return (<StatusMessage message="An error occurred while fetching the resume." />);}
@@ -39,6 +54,20 @@ export const ResumeEditPage: React.FC = () => {
         }
     };
 
+    const handleSkillsSubmit = (skills: SkillItemPartial[]) => {
+        updateSkillsMutation.mutate(
+            { id: Number(id), skills },
+            {
+                onSuccess: () => {
+                    handleCloseModal();
+                },
+                onError: (error) => {
+                    console.error("Failed to update skills:", error);
+                }
+            }
+        );
+    }
+
     const handleOpenModal = (modalName: string) => {
         setActiveModal(modalName);
     };
@@ -55,14 +84,14 @@ export const ResumeEditPage: React.FC = () => {
             <ResumeCardWorkExperiences workExperiences={workExperiences? workExperiences : []} onEditClick={() => handleOpenModal("workExperiences")} />
 
             {activeModal === 'header' && (
-                <ResumeEditHeaderModal isOpen resumeItem={resume} onSubmit={handleHeaderSubmit} onCancel={handleCloseModal} />
+                <ResumeEditHeaderModal resumeItem={resume} onSubmit={handleHeaderSubmit} onCancel={handleCloseModal} />
             )}
-            {activeModal === 'skills' && (<></>)}
-            {activeModal === 'educations' && (<></>)}
+            {activeModal === 'skills' && (
+                <ResumeEditSkillsModal skills={skills ? skills : []} onSubmit={handleSkillsSubmit} onCancel={handleCloseModal} />
+            )}
+            {activeModal === 'educations' && (<ResumeEditEducationsModal educations={educations ? educations : []} onSubmit={handleCloseModal} onCancel={handleCloseModal} />)}
             {activeModal === 'projects' && (<></>)}
             {activeModal === 'workExperiences' && (<></>)}
-            {/*<ResumeEditHeaderModal resumeItem={resume} onSubmit={handleHeaderSubmit} />*/}
-            {/*<ResumeEditMediaLinksModal mediaLinks={resume.mediaLinks} onSubmit={handleMediaLinksSubmit} />*/}
         </ContentPage>
     );
 };
