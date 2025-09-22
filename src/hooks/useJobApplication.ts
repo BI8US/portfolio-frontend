@@ -4,8 +4,7 @@ import {
     getApplicationById,
     createApplication,
     updateApplication,
-    updateApplicationStatus,
-    deleteApplication,
+    deleteApplication
 } from "../api/jobApplicationApi";
 import { JobApplicationListItem, JobApplicationItem, JobApplicationItemPartial } from "../types/jobApplicationTypes";
 
@@ -39,18 +38,6 @@ export function useUpdateApplication() {
     return useMutation({
         mutationFn: ({ id, applicationData }: { id: number; applicationData: JobApplicationItemPartial }) =>
             updateApplication(id, applicationData),
-        onSuccess: (_, { id }) => {
-            queryClient.invalidateQueries({ queryKey: ["jobApplications"] });
-            queryClient.invalidateQueries({ queryKey: ["jobApplications", id] });
-        },
-    });
-}
-
-export function useUpdateApplicationStatus() {
-    const queryClient = useQueryClient();
-    return useMutation({
-        mutationFn: ({ id, status }: { id: number; status: string }) =>
-            updateApplicationStatus(id, status),
         onSuccess: (_, { id }) => {
             queryClient.invalidateQueries({ queryKey: ["jobApplications"] });
             queryClient.invalidateQueries({ queryKey: ["jobApplications", id] });

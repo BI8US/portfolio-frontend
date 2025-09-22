@@ -29,25 +29,9 @@ export const updateApplication = async (
     id: number,
     applicationData: JobApplicationItemPartial
 ): Promise<JobApplicationItem> => {
-    const response = await api.put<JobApplicationItem>(
+    const response = await api.patch<JobApplicationItem>(
         `/applications/${id}`,
         applicationData
-    );
-    return response.data;
-};
-
-export const updateApplicationStatus = async (
-    id: number,
-    status: string
-): Promise<JobApplicationItem> => {
-    const response = await api.patch<JobApplicationItem>(
-        `/applications/${id}/status`,
-        JSON.stringify(status),
-        {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        }
     );
     return response.data;
 };

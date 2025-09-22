@@ -7,6 +7,7 @@ import {ResumeEditPage} from "./pages/ResumeEditPage";
 import {LoginPage} from "./pages/LoginPage";
 import {PrivateRoute} from "./components/PrivateRoute";
 import {JobApplicationListPage} from "./pages/JobApplicationListPage";
+import {JobApplicationEditPage} from "./pages/JobApplicationEditPage";
 
 function App() {
     return (
@@ -40,6 +41,14 @@ function App() {
                             element={
                                 <PrivateRoute>
                                     <JobApplicationListPage />
+                                </PrivateRoute>
+                            }
+                        />
+                        <Route
+                            path="/jobapplication/edit/:id"
+                            element={
+                                <PrivateRoute>
+                                    <JobApplicationEditPage />
                                 </PrivateRoute>
                             }
                         />

@@ -9,7 +9,7 @@ interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement
 }
 
 const InputComponent: React.FC<InputProps> = ({ label, ...props }) => {
-    const baseClasses = "border p-2 w-full mb-2 rounded";
+    const baseClasses = "border p-2 w-full mb-2 rounded-lg";
 
     return (
         <div className="flex flex-col w-full">
@@ -23,7 +23,7 @@ const InputComponent: React.FC<InputProps> = ({ label, ...props }) => {
 };
 
 const TextAreaComponent: React.FC<TextAreaProps> = ({ label, ...props }) => {
-    const baseClasses = "border p-2 w-full mb-2 rounded";
+    const baseClasses = "border p-2 w-full mb-2 rounded-lg";
 
     return (
         <div className="flex flex-col w-full">

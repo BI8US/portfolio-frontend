@@ -24,11 +24,11 @@ export const ResumeListItemCard: React.FC<ResumeCardProps> = ({ resume, onEdit, 
                 </p>
                 <p className="text-sm mb-1">
                     <span className="font-medium">Created:</span>{" "}
-                    {resume.createdAt ? new Date(resume.createdAt).toLocaleString() : "-"}
+                    {new Date(resume.createdAt).toLocaleString()}
                 </p>
                 <p className="text-sm mb-1">
                     <span className="font-medium">Last updated:</span>{" "}
-                    {resume.updatedAt ? new Date(resume.updatedAt).toLocaleString() : "-"}
+                    {new Date(resume.updatedAt).toLocaleString()}
                 </p>
             </div>
             <div className="flex gap-2 mt-4">

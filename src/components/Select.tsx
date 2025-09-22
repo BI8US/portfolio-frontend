@@ -64,31 +64,39 @@ export const Select: React.FC<SelectProps> = ({
         }
     };
 
-    const combinedClasses = `flex flex-col w-full relative ${className || ''}`.trim();
+    const combinedClasses = `flex flex-col mb-2 w-full relative ${className || ''}`.trim();
 
     return (
         <div className={combinedClasses} ref={wrapperRef} {...props}>
             {label && (
                 <label className="mb-1 font-medium text-gray-700">
                     {label}
-                    {required && <span className="text-red-500"> *</span>}
                 </label>
             )}
             <button
                 type="button"
                 onClick={() => setIsOpen(!isOpen)}
                 onKeyDown={handleKeyDown}
-                className="border p-2 w-full rounded flex justify-between items-center bg-white"
+                className="border p-2 w-full rounded-lg flex justify-between items-center bg-white"
                 aria-haspopup="listbox"
                 aria-expanded={isOpen}
             >
                 <span>{selected ? selected.label : placeholder}</span>
-                <span className="ml-2">▼</span>
+                <span className="ml-2 flex items-center">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-4 text-gray-300"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                    >
+                        <path d="M10 12l-6-6h12z" />
+                    </svg>
+                </span>
             </button>
 
             {isOpen && (
                 <ul
-                    className="absolute top-full left-0 w-full border rounded bg-white shadow-lg z-10"
+                    className="absolute top-full left-0 w-full border rounded-lg bg-white shadow-lg z-10 max-h-48 overflow-y-auto"
                     role="listbox"
                 >
                     {options.map((option) => (

@@ -3,7 +3,7 @@ import {
     useCreateApplication,
     useDeleteApplication,
     useGetAllApplications,
-    useUpdateApplicationStatus
+    useUpdateApplication
 } from "../hooks/useJobApplication";
 import {useNavigate} from "react-router-dom";
 import {ContentPage} from "../components/ContentPage"
@@ -13,13 +13,16 @@ import {Input} from "../components/Input";
 import {Select} from "../components/Select";
 import {Button} from "../components/Button";
 import {JOB_APPLICATION_STATUSES} from "../constants/jobApplicationStatuses";
+import {ResumeListItemCard} from "../components/ResumeListItemCard";
+import {ConfirmationModal} from "../components/ConfirmationModal";
+import {JobApplicationListItemCard} from "../components/JobApplicationListItemCard";
 
 export const JobApplicationListPage: React.FC = () => {
-    const {data: applications} = useGetAllApplications();
+    const {data: applications, isLoading} = useGetAllApplications();
     const navigate = useNavigate();
     const createApplicationMutation = useCreateApplication();
     const deleteApplicationMutation = useDeleteApplication();
-    const updateApplicationStatusMutation = useUpdateApplicationStatus();
+    const updateApplicationMutation = useUpdateApplication();
 
     const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false);
     const [applicationToDeleteId, setApplicationToDeleteId] = React.useState<number | null>(null);
@@ -31,7 +34,7 @@ export const JobApplicationListPage: React.FC = () => {
     });
 
     const statusOptions = JOB_APPLICATION_STATUSES.map(status => ({
-        label: status.replace('_', ' ').toLowerCase(),
+        label: status,
         value: status,
     }));
 
@@ -53,6 +56,38 @@ export const JobApplicationListPage: React.FC = () => {
         });
     }
 
+    const handleEdit = (applicationId: number) => {
+        navigate(`/jobapplication/edit/${applicationId}`);
+    };
+
+    const handleChangeStatus = (applicationId: number, newStatus: string) => {
+        updateApplicationMutation.mutate({
+            id: applicationId,
+            applicationData: { status: newStatus }
+        });
+    }
+
+    const handleDelete = (applicationId: number) => {
+        setApplicationToDeleteId(applicationId);
+        setIsDeleteModalOpen(true);
+    };
+
+    const handleConfirmDelete = () => {
+        if (applicationToDeleteId !== null) {
+            deleteApplicationMutation.mutate(applicationToDeleteId, {
+                onSuccess: () => {
+                    setIsDeleteModalOpen(false);
+                    setApplicationToDeleteId(null);
+                },
+            });
+        }
+    };
+
+    const handleCancelDelete = () => {
+        setIsDeleteModalOpen(false);
+        setApplicationToDeleteId(null);
+    };
+
     const handleSelectChange = (value: string) => {
         setNewApplication(prev => ({ ...prev, status: value }));
     };
@@ -61,6 +96,8 @@ export const JobApplicationListPage: React.FC = () => {
         const { name, value } = e.target;
         setNewApplication(prev => ({ ...prev, [name]: value }));
     };
+
+    if (isLoading) return <p>Loading job applications...</p>;
 
     return (
         <ContentPage>
@@ -96,6 +133,19 @@ export const JobApplicationListPage: React.FC = () => {
                     </Button>
                 </form>
             </ContentCard>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                {applications?.map((application) => (
+                    <JobApplicationListItemCard key={application.id} application={application} onEdit={handleEdit} onDelete={handleDelete} onChangeStatus={handleChangeStatus} />
+                ))}
+            </div>
+
+            <ConfirmationModal
+                isOpen={isDeleteModalOpen}
+                title="Delete job application"
+                message="Are you sure you want to delete this application? This action cannot be undone."
+                onCancel={handleCancelDelete}
+                onConfirm={handleConfirmDelete}
+            />
         </ContentPage>
     )
 }

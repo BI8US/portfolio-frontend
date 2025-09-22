@@ -9,7 +9,7 @@ interface ButtonProps {
 }
 
 export const Button: React.FC<ButtonProps> = ({ type = 'primary', htmlType = 'submit', children, onClick, className }) => {
-    const baseClasses = 'py-2 px-4 rounded-xl font-bold transition-colors duration-200';
+    const baseClasses = 'py-2 px-4 rounded-lg font-semibold transition-colors duration-200';
 
     let typeClasses = '';
     switch (type) {

@@ -23,9 +23,7 @@ export const ResumeCardHeader: React.FC<ResumeCardProps> = ({ resume, onEditClic
 
                 <div className="flex-1">
                     <div className="flex items-center justify-between mb-2">
-                        <div>
-                            <h2 className="text-2xl font-bold text-gray-800">{resume.fullName}</h2>
-                        </div>
+                        <h2 className="text-2xl font-bold text-gray-800">{resume.fullName}</h2>
                         <span>
                             {onEditClick && (
                                 <Button
@@ -37,13 +35,6 @@ export const ResumeCardHeader: React.FC<ResumeCardProps> = ({ resume, onEditClic
                                 </Button>
                             )}
                         </span>
-                        {/*<span*/}
-                        {/*    className={`px-3 py-1 rounded-full text-sm font-semibold ${*/}
-                        {/*        resume.isActive ? "bg-green-300 text-white" : "bg-red-400 text-white"*/}
-                        {/*    }`}*/}
-                        {/*>*/}
-                        {/*    {resume.isActive ? "Active" : "Inactive"}*/}
-                        {/*</span>*/}
                     </div>
                     {resume.mediaLinks && (
                         <ResumeCardMediaLinks mediaLinks={resume.mediaLinks}/>

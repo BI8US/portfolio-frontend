@@ -60,9 +60,6 @@ export const ResumeEditPage: React.FC = () => {
             {
                 onSuccess: () => {
                     handleCloseModal();
-                },
-                onError: (error) => {
-                    console.error("Failed to update skills:", error);
                 }
             }
         );

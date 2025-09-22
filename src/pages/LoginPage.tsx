@@ -3,6 +3,7 @@ import {useNavigate} from "react-router-dom";
 import {useLogin} from "../hooks/useAuth";
 import {ContentCard} from "../components/ContentCard";
 import {ContentPage} from "../components/ContentPage";
+import {Button} from "../components/Button";
 
 export const LoginPage = () => {
     const [username, setUsername] = useState("");
@@ -42,13 +43,12 @@ export const LoginPage = () => {
                         onChange={(e) => setPassword(e.target.value)}
                     />
 
-                    <button
-                        type="submit"
-                        disabled={loginMutation.isPending}
-                        className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition disabled:opacity-50"
+                    <Button
+                        type="primary"
+                        className="w-full"
                     >
                         {loginMutation.isPending ? "Logging in..." : "Login"}
-                    </button>
+                    </Button>
 
                     {loginMutation.isError && (
                         <p className="text-red-500 text-sm text-center mt-2">
