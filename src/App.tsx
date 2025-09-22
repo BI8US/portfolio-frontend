@@ -6,6 +6,7 @@ import {ResumeListPage} from "./pages/ResumeListPage";
 import {ResumeEditPage} from "./pages/ResumeEditPage";
 import {LoginPage} from "./pages/LoginPage";
 import {PrivateRoute} from "./components/PrivateRoute";
+import {JobApplicationListPage} from "./pages/JobApplicationListPage";
 
 function App() {
     return (
@@ -31,6 +32,14 @@ function App() {
                             element={
                                 <PrivateRoute>
                                     <ResumeEditPage />
+                                </PrivateRoute>
+                            }
+                        />
+                        <Route
+                            path="/jobapplications"
+                            element={
+                                <PrivateRoute>
+                                    <JobApplicationListPage />
                                 </PrivateRoute>
                             }
                         />

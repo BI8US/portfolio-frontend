@@ -1,10 +1,11 @@
-import React, {useState} from "react";
+import React from "react";
 import {ResumeListItemCard} from "../components/ResumeListItemCard";
 import {useCreateResume, useGetAllResumes, useDeleteResume} from "../hooks/useResume";
 import {useNavigate} from "react-router-dom";
 import {ContentPage} from "../components/ContentPage";
 import {ContentCard} from "../components/ContentCard";
 import {Button} from "../components/Button";
+import {Input} from "../components/Input";
 import {ConfirmationModal} from "../components/ConfirmationModal";
 
 export const ResumeListPage: React.FC = () => {
@@ -13,10 +14,10 @@ export const ResumeListPage: React.FC = () => {
     const createResumeMutation = useCreateResume();
     const deleteResumeMutation = useDeleteResume();
 
-    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-    const [resumeToDeleteId, setResumeToDeleteId] = useState<number | null>(null);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false);
+    const [resumeToDeleteId, setResumeToDeleteId] = React.useState<number | null>(null);
 
-    const [newResumeName, setNewResumeName] = useState('');
+    const [newResumeName, setNewResumeName] = React.useState('');
 
     const sortedResumes = resumes?.slice().sort((a, b) => {
         if (a.isActive) return -1;
@@ -65,12 +66,11 @@ export const ResumeListPage: React.FC = () => {
             <ContentCard>
                 <form onSubmit={handleCreateSubmit}>
                     <h2 className="text-lg font-semibold mb-2">Create new resume</h2>
-                    <input
+                    <Input
                         type="text"
                         placeholder="Resume name"
                         value={newResumeName}
                         onChange={(e) => setNewResumeName(e.target.value)}
-                        className="border p-2 w-full mb-2 rounded"
                         required
                     />
                     <Button type={"primary"}>

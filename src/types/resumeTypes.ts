@@ -1,4 +1,3 @@
-import {ResumeHeaderItem} from "./resumeHeaderTypes"
 import {EducationItem} from "./educationTypes";
 import {MediaLinkItem} from "./mediaLinkTypes";
 import {ProjectItem} from "./projectTypes";

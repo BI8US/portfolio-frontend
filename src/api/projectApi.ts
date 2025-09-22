@@ -2,7 +2,7 @@ import {api} from "./client"
 import {ProjectItem} from "../types/projectTypes";
 
 export const getAllProjects = async (resumeId: number): Promise<ProjectItem[]> => {
-    const res = await api.get<ProjectItem[]>(`/${resumeId}/projects`);
+    const res = await api.get<ProjectItem[]>(`/resume/${resumeId}/projects`);
     return res.data;
 };
 
@@ -10,7 +10,7 @@ export const addProject = async (
     resumeId: number,
     project: Omit<ProjectItem, "id">
 ): Promise<ProjectItem> => {
-    const res = await api.post<ProjectItem>(`/${resumeId}/projects`, project);
+    const res = await api.post<ProjectItem>(`/resume/${resumeId}/projects`, project);
     return res.data;
 };
 
@@ -19,10 +19,10 @@ export const updateProject = async (
     projectId: number,
     partial: Partial<ProjectItem>
 ): Promise<ProjectItem> => {
-    const res = await api.patch<ProjectItem>(`/${resumeId}/projects/${projectId}`, partial);
+    const res = await api.patch<ProjectItem>(`/resume/${resumeId}/projects/${projectId}`, partial);
     return res.data;
 };
 
 export const deleteProject = async (resumeId: number, projectId: number): Promise<void> => {
-    await api.delete(`/${resumeId}/projects/${projectId}`);
+    await api.delete(`/resume/${resumeId}/projects/${projectId}`);
 };

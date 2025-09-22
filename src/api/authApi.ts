@@ -1,10 +1,6 @@
 import {LoginRequest, LoginResponse} from "../types/authTypes";
+import {api} from "./client";
 import qs from "qs";
-import axios from "axios";
-
-const api = axios.create({
-    baseURL: "http://localhost:8080/api",
-});
 
 export const login = async (credentials: LoginRequest): Promise<LoginResponse> => {
     const response = await api.post<string>(
