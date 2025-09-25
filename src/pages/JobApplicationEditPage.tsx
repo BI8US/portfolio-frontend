@@ -104,7 +104,7 @@ export const JobApplicationEditPage: React.FC = () => {
                             href={application.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="font-semibold mb-2"
+                            className="font-semibold mb-2 break-words"
                         >
                             Link: {application.link}</a>
                     )}
