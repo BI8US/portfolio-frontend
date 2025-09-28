@@ -82,7 +82,7 @@ export const JobApplicationEditPage: React.FC = () => {
     if (!application) {return (<StatusMessage message={`Application with id ${id} not found`} />);}
 
     return (
-        <ContentPage>
+        <ContentPage className="max-w-4xl">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                 <div className="border rounded-xl shadow-md p-4 flex flex-col bg-white">
                     <div className="flex items-center justify-between mb-2">

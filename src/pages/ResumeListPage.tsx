@@ -62,7 +62,7 @@ export const ResumeListPage: React.FC = () => {
     if (isLoading) return <p>Loading resumes...</p>;
 
     return (
-        <ContentPage>
+        <ContentPage className="max-w-4xl">
             <ContentCard>
                 <form onSubmit={handleCreateSubmit}>
                     <h2 className="text-lg font-semibold mb-2">Create new resume</h2>

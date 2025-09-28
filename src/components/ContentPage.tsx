@@ -6,7 +6,7 @@ interface ContentPageProps {
 }
 
 export const ContentPage: React.FC<ContentPageProps> = ({ children, className }) => {
-    const baseClasses = " max-w-4xl mx-auto pt-4 pb-4";
+    const baseClasses = "mx-auto pt-4 pb-4";
     const combinedClasses = `${baseClasses} ${className || ""}`;
 
     return (

@@ -15,6 +15,7 @@ interface SelectProps {
     onChange?: (value: string) => void;
     required?: boolean;
     className?: string;
+    buttonClassName?: string;
 }
 
 export const Select: React.FC<SelectProps> = ({
@@ -26,6 +27,7 @@ export const Select: React.FC<SelectProps> = ({
                                                   onChange,
                                                   required,
                                                   className,
+                                                  buttonClassName,
                                                   ...props
                                               }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -66,6 +68,9 @@ export const Select: React.FC<SelectProps> = ({
 
     const combinedClasses = `flex flex-col mb-2 w-full relative ${className || ''}`.trim();
 
+    const baseButtonClasses = "border p-1.5 w-full rounded-lg flex justify-between items-center transition-colors duration-150";
+    const finalButtonClasses = `${baseButtonClasses} ${buttonClassName || 'bg-white'}`.trim();
+
     return (
         <div className={combinedClasses} ref={wrapperRef} {...props}>
             {label && (
@@ -77,7 +82,7 @@ export const Select: React.FC<SelectProps> = ({
                 type="button"
                 onClick={() => setIsOpen(!isOpen)}
                 onKeyDown={handleKeyDown}
-                className="border p-2 w-full rounded-lg flex justify-between items-center bg-white"
+                className={finalButtonClasses}
                 aria-haspopup="listbox"
                 aria-expanded={isOpen}
             >

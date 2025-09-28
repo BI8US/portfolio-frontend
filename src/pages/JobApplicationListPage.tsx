@@ -15,7 +15,10 @@ import {Button} from "../components/Button";
 import {JOB_APPLICATION_STATUSES} from "../constants/jobApplicationStatuses";
 import {ResumeListItemCard} from "../components/ResumeListItemCard";
 import {ConfirmationModal} from "../components/ConfirmationModal";
-import {JobApplicationListItemCard} from "../components/JobApplicationListItemCard";
+import {JobApplicationTable} from "../components/JobApplicationTable";
+
+type SortKey = 'company' | 'role' | 'status' | 'updatedAt' | 'createdAt';
+type SortDirection = 'asc' | 'desc';
 
 export const JobApplicationListPage: React.FC = () => {
     const {data: applications, isLoading} = useGetAllApplications();
@@ -27,6 +30,11 @@ export const JobApplicationListPage: React.FC = () => {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false);
     const [applicationToDeleteId, setApplicationToDeleteId] = React.useState<number | null>(null);
 
+    const [sortConfig, setSortConfig] = React.useState<{ key: SortKey, direction: SortDirection } | null>({
+        key: 'updatedAt',
+        direction: 'desc'
+    });
+
     const [newApplication, setNewApplication] = React.useState<JobApplicationItemPartial>({
         status: "",
         company: "",
@@ -37,6 +45,42 @@ export const JobApplicationListPage: React.FC = () => {
         label: status,
         value: status,
     }));
+
+    const handleSort = (key: SortKey) => {
+        let direction: SortDirection = 'asc';
+        if (sortConfig && sortConfig.key === key && sortConfig.direction === 'asc') {
+            direction = 'desc';
+        }
+        setSortConfig({ key, direction });
+    };
+
+
+    const sortedApplications = React.useMemo(() => {
+        if (!applications) return [];
+
+        const sortableItems = [...applications];
+
+        if (sortConfig !== null) {
+            sortableItems.sort((a, b) => {
+                const aValue = a[sortConfig.key] ?? '';
+                const bValue = b[sortConfig.key] ?? '';
+
+                if (typeof aValue === 'string' && typeof bValue === 'string') {
+                    const result = aValue.localeCompare(bValue);
+                    return sortConfig.direction === 'asc' ? result : -result;
+                }
+
+                const aTime = new Date(aValue).getTime();
+                const bTime = new Date(bValue).getTime();
+
+                if (aTime < bTime) return sortConfig.direction === 'asc' ? -1 : 1;
+                if (aTime > bTime) return sortConfig.direction === 'asc' ? 1 : -1;
+                return 0;
+            });
+        }
+        return sortableItems;
+    }, [applications, sortConfig]);
+
 
     const handleCreateSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -133,11 +177,22 @@ export const JobApplicationListPage: React.FC = () => {
                     </Button>
                 </form>
             </ContentCard>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                {applications?.map((application) => (
-                    <JobApplicationListItemCard key={application.id} application={application} onEdit={handleEdit} onDelete={handleDelete} onChangeStatus={handleChangeStatus} />
-                ))}
-            </div>
+            {applications && applications.length > 0 && (
+                <JobApplicationTable
+                    applications={sortedApplications}
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
+                    onChangeStatus={handleChangeStatus}
+                    onSort={handleSort}
+                    sortConfig={sortConfig}
+                />
+            )}
+
+            {applications && applications.length === 0 && (
+                <div className="mt-6 text-center text-gray-500 p-4 border rounded-lg bg-white">
+                    You haven't added any job applications yet.
+                </div>
+            )}
 
             <ConfirmationModal
                 isOpen={isDeleteModalOpen}
