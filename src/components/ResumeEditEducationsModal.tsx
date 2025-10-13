@@ -14,19 +14,9 @@ interface ResumeEditEducationsModalProps {
 export const ResumeEditEducationsModal: React.FC<ResumeEditEducationsModalProps> = ({educations, onSubmit, onCancel}) => {
     const [currentEducations, setCurrentEducations] = React.useState<EducationItemPartial[]>(educations || []);
 
-    const handleChange = (index: number, field: keyof EducationItemPartial, value: string | string[]) => {
+    const handleChange = (index: number, field: keyof EducationItemPartial, value: string) => {
         const updatedEducations = [...currentEducations];
-        if (field === "descriptionPoints" && typeof value === 'string') {
-            updatedEducations[index] = {
-                ...updatedEducations[index],
-                [field]: value.split('\n')
-            };
-        } else {
-            updatedEducations[index] = {
-                ...updatedEducations[index],
-                [field]: value
-            };
-        }
+        updatedEducations[index] = { ...updatedEducations[index], [field]: value };
         setCurrentEducations(updatedEducations);
     };
 
@@ -41,7 +31,32 @@ export const ResumeEditEducationsModal: React.FC<ResumeEditEducationsModalProps>
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        onSubmit(currentEducations);
+
+        const sanitizedEducations = currentEducations.map((edu) => {
+            const descriptionText =
+                typeof edu.descriptionPoints === "string"
+                    ? edu.descriptionPoints
+                    : Array.isArray(edu.descriptionPoints)
+                        ? edu.descriptionPoints.map(p => p.descriptionPoint).join("\n")
+                        : "";
+
+            const points = descriptionText
+                .split("\n")
+                .map(p => p.trim())
+                .filter(p => p !== "")
+                .map((point, idx) => ({
+                    id: edu.descriptionPoints?.[idx]?.id ?? -idx - 1,
+                    educationEntityId: edu.id || 0,
+                    descriptionPoint: point,
+                }));
+
+            return {
+                ...edu,
+                descriptionPoints: points,
+            };
+        });
+
+        onSubmit(sanitizedEducations);
     };
 
     return (
@@ -82,7 +97,9 @@ export const ResumeEditEducationsModal: React.FC<ResumeEditEducationsModalProps>
                             <Input
                                 textarea
                                 label="Description Points (one per line)"
-                                value={(edu.descriptionPoints || []).join('\n')}
+                                value={Array.isArray(edu.descriptionPoints)
+                                    ? edu.descriptionPoints.map(p => p.descriptionPoint).join("\n")
+                                    : edu.descriptionPoints || ""}
                                 onChange={(e) => handleChange(index, "descriptionPoints", e.target.value)}
                             />
                             <div className="flex justify-end mt-2">

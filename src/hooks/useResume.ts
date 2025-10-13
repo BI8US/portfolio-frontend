@@ -3,6 +3,7 @@ import {
     getAllResumes,
     getResumeById,
     createResume,
+    updateHeaderWithMediaLinks,
     updateHeader,
     updateEducations,
     updateMediaLinks,
@@ -41,6 +42,26 @@ export function useCreateResume() {
         mutationFn: (resumeName: string) => createResume(resumeName),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["resume"] });
+        },
+    });
+}
+
+export function useUpdateHeaderWithMediaLinks() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: ({
+                         id,
+                         headerPartial,
+                         mediaLinks
+                     }: {
+            id: number;
+            headerPartial: Partial<ResumeHeaderItemPartial>;
+            mediaLinks: MediaLinkItemPartial[];
+        }) => updateHeaderWithMediaLinks(id, headerPartial, mediaLinks),
+        onSuccess: (_, { id }) => {
+            queryClient.invalidateQueries({ queryKey: ["resume"] });
+            queryClient.invalidateQueries({ queryKey: ["resume", id] });
+            queryClient.invalidateQueries({ queryKey: ["resume/active"] });
         },
     });
 }

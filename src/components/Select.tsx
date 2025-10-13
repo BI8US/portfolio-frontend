@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 
 interface Option {
     label: string;
     value: string;
 }
 
-// Убран extends React.HTMLAttributes<HTMLDivElement>
 interface SelectProps {
     label?: string;
     placeholder?: string;
@@ -32,25 +32,35 @@ export const Select: React.FC<SelectProps> = ({
                                               }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selected, setSelected] = useState<Option | null>(
-        options.find(opt => opt.value === value) || null
+        options.find((opt) => opt.value === value) || null
     );
     const wrapperRef = useRef<HTMLDivElement>(null);
+    const dropdownRef = useRef<HTMLUListElement>(null);
+    const [dropdownPosition, setDropdownPosition] = useState<{
+        top: number;
+        left: number;
+        width: number;
+    }>({ top: 0, left: 0, width: 0 });
 
     useEffect(() => {
-        setSelected(options.find(opt => opt.value === value) || null);
+        setSelected(options.find((opt) => opt.value === value) || null);
     }, [value, options]);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+            const target = event.target as Node;
+            if (
+                wrapperRef.current &&
+                !wrapperRef.current.contains(target) &&
+                dropdownRef.current &&
+                !dropdownRef.current.contains(target)
+            ) {
                 setIsOpen(false);
             }
         };
         document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [wrapperRef]);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     const handleSelect = (option: Option) => {
         setSelected(option);
@@ -58,71 +68,78 @@ export const Select: React.FC<SelectProps> = ({
         onChange?.(option.value);
     };
 
-    const handleKeyDown = (event: React.KeyboardEvent) => {
-        if (event.key === 'Enter' || event.key === ' ') {
-            setIsOpen(!isOpen);
-        } else if (event.key === 'Escape') {
-            setIsOpen(false);
+    const handleToggle = () => {
+        if (wrapperRef.current) {
+            const rect = wrapperRef.current.getBoundingClientRect();
+            setDropdownPosition({
+                top: rect.bottom + window.scrollY,
+                left: rect.left + window.scrollX,
+                width: rect.width,
+            });
         }
+        setIsOpen((prev) => !prev);
     };
 
-    const combinedClasses = `flex flex-col mb-2 w-full relative ${className || ''}`.trim();
-
-    const baseButtonClasses = "border p-1.5 w-full rounded-lg flex justify-between items-center transition-colors duration-150";
-    const finalButtonClasses = `${baseButtonClasses} ${buttonClassName || 'bg-white'}`.trim();
+    const combinedClasses = `flex flex-col mb-2 w-full relative ${className || ""}`.trim();
+    const baseButtonClasses =
+        "border p-1.5 w-full rounded-lg flex justify-between items-center transition-colors duration-150";
+    const finalButtonClasses = `${baseButtonClasses} ${
+        buttonClassName || "bg-white"
+    }`.trim();
 
     return (
         <div className={combinedClasses} ref={wrapperRef} {...props}>
-            {label && (
-                <label className="mb-1 font-medium text-gray-700">
-                    {label}
-                </label>
-            )}
+            {label && <label className="mb-1 font-medium text-gray-700">{label}</label>}
+
             <button
                 type="button"
-                onClick={() => setIsOpen(!isOpen)}
-                onKeyDown={handleKeyDown}
+                onClick={handleToggle}
                 className={finalButtonClasses}
                 aria-haspopup="listbox"
                 aria-expanded={isOpen}
             >
                 <span>{selected ? selected.label : placeholder}</span>
                 <span className="ml-2 flex items-center">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-4 w-4 text-gray-300"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                    >
-                        <path d="M10 12l-6-6h12z" />
-                    </svg>
-                </span>
+          <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4 text-gray-300"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+          >
+            <path d="M10 12l-6-6h12z" />
+          </svg>
+        </span>
             </button>
 
-            {isOpen && (
-                <ul
-                    className="absolute top-full left-0 w-full border rounded-lg bg-white shadow-lg z-10 max-h-48 overflow-y-auto"
-                    role="listbox"
-                >
-                    {options.map((option) => (
-                        <li
-                            key={option.value}
-                            className="p-2 hover:bg-gray-100 cursor-pointer"
-                            onClick={() => handleSelect(option)}
-                            role="option"
-                            aria-selected={selected?.value === option.value}
-                        >
-                            {option.label}
-                        </li>
-                    ))}
-                </ul>
-            )}
-            <input
-                type="hidden"
-                name={name}
-                value={selected?.value || ''}
-                required={required}
-            />
+            {isOpen &&
+                createPortal(
+                    <ul
+                        ref={dropdownRef}
+                        className="absolute border rounded-lg bg-white shadow-lg z-[9999] max-h-48 overflow-y-auto"
+                        style={{
+                            position: "absolute",
+                            top: dropdownPosition.top,
+                            left: dropdownPosition.left,
+                            width: dropdownPosition.width,
+                        }}
+                        role="listbox"
+                    >
+                        {options.map((option) => (
+                            <li
+                                key={option.value}
+                                className="p-2 hover:bg-gray-100 cursor-pointer"
+                                onClick={() => handleSelect(option)}
+                                role="option"
+                                aria-selected={selected?.value === option.value}
+                            >
+                                {option.label}
+                            </li>
+                        ))}
+                    </ul>,
+                    document.body
+                )}
+
+            <input type="hidden" name={name} value={selected?.value || ""} required={required} />
         </div>
     );
 };

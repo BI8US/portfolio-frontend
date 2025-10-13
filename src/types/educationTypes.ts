@@ -4,7 +4,7 @@ export interface EducationItem {
     educationName: string;
     startDate: string;
     endDate?: string;
-    descriptionPoints?: string[];
+    descriptionPoints?: EducationDescriptionPoint[];
 }
 
 export interface EducationItemPartial {
@@ -13,5 +13,11 @@ export interface EducationItemPartial {
     educationName?: string;
     startDate?: string;
     endDate?: string;
-    descriptionPoints?: string[];
+    descriptionPoints?: EducationDescriptionPoint[];
+}
+
+export interface EducationDescriptionPoint {
+    id: number;
+    educationEntityId: number;
+    descriptionPoint: string;
 }

@@ -17,6 +17,8 @@ export default function ActiveResumePage() {
 
     const {educations, projects, skills, workExperiences} = activeResume;
 
+    console.log("active resume", activeResume);
+
     return (
         <ContentPage>
             <ResumeCardHeader resume={activeResume} />

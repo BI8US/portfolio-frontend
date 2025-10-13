@@ -36,8 +36,8 @@ export const ResumeCardWorkExperiences = ({ workExperiences, onEditClick }: Resu
                         </p>
                         {item.descriptionPoints && item.descriptionPoints.length > 0 && (
                             <ul className="list-disc list-inside mt-2">
-                                {item.descriptionPoints.map((point, index) => (
-                                    <li key={index}>{point}</li>
+                                {item.descriptionPoints.map((point) => (
+                                    <li key={point.id.toString()}>{point.descriptionPoint}</li>
                                 ))}
                             </ul>
                         )}

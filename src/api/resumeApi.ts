@@ -18,11 +18,25 @@ export const getResumeById = async (id: number): Promise<ResumeItem> => {
 };
 
 export const createResume = async (resumeName: string): Promise<ResumeItem> => {
-    const response = await api.post<ResumeItem>("/resume", resumeName, {
+    const response = await api.post<ResumeItem>("/resume", {resumeName}, {
         headers: {
-            'Content-Type': 'text/plain'
+            'Content-Type': 'application/json'
         }
     });
+    return response.data;
+};
+
+export const updateHeaderWithMediaLinks = async (
+    id: number,
+    headerPartial: Partial<ResumeHeaderItemPartial>,
+    mediaLinks: MediaLinkItemPartial[]
+): Promise<ResumeItem> => {
+    const payload = {
+        ...headerPartial,
+        mediaLinks
+    };
+
+    const response = await api.patch<ResumeItem>(`/resume/${id}`, payload);
     return response.data;
 };
 
