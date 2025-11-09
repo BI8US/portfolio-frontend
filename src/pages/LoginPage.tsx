@@ -6,7 +6,7 @@ import {ContentPage} from "../components/ContentPage";
 import {Button} from "../components/Button";
 
 export const LoginPage = () => {
-    const [username, setUsername] = useState("");
+    const [userName, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
@@ -15,7 +15,7 @@ export const LoginPage = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await loginMutation.mutateAsync({ username, password });
+            await loginMutation.mutateAsync({ userName, password });
             navigate("/");
         } catch {
         }
@@ -31,7 +31,7 @@ export const LoginPage = () => {
                     <input
                         className="w-full mb-4 p-2 border border-gray-300 rounded"
                         placeholder="Username"
-                        value={username}
+                        value={userName}
                         onChange={(e) => setUsername(e.target.value)}
                     />
 

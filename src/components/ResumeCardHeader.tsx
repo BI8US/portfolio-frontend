@@ -14,11 +14,13 @@ export const ResumeCardHeader: React.FC<ResumeCardProps> = ({ resume, onEditClic
         <ContentCard>
             <div className="flex justify-between items-start w-full">
                 {resume.picture && (
-                    <img
-                        src={resume.picture}
-                        alt={resume.fullName}
-                        className="w-28 h-28 object-cover rounded-full border-2 border-gray-300"
-                    />
+                    <div className="w-28 h-28 rounded-full border-2 border-gray-300 mr-6 overflow-hidden flex-shrink-0">
+                        <img
+                            src={resume.picture}
+                            alt={resume.fullName}
+                            className="w-full h-full object-cover"
+                        />
+                    </div>
                 )}
 
                 <div className="flex-1">
@@ -39,16 +41,15 @@ export const ResumeCardHeader: React.FC<ResumeCardProps> = ({ resume, onEditClic
                     {resume.mediaLinks && (
                         <ResumeCardMediaLinks mediaLinks={resume.mediaLinks}/>
                     )}
-                    <div className="flex flex-wrap gap-4 text-gray-700 mb-2">
+                    <div className="flex flex-wrap text-gray-700 mb-2">
                         {resume.email && <p>Email: {resume.email}</p>}
                         {resume.phone && <p>Phone: {resume.phone}</p>}
                     </div>
-
-                    {resume.summary && (
-                        <p className="text-gray-600 whitespace-pre-line">{resume.summary}</p>
-                    )}
                 </div>
             </div>
+            {resume.summary && (
+                <p className="text-gray-600 whitespace-pre-line">{resume.summary}</p>
+            )}
         </ContentCard>
     );
 };
