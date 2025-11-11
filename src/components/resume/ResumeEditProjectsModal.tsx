@@ -1,9 +1,9 @@
 import React from "react";
-import { ProjectItemPartial } from "../types/projectTypes";
-import { Modal } from "./Modal";
-import { Button } from "./Button";
-import { ContentCard } from "./ContentCard";
-import { Input } from "./Input";
+import { ProjectItemPartial } from "../../types/projectTypes";
+import { Modal } from "../common/Modal";
+import { Button } from "../common/Button";
+import { ContentCard } from "../common/ContentCard";
+import { Input } from "../common/Input";
 
 interface ResumeEditProjectsModalProps {
     projects: ProjectItemPartial[];
@@ -41,7 +41,7 @@ export const ResumeEditProjectsModal: React.FC<ResumeEditProjectsModalProps> = (
         <Modal>
             <ContentCard>
                 <form onSubmit={handleSubmit}>
-                    <h2 className="text-xl font-bold mb-4">Edit Projects</h2>
+                    <h2 className="text-xl font-bold mb-4 text-text-primary">Edit Projects</h2>
 
                     {currentProjects.map((project, index) => (
                         <div key={index} className="mb-4 p-4 border rounded-lg">
@@ -65,11 +65,12 @@ export const ResumeEditProjectsModal: React.FC<ResumeEditProjectsModalProps> = (
                             />
                             <div className="flex justify-end mt-2">
                                 <Button
-                                    type="secondary"
+                                    type="danger"
                                     onClick={() => handleRemoveProject(index)}
                                     htmlType="button"
+                                    className="border-transparent"
                                 >
-                                    Remove
+                                    <span className="material-symbols-outlined text-2xl">delete</span>
                                 </Button>
                             </div>
                         </div>
@@ -77,7 +78,7 @@ export const ResumeEditProjectsModal: React.FC<ResumeEditProjectsModalProps> = (
 
                     <div className="flex justify-start mt-4">
                         <Button type="secondary" onClick={handleAddProject} htmlType="button">
-                            + Add Project
+                            <span className="material-symbols-outlined text-2xl">add_2</span>
                         </Button>
                     </div>
 

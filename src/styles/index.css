@@ -2,37 +2,75 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    /* Fonts */
+    --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+    /* Backgrounds */
+    --color-page: 248 250 252; /* Tailwind 'slate-50' */
+    --color-content: 255 255 255; /* white */
+    --color-overlay: 15 23 42 ; /* Tailwind 'slate-900' */
+
+    /* Font colors */
+    --color-text-primary: 31 41 55; /* Tailwind 'gray-800' */
+    --color-text-secondary: 55 65 81; /* Tailwind 'gray-700' */
+    --color-text-muted: 107 114 128; /* Tailwind 'gray-500' */
+    --color-text-accent: 37 99 235; /* Tailwind 'blue-600' */
+    --color-text-danger: 225 29 72; /* rose-600 */
+
+    /* Border colors */
+    --color-border: 209 213 219; /* Tailwind 'gray-300' */
+
+    /* Button colors */
+    --color-button-primary: 37 99 235; /* blue-600 */
+    --color-button-secondary: 31 41 55; /* gray-800 */
+    --color-button-danger: 225 29 72; /* rose-600 */
+
+    /* Scrollbar colors */
+    --color-scrollbar-thumb: #888;
+    --color-scrollbar-thumb-hover: #555;
+}
+
+.dark {
+    /* Backgrounds */
+    --color-page: 15 23 42; /* Tailwind 'slate-900' */
+    --color-content: 30 41 59; /* Tailwind 'slate-800' */
+    --color-overlay: 15 23 42; /* Tailwind 'slate-900' */
+
+    /* Font colors */
+    --color-text-primary: 241 245 249; /* Tailwind 'slate-100' */
+    --color-text-secondary: 148 163 184; /* Tailwind 'slate-400' */
+    --color-text-muted: 100 116 139; /* Tailwind 'slate-500' */
+    --color-text-accent: 96 165 250; /* Tailwind 'blue-400' */
+    --color-text-danger: 244 63 94; /* Tailwind 'rose-500' */
+
+    /* Border colors */
+    --color-border: 51 65 85; /* Tailwind 'slate-700' */
+
+    /* Button colors */
+    --color-button-primary: 96 165 250; /* blue-400 */
+    --color-button-secondary: 241 245 249; /* slate-100 */
+    --color-button-danger: 244 63 94; /* rose-500 */
+
+    /* Scrollbar colors */
+    --color-scrollbar-thumb: #555;
+    --color-scrollbar-thumb-hover: #888;
+}
+
 ::-webkit-scrollbar-track {
     background: transparent;
 }
-
 ::-webkit-scrollbar-thumb {
-    background-color: #888;
+    background-color: var(--color-scrollbar-thumb);
     border-radius: 4px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-    background-color: #555;
+    background-color: var(--color-scrollbar-thumb-hover);
 }
-
 * {
-    scrollbar-color: #888 transparent;
+    scrollbar-color: var(--color-scrollbar-thumb) transparent;
 }
-
 html, body {
     scrollbar-gutter: stable;
-}
-
-body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
 }

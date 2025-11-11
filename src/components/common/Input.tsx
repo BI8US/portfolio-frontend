@@ -1,5 +1,11 @@
 import React from "react";
 
+const baseInputClasses =
+    "bg-content border border-border text-text-primary placeholder:text-text-muted p-2 w-full mb-2 rounded-3xl " +
+    "focus:outline-none focus:ring-1 focus:ring-text-accent";
+
+const labelClasses = "mb-1 font-medium text-text-secondary";
+
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     label?: string;
 }
@@ -8,29 +14,25 @@ interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement
     label?: string;
 }
 
-const InputComponent: React.FC<InputProps> = ({ label, ...props }) => {
-    const baseClasses = "border p-2 w-full mb-2 rounded-lg";
-
+const InputComponent: React.FC<InputProps> = ({ label, className,...props }) => {
     return (
         <div className="flex flex-col w-full">
-            {label && <label className="mb-1 font-medium text-gray-700">{label}</label>}
+            {label && <label className={labelClasses}>{label}</label>}
             <input
                 {...props}
-                className={baseClasses}
+                className={`${baseInputClasses} ${className || ""}`}
             />
         </div>
     );
 };
 
-const TextAreaComponent: React.FC<TextAreaProps> = ({ label, ...props }) => {
-    const baseClasses = "border p-2 w-full mb-2 rounded-lg";
-
+const TextAreaComponent: React.FC<TextAreaProps> = ({ label, className,...props }) => {
     return (
         <div className="flex flex-col w-full">
-            {label && <label className="mb-1 font-medium text-gray-700">{label}</label>}
+            {label && <label className={labelClasses}>{label}</label>}
             <textarea
                 {...props}
-                className={baseClasses}
+                className={`${baseInputClasses} ${className || ""}`}
                 rows={props.rows || 4}
             />
         </div>

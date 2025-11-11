@@ -1,16 +1,16 @@
 import React from "react";
 import {useParams} from "react-router-dom";
 import {useGetApplicationById, useUpdateApplication} from "../hooks/useJobApplication";
-import {StatusMessage} from "../components/StatusMessage";
+import {StatusMessage} from "../components/common/StatusMessage";
 import {JobApplicationItemPartial} from "../types/jobApplicationTypes";
-import {ContentPage} from "../components/ContentPage";
-import {ContentCard} from "../components/ContentCard";
-import {Button} from "../components/Button";
-import {Select} from "../components/Select";
+import {ContentPage} from "../components/common/ContentPage";
+import {ContentCard} from "../components/common/ContentCard";
+import {Button} from "../components/common/Button";
+import {Select} from "../components/common/Select";
 import {JOB_APPLICATION_STATUS_COLORS} from "../constants/statusColors";
 import {JOB_APPLICATION_STATUSES} from "../constants/jobApplicationStatuses";
-import {Input} from "../components/Input";
-import {JobApplicationEditModal, ApplicationInfo} from "../components/JobApplicationEditModal"
+import {Input} from "../components/common/Input";
+import {JobApplicationEditModal, ApplicationInfo} from "../components/jobApplication/JobApplicationEditModal"
 
 export const JobApplicationEditPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -84,9 +84,9 @@ export const JobApplicationEditPage: React.FC = () => {
     return (
         <ContentPage className="max-w-4xl">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                <div className="border rounded-xl shadow-md p-4 flex flex-col bg-white">
+                <div className="border rounded-3xl shadow-md p-4 flex flex-col bg-content">
                     <div className="flex items-center justify-between mb-2">
-                        <h2 className="text-2xl font-bold text-gray-800">Job info</h2>
+                        <h2 className="text-2xl font-bold text-text-primary">Job info</h2>
                         <span>
                             <Button
                                 type="secondary"
@@ -97,30 +97,30 @@ export const JobApplicationEditPage: React.FC = () => {
                             </Button>
                         </span>
                     </div>
-                    <h3 className="text-lg font-bold mb-2">{application.company}</h3>
-                    <h3 className="text-lg font-bold mb-2">{application.role}</h3>
+                    <h3 className="text-lg font-bold mb-2 text-text-primary">{application.company}</h3>
+                    <h3 className="text-lg font-bold mb-2 text-text-primary">{application.role}</h3>
                     {application.link && (
                         <a
                             href={application.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="font-semibold mb-2 break-words"
+                            className="font-semibold mb-2 break-words text-text-primary"
                         >
                             Link: {application.link}</a>
                     )}
                     {application.contact && (
-                        <p className="font-semibold mb-2">Contact: {application.contact}</p>
+                        <p className="font-semibold mb-2 text-text-primary">Contact: {application.contact}</p>
                     )}
                     {application.schedule && (
-                        <p className="font-semibold mb-2">Schedule: {application.schedule}</p>
+                        <p className="font-semibold mb-2 text-text-primary">Schedule: {application.schedule}</p>
                     )}
                     {application.description && (
-                        <p className="text-gray-600 whitespace-pre-line">{application.description}</p>
+                        <p className="text-text-secondary whitespace-pre-line">{application.description}</p>
                     )}
                 </div>
                 <div>
-                    <div className="border rounded-xl shadow-md p-4 flex flex-col justify-between bg-white mb-4">
-                        <h2 className="text-2xl font-bold text-gray-800 mb-2">Status</h2>
+                    <div className="border rounded-3xl shadow-md p-4 flex flex-col justify-between bg-content mb-4">
+                        <h2 className="text-2xl font-bold text-gray-800 mb-2 text-text-primary">Status</h2>
                         <p className="mb-2">
                             <span className={`px-3 py-1 rounded-full text-sm font-semibold ${statusColors.bg} ${statusColors.text}`}>
                                 {application.status}
@@ -143,8 +143,8 @@ export const JobApplicationEditPage: React.FC = () => {
                             </Button>
                         </div>
                     </div>
-                    <div className="border rounded-xl shadow-md p-4 flex flex-col justify-between bg-white">
-                        <h2 className="text-2xl font-bold text-gray-800 mb-2">Notes</h2>
+                    <div className="border rounded-3xl shadow-md p-4 flex flex-col justify-between bg-content">
+                        <h2 className="text-2xl font-bold text-gray-800 mb-2 text-text-primary">Notes</h2>
                         <Input
                             textarea
                             placeholder="Notes"

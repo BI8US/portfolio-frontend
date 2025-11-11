@@ -1,9 +1,10 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useLogin} from "../hooks/useAuth";
-import {ContentCard} from "../components/ContentCard";
-import {ContentPage} from "../components/ContentPage";
-import {Button} from "../components/Button";
+import {ContentCard} from "../components/common/ContentCard";
+import {ContentPage} from "../components/common/ContentPage";
+import {Button} from "../components/common/Button";
+import {Input} from "../components/common/Input";
 
 export const LoginPage = () => {
     const [userName, setUsername] = useState("");
@@ -26,17 +27,15 @@ export const LoginPage = () => {
             <ContentCard className="max-w-lg">
                 <form
                     onSubmit={handleSubmit}>
-                    <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+                    <h2 className="text-2xl font-bold mb-6 text-center text-text-primary">Login</h2>
 
-                    <input
-                        className="w-full mb-4 p-2 border border-gray-300 rounded"
+                    <Input
                         placeholder="Username"
                         value={userName}
                         onChange={(e) => setUsername(e.target.value)}
                     />
 
-                    <input
-                        className="w-full mb-4 p-2 border border-gray-300 rounded"
+                    <Input
                         type="password"
                         placeholder="Password"
                         value={password}
@@ -51,7 +50,7 @@ export const LoginPage = () => {
                     </Button>
 
                     {loginMutation.isError && (
-                        <p className="text-red-500 text-sm text-center mt-2">
+                        <p className="text-text-danger text-sm text-center mt-2">
                             Invalid credentials
                         </p>
                     )}

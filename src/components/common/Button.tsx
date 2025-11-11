@@ -9,19 +9,19 @@ interface ButtonProps {
 }
 
 export const Button: React.FC<ButtonProps> = ({ type = 'primary', htmlType = 'submit', children, onClick, className }) => {
-    const baseClasses = 'py-2 px-4 rounded-lg font-semibold transition-colors duration-200';
+    const baseClasses = 'py-2 px-4 rounded-full font-semibold duration-200 border-2';
 
     let typeClasses = '';
     switch (type) {
         case 'secondary':
-            typeClasses = 'bg-gray-300 hover:bg-gray-400 text-white';
+            typeClasses = 'bg-content text-button-secondary border-button-secondary hover:bg-button-secondary hover:text-content hover:border-transparent';
             break;
         case 'danger':
-            typeClasses = 'bg-rose-500 hover:bg-rose-600 text-white';
+            typeClasses = 'bg-content text-button-danger border-button-danger hover:bg-button-danger hover:text-content hover:border-transparent';
             break;
         case 'primary':
         default:
-            typeClasses = 'bg-sky-500 hover:bg-sky-600 text-white';
+            typeClasses = 'bg-content text-button-primary border-button-primary hover:bg-button-primary hover:text-content hover:border-transparent';
             break;
     }
 

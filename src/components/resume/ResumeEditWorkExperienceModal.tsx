@@ -1,9 +1,9 @@
 import React from "react";
-import { WorkExperienceItemPartial } from "../types/workExperienceTypes";
-import { Modal } from "./Modal";
-import { Button } from "./Button";
-import { ContentCard } from "./ContentCard";
-import { Input } from "./Input";
+import { WorkExperienceItemPartial } from "../../types/workExperienceTypes";
+import { Modal } from "../common/Modal";
+import { Button } from "../common/Button";
+import { ContentCard } from "../common/ContentCard";
+import { Input } from "../common/Input";
 
 interface ResumeEditWorkExperiencesModalProps {
     workExperiences: WorkExperienceItemPartial[];
@@ -63,7 +63,7 @@ export const ResumeEditWorkExperiencesModal: React.FC<ResumeEditWorkExperiencesM
         <Modal>
             <ContentCard>
                 <form onSubmit={handleSubmit}>
-                    <h2 className="text-xl font-bold mb-4">Edit Work Experience</h2>
+                    <h2 className="text-xl font-bold mb-4 text-text-primary">Edit Work Experience</h2>
                     {currentWorkExperiences.map((exp, index) => (
                         <div key={index} className="mb-4 p-4 border rounded-lg">
                             <Input
@@ -103,15 +103,20 @@ export const ResumeEditWorkExperiencesModal: React.FC<ResumeEditWorkExperiencesM
                                 onChange={(e) => handleChange(index, "descriptionPoints", e.target.value)}
                             />
                             <div className="flex justify-end mt-2">
-                                <Button type="secondary" onClick={() => handleRemoveExperience(index)} htmlType="button">
-                                    Remove
+                                <Button
+                                    type="danger"
+                                    onClick={() => handleRemoveExperience(index)}
+                                    htmlType="button"
+                                    className="border-transparent"
+                                >
+                                    <span className="material-symbols-outlined text-2xl">delete</span>
                                 </Button>
                             </div>
                         </div>
                     ))}
                     <div className="flex justify-start mt-4">
                         <Button type="secondary" onClick={handleAddExperience} htmlType="button">
-                            + Add Work Experience
+                            <span className="material-symbols-outlined text-2xl">add_2</span>
                         </Button>
                     </div>
                     <div className="flex justify-end gap-2 mt-4">

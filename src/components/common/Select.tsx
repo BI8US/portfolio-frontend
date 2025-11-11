@@ -52,8 +52,7 @@ export const Select: React.FC<SelectProps> = ({
             if (
                 wrapperRef.current &&
                 !wrapperRef.current.contains(target) &&
-                dropdownRef.current &&
-                !dropdownRef.current.contains(target)
+                (!dropdownRef.current || !dropdownRef.current.contains(target))
             ) {
                 setIsOpen(false);
             }
@@ -82,14 +81,14 @@ export const Select: React.FC<SelectProps> = ({
 
     const combinedClasses = `flex flex-col mb-2 w-full relative ${className || ""}`.trim();
     const baseButtonClasses =
-        "border p-1.5 w-full rounded-lg flex justify-between items-center transition-colors duration-150";
+        "border border-border p-2 w-full rounded-3xl flex justify-between items-center transition-colors duration-150 focus:outline-none focus:ring-1 focus:ring-text-accent";
     const finalButtonClasses = `${baseButtonClasses} ${
-        buttonClassName || "bg-white"
-    }`.trim();
+        buttonClassName || "bg-content"
+    } ${selected ? 'text-text-primary' : 'text-text-muted'}`.trim();
 
     return (
         <div className={combinedClasses} ref={wrapperRef} {...props}>
-            {label && <label className="mb-1 font-medium text-gray-700">{label}</label>}
+            {label && <label className="mb-1 font-medium text-text-secondary">{label}</label>}
 
             <button
                 type="button"
@@ -102,7 +101,7 @@ export const Select: React.FC<SelectProps> = ({
                 <span className="ml-2 flex items-center">
           <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4 text-gray-300"
+              className="h-4 w-4 text-text-muted"
               viewBox="0 0 20 20"
               fill="currentColor"
           >
@@ -115,7 +114,7 @@ export const Select: React.FC<SelectProps> = ({
                 createPortal(
                     <ul
                         ref={dropdownRef}
-                        className="absolute border rounded-lg bg-white shadow-lg z-[9999] max-h-48 overflow-y-auto"
+                        className="absolute border border-border rounded-xl bg-content shadow-lg z-[9999] max-h-48 overflow-y-auto"
                         style={{
                             position: "absolute",
                             top: dropdownPosition.top,
@@ -127,7 +126,13 @@ export const Select: React.FC<SelectProps> = ({
                         {options.map((option) => (
                             <li
                                 key={option.value}
-                                className="p-2 hover:bg-gray-100 cursor-pointer"
+                                className={`
+                                    p-2 hover:text-text-accent cursor-pointer
+                                    ${selected?.value === option.value
+                                    ? 'font-semibold text-text-accent'
+                                    : 'text-text-primary'
+                                }
+                                `}
                                 onClick={() => handleSelect(option)}
                                 role="option"
                                 aria-selected={selected?.value === option.value}

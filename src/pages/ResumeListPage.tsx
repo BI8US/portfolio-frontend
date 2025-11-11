@@ -1,12 +1,12 @@
 import React from "react";
-import {ResumeListItemCard} from "../components/ResumeListItemCard";
+import {ResumeListItemCard} from "../components/resume/ResumeListItemCard";
 import {useCreateResume, useGetAllResumes, useDeleteResume} from "../hooks/useResume";
 import {useNavigate} from "react-router-dom";
-import {ContentPage} from "../components/ContentPage";
-import {ContentCard} from "../components/ContentCard";
-import {Button} from "../components/Button";
-import {Input} from "../components/Input";
-import {ConfirmationModal} from "../components/ConfirmationModal";
+import {ContentPage} from "../components/common/ContentPage";
+import {ContentCard} from "../components/common/ContentCard";
+import {Button} from "../components/common/Button";
+import {Input} from "../components/common/Input";
+import {ConfirmationModal} from "../components/common/ConfirmationModal";
 
 export const ResumeListPage: React.FC = () => {
     const { data: resumes, isLoading } = useGetAllResumes();
@@ -65,7 +65,7 @@ export const ResumeListPage: React.FC = () => {
         <ContentPage className="max-w-4xl">
             <ContentCard>
                 <form onSubmit={handleCreateSubmit}>
-                    <h2 className="text-lg font-semibold mb-2">Create new resume</h2>
+                    <h2 className="text-lg font-semibold mb-2 text-text-primary">Create new resume</h2>
                     <Input
                         type="text"
                         placeholder="Resume name"

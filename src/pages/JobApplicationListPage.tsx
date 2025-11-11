@@ -6,16 +6,16 @@ import {
     useUpdateApplication
 } from "../hooks/useJobApplication";
 import {useNavigate} from "react-router-dom";
-import {ContentPage} from "../components/ContentPage"
-import {ContentCard} from "../components/ContentCard";
+import {ContentPage} from "../components/common/ContentPage"
+import {ContentCard} from "../components/common/ContentCard";
 import {JobApplicationItemPartial} from "../types/jobApplicationTypes"
-import {Input} from "../components/Input";
-import {Select} from "../components/Select";
-import {Button} from "../components/Button";
+import {Input} from "../components/common/Input";
+import {Select} from "../components/common/Select";
+import {Button} from "../components/common/Button";
 import {JOB_APPLICATION_STATUSES} from "../constants/jobApplicationStatuses";
-import {ResumeListItemCard} from "../components/ResumeListItemCard";
-import {ConfirmationModal} from "../components/ConfirmationModal";
-import {JobApplicationTable} from "../components/JobApplicationTable";
+import {ResumeListItemCard} from "../components/resume/ResumeListItemCard";
+import {ConfirmationModal} from "../components/common/ConfirmationModal";
+import {JobApplicationTable} from "../components/jobApplication/JobApplicationTable";
 
 type SortKey = 'company' | 'role' | 'status' | 'updatedAt' | 'createdAt';
 type SortDirection = 'asc' | 'desc';
@@ -144,10 +144,10 @@ export const JobApplicationListPage: React.FC = () => {
     if (isLoading) return <p>Loading job applications...</p>;
 
     return (
-        <ContentPage>
+        <ContentPage className="max-w-6xl">
             <ContentCard>
                 <form onSubmit={handleCreateSubmit}>
-                    <h2 className="text-lg font-semibold mb-2">Add job application</h2>
+                    <h2 className="text-lg font-semibold mb-2 text-text-primary">Add job application</h2>
                     <Select
                         name="status"
                         placeholder="Status"

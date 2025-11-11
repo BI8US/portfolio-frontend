@@ -32,8 +32,8 @@ export const ConfirmationModal: React.FC<ConfirmationComponentProps> = ({
         <Modal>
             <ContentCard className={`max-w-md ${className}`}>
                 <div>
-                    <h3 className="text-xl font-bold mb-4">{title}</h3>
-                    <div className="text-gray-700 mb-6">
+                    <h3 className="text-text-primary text-xl font-bold mb-4">{title}</h3>
+                    <div className="text-text-secondary mb-6">
                         {message}
                     </div>
                     <div className="flex justify-end space-x-2">

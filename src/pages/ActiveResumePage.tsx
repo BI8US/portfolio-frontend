@@ -1,18 +1,18 @@
 import React from "react";
 import {useGetActiveResume} from "../hooks/useResume";
-import {ResumeCardHeader} from "../components/ResumeCardHeader";
-import {ResumeCardEducations} from "../components/ResumeCardEducations";
-import {ResumeCardWorkExperiences} from "../components/ResumeCardWorkExperiences";
-import {ResumeCardProjects} from "../components/ResumeCardProjects";
-import {ResumeCardSkills} from "../components/ResumeCardSkills";
-import {ContentPage} from "../components/ContentPage";
-import {StatusMessage} from "../components/StatusMessage";
+import {ResumeCardHeader} from "../components/resume/ResumeCardHeader";
+import {ResumeCardEducations} from "../components/resume/ResumeCardEducations";
+import {ResumeCardWorkExperiences} from "../components/resume/ResumeCardWorkExperiences";
+import {ResumeCardProjects} from "../components/resume/ResumeCardProjects";
+import {ResumeCardSkills} from "../components/resume/ResumeCardSkills";
+import {ContentPage} from "../components/common/ContentPage";
+import {StatusMessage} from "../components/common/StatusMessage";
 
 export default function ActiveResumePage() {
     const {data: activeResume, isLoading, isError} = useGetActiveResume();
 
     if (isLoading) {return (<StatusMessage message="Loading resume..." />);}
-    if (isError) {return (<StatusMessage message="An error occurred while fetching the resume." />);}
+    if (isError) {return (<StatusMessage message="An error occurred while getting the resume." />);}
     if (!activeResume) {return (<StatusMessage message={`Active resume not found`} />);}
 
     const {educations, projects, skills, workExperiences} = activeResume;
@@ -20,7 +20,7 @@ export default function ActiveResumePage() {
     console.log("active resume", activeResume);
 
     return (
-        <ContentPage>
+        <ContentPage className='max-w-4xl'>
             <ResumeCardHeader resume={activeResume} />
 
             {skills && skills.length > 0 && (

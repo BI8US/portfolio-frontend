@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from "react";
-import {SkillItemPartial} from "../types/skillTypes";
-import {ContentCard} from "./ContentCard";
-import {Modal} from "./Modal";
-import {Input} from "./Input";
-import {Button} from "./Button";
-import {getGroupedSkills} from "../utils/skillUtils";
+import {SkillItemPartial} from "../../types/skillTypes";
+import {ContentCard} from "../common/ContentCard";
+import {Modal} from "../common/Modal";
+import {Input} from "../common/Input";
+import {Button} from "../common/Button";
+import {getGroupedSkills} from "../../utils/skillUtils";
 
 interface ResumeEditSkillsModalProps {
     skills: SkillItemPartial[];
@@ -101,9 +101,9 @@ export const ResumeEditSkillsModal: React.FC<ResumeEditSkillsModalProps>  = ({sk
         <Modal>
             <ContentCard>
                 <form onSubmit={handleSubmit}>
-                    <h2 className="text-xl font-bold mb-4">Edit Skills</h2>
+                    <h2 className="text-xl font-bold mb-4 text-text-primary">Edit Skills</h2>
 
-                    <div className="flex gap-2 mb-2 font-semibold text-gray-700">
+                    <div className="flex gap-2 mb-2 font-semibold text-text-secondary">
                         <div className="flex-1">Skill Group</div>
                         <div className="flex-1">Skills (comma-separated)</div>
                         <div className="w-8"></div>
@@ -124,6 +124,7 @@ export const ResumeEditSkillsModal: React.FC<ResumeEditSkillsModalProps>  = ({sk
                                             e.currentTarget.blur();
                                         }
                                     }}
+                                    className="mb-0"
                                 />
                             </div>
                             <div className="basis-2/3">
@@ -139,17 +140,27 @@ export const ResumeEditSkillsModal: React.FC<ResumeEditSkillsModalProps>  = ({sk
                                             e.currentTarget.blur();
                                         }
                                     }}
+                                    className="mb-0"
                                 />
                             </div>
-                            <Button type="secondary" onClick={() => handleRemoveGroup(groupName)} htmlType="button" className="flex-shrink-0">
-                                -
+                            <Button
+                                type="danger"
+                                onClick={() => handleRemoveGroup(groupName)}
+                                htmlType="button"
+                                className="border-transparent"
+                            >
+                                <span className="material-symbols-outlined text-2xl">delete</span>
                             </Button>
                         </div>
                     ))}
 
                     <div className="flex justify-end mt-4">
-                        <Button type="secondary" onClick={handleAddGroup} htmlType="button">
-                            + Add Group
+                        <Button
+                            type="secondary"
+                            onClick={handleAddGroup}
+                            htmlType="button"
+                        >
+                            <span className="material-symbols-outlined text-2xl">add_2</span>
                         </Button>
                     </div>
 

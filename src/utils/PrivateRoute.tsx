@@ -1,6 +1,6 @@
 import React from "react";
 import {Navigate} from "react-router-dom";
-import {getToken} from "../utils/auth";
+import {getToken} from "./auth";
 import {jwtDecode} from "jwt-decode";
 
 interface PrivateRouteProps {
@@ -10,6 +10,9 @@ interface PrivateRouteProps {
 
 interface JwtPayload {
     exp: number;
+    id: string;
+    userName: string;
+    role: string;
 }
 
 export const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, role }) => {
@@ -23,10 +26,14 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, role }) =>
         const decodedToken: JwtPayload = jwtDecode(token);
         const currentTime = Date.now() / 1000;
 
-
         if (decodedToken.exp < currentTime) {
             return <Navigate to="/login" replace/>;
         }
+
+        if (role && decodedToken.role !== role) {
+            return <Navigate to="/resume/active" replace />;
+        }
+
     } catch (error) {
         console.error("JWT decoding error:", error);
         return <Navigate to="/login" replace />;

@@ -1,18 +1,18 @@
 import React from "react";
 import {BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom";
-import Header from "./components/Header";
+import Header from "./components/common/Header";
 import ActiveResumePage from "./pages/ActiveResumePage";
 import {ResumeListPage} from "./pages/ResumeListPage";
 import {ResumeEditPage} from "./pages/ResumeEditPage";
 import {LoginPage} from "./pages/LoginPage";
-import {PrivateRoute} from "./components/PrivateRoute";
+import {PrivateRoute} from "./utils/PrivateRoute";
 import {JobApplicationListPage} from "./pages/JobApplicationListPage";
 import {JobApplicationEditPage} from "./pages/JobApplicationEditPage";
 
 function App() {
     return (
         <Router>
-            <div className="App">
+            <div className="bg-page font-sans min-h-screen">
                 <Header />
                 <main>
                     <Routes>

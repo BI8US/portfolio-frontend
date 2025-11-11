@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {JobApplicationItem} from "../types/jobApplicationTypes";
-import {ContentCard} from "../components/ContentCard";
-import {Modal} from "./Modal";
-import {Button} from "./Button";
-import {Input} from "./Input"; // Убедитесь, что импортировали Input
+import {JobApplicationItem} from "../../types/jobApplicationTypes";
+import {ContentCard} from "../common/ContentCard";
+import {Modal} from "../common/Modal";
+import {Button} from "../common/Button";
+import {Input} from "../common/Input";
 
 export interface ApplicationInfo {
     company: string;
@@ -47,7 +47,7 @@ export const JobApplicationEditModal: React.FC<JobApplicationEditModalProps> = (
         <Modal>
             <ContentCard>
                 <form onSubmit={handleSubmit}>
-                    <h2 className="text-xl font-bold mb-4">Edit Job Application</h2>
+                    <h2 className="text-xl font-bold mb-4 text-text-primary">Edit Job Application</h2>
                     <Input
                         label="Company"
                         name="company"

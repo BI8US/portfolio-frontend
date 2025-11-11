@@ -4,22 +4,22 @@ import {
     useGetResumeById, useUpdateHeaderWithMediaLinks, useUpdateHeader, useUpdateMediaLinks, useUpdateSkills,
     useUpdateWorkExperiences, useUpdateProjects
 } from "../hooks/useResume";
-import {Payload, ResumeEditHeaderModal} from "../components/ResumeEditHeaderModal";
-import {ResumeEditSkillsModal} from "../components/ResumeEditSkillsModal";
-import {ContentPage} from "../components/ContentPage";
-import {ResumeCardHeader} from "../components/ResumeCardHeader";
-import {ResumeCardSkills} from "../components/ResumeCardSkills";
-import {ResumeCardEducations} from "../components/ResumeCardEducations";
-import {ResumeCardProjects} from "../components/ResumeCardProjects";
-import {ResumeCardWorkExperiences} from "../components/ResumeCardWorkExperiences";
-import {StatusMessage} from "../components/StatusMessage";
+import {Payload, ResumeEditHeaderModal} from "../components/resume/ResumeEditHeaderModal";
+import {ResumeEditSkillsModal} from "../components/resume/ResumeEditSkillsModal";
+import {ContentPage} from "../components/common/ContentPage";
+import {ResumeCardHeader} from "../components/resume/ResumeCardHeader";
+import {ResumeCardSkills} from "../components/resume/ResumeCardSkills";
+import {ResumeCardEducations} from "../components/resume/ResumeCardEducations";
+import {ResumeCardProjects} from "../components/resume/ResumeCardProjects";
+import {ResumeCardWorkExperiences} from "../components/resume/ResumeCardWorkExperiences";
+import {StatusMessage} from "../components/common/StatusMessage";
 import {SkillItemPartial} from "../types/skillTypes";
 import {EducationItemPartial} from "../types/educationTypes"
-import {ResumeEditEducationsModal} from "../components/ResumeEditEducationsModal";
+import {ResumeEditEducationsModal} from "../components/resume/ResumeEditEducationsModal";
 import {useUpdateEducations} from "../hooks/useResume";
-import {ResumeEditWorkExperiencesModal} from "../components/ResumeEditWorkExperienceModal";
+import {ResumeEditWorkExperiencesModal} from "../components/resume/ResumeEditWorkExperienceModal";
 import {WorkExperienceItemPartial} from "../types/workExperienceTypes";
-import {ResumeEditProjectsModal} from "../components/ResumeEditProjectsModal";
+import {ResumeEditProjectsModal} from "../components/resume/ResumeEditProjectsModal";
 import {ProjectItemPartial} from "../types/projectTypes";
 
 export const ResumeEditPage: React.FC = () => {

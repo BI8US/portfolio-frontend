@@ -1,11 +1,11 @@
 import React from "react";
-import {ResumeItem} from "../types/resumeTypes";
-import {ResumeHeaderItemPartial} from "../types/resumeHeaderTypes";
-import {ContentCard} from "./ContentCard";
-import {Input} from "./Input";
-import {Button} from "./Button";
-import {MediaLinkItemPartial} from "../types/mediaLinkTypes";
-import {Modal} from "./Modal";
+import {ResumeItem} from "../../types/resumeTypes";
+import {ResumeHeaderItemPartial} from "../../types/resumeHeaderTypes";
+import {ContentCard} from "../common/ContentCard";
+import {Input} from "../common/Input";
+import {Button} from "../common/Button";
+import {MediaLinkItemPartial} from "../../types/mediaLinkTypes";
+import {Modal} from "../common/Modal";
 
 export interface Payload {
     header: ResumeHeaderItemPartial;
@@ -45,6 +45,8 @@ export const ResumeEditHeaderModal: React.FC<ResumeEditFormHeaderProps> = ({resu
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        // TODO implement at least a field for this in interface
+        const picture = '/images/avatar.png'
 
         const payload: Payload = {
             header: {
@@ -52,6 +54,7 @@ export const ResumeEditHeaderModal: React.FC<ResumeEditFormHeaderProps> = ({resu
                 fullName,
                 email,
                 phone,
+                picture,
                 summary,
                 isActive,
                 },
@@ -65,7 +68,7 @@ export const ResumeEditHeaderModal: React.FC<ResumeEditFormHeaderProps> = ({resu
         <Modal>
             <ContentCard>
                 <form onSubmit={handleSubmit}>
-                    <h2 className="text-lg font-semibold mb-2">Edit header</h2>
+                    <h2 className="text-lg font-semibold mb-2 text-text-primary">Edit header</h2>
 
                     <Input
                         type="text"
@@ -82,16 +85,17 @@ export const ResumeEditHeaderModal: React.FC<ResumeEditFormHeaderProps> = ({resu
                         value={fullName}
                         onChange={(e) => setFullName(e.target.value)}
                     />
-                    <h3 className="mb-1 font-medium text-gray-700">Media Links</h3>
+                    <h3 className="mb-1 font-medium text-text-secondary">Media Links</h3>
 
                     {mediaLinks.map((link, index) => (
-                        <div key={index} className="flex gap-2 mb-2 items-start">
+                        <div key={index} className="flex gap-2 mb-2 items-center">
                             <div className="basis-1/3">
                                 <Input
                                     type="text"
                                     placeholder="Media"
                                     value={link.name}
                                     onChange={(e) => handleLinkChange(index, 'name', e.target.value)}
+                                    className="mb-0"
                                 />
                             </div>
                             <div className="basis-2/3">
@@ -100,14 +104,16 @@ export const ResumeEditHeaderModal: React.FC<ResumeEditFormHeaderProps> = ({resu
                                     placeholder="URL"
                                     value={link.link}
                                     onChange={(e) => handleLinkChange(index, 'link', e.target.value)}
+                                    className="mb-0"
                                 />
                             </div>
                             <Button
-                                type="secondary"
+                                type="danger"
                                 onClick={() => handleRemoveLink(index)}
-                                className="flex-shrink-0"
+                                htmlType="button"
+                                className="border-transparent"
                             >
-                                -
+                                <span className="material-symbols-outlined text-2xl">delete</span>
                             </Button>
                         </div>
                     ))}
@@ -117,8 +123,9 @@ export const ResumeEditHeaderModal: React.FC<ResumeEditFormHeaderProps> = ({resu
                             type="secondary"
                             onClick={handleAddLink}
                             htmlType="button"
+                            className="flex items-center"
                         >
-                            + Add Link
+                            <span className="material-symbols-outlined text-2xl">add_2</span>
                         </Button>
                     </div>
                     <Input type="email"
@@ -142,7 +149,7 @@ export const ResumeEditHeaderModal: React.FC<ResumeEditFormHeaderProps> = ({resu
                         onChange={(e) => setSummary(e.target.value)}
                     />
 
-                    <label className="flex items-center gap-2 mb-2">
+                    <label className="flex items-center gap-2 mb-2 text-text-primary">
                         <input
                             type="checkbox"
                             checked={isActive}

@@ -1,10 +1,11 @@
 import React from "react";
-import {JobApplicationItem} from "../types/jobApplicationTypes";
-import {JOB_APPLICATION_STATUSES } from "../constants/jobApplicationStatuses";
-import {JOB_APPLICATION_STATUS_COLORS} from "../constants/statusColors";
-import {Select} from "./Select"
+import {JobApplicationItem} from "../../types/jobApplicationTypes";
+import {JOB_APPLICATION_STATUSES } from "../../constants/jobApplicationStatuses";
+import {JOB_APPLICATION_STATUS_COLORS} from "../../constants/statusColors";
+import {Select} from "../common/Select"
+import {Button} from "../common/Button";
 
-const DEFAULT_COLORS = { bg: "bg-white", text: "text-gray-800" };
+const DEFAULT_COLORS = { bg: "bg-content", text: "text-text-primary" };
 
 const statusOptions = JOB_APPLICATION_STATUSES.map(status => ({
     label: status,
@@ -25,13 +26,13 @@ interface JobApplicationTableProps {
 
 const SortIcon: React.FC<{ direction: SortDirection | null }> = ({ direction }) => {
     if (!direction) {
-        return <svg className="w-3 h-3 text-gray-400 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L17 7H7L12 2Z M17 17L12 22L7 17H17Z" /></svg>; // Две стрелки (неактивная)
+        return <svg className="w-3 h-3 text-text-muted ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L17 7H7L12 2Z M17 17L12 22L7 17H17Z" /></svg>; // Две стрелки (неактивная)
     }
 
     const d = direction === 'asc' ? "M7 14l5-5 5 5H7z" : "M7 10l5 5 5-5H7z";
 
     return (
-        <svg className="w-3 h-3 text-gray-700 ml-1" fill="currentColor" viewBox="0 0 24 24">
+        <svg className="w-3 h-3 text-text-secondary ml-1" fill="currentColor" viewBox="0 0 24 24">
             <path d={d} />
         </svg>
     );
@@ -50,7 +51,7 @@ const SortableHeader: React.FC<{
     return (
         <th
             scope="col"
-            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:text-gray-800 transition-colors duration-150"
+            className="px-6 py-3 text-left text-xs font-medium text-text-muted uppercase tracking-wider cursor-pointer hover:text-text-primary transition-colors duration-150"
             onClick={() => onSort(sortKey)}
         >
             <div className="flex items-center">
@@ -70,9 +71,9 @@ export const JobApplicationTable: React.FC<JobApplicationTableProps> = ({
                                                                      sortConfig,
                                                                  }) => {
     return (
-        <div className="mt-6 shadow overflow-hidden border-b border-gray-200 sm:rounded-lg overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+        <div className="mt-6 shadow-md overflow-hidden border border-border rounded-3xl overflow-x-auto">
+            <table className="min-w-full divide-y divide-border">
+                <thead className="bg-page">
                 <tr>
                     <SortableHeader label="Company" sortKey="company" onSort={onSort} sortConfig={sortConfig} />
                     <SortableHeader label="Role" sortKey="role" onSort={onSort} sortConfig={sortConfig} />
@@ -85,10 +86,10 @@ export const JobApplicationTable: React.FC<JobApplicationTableProps> = ({
                     </th>
                 </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="bg-content divide-y divide-border">
                 {applications.length === 0 ? (
                     <tr>
-                        <td colSpan={6} className="px-6 py-4 text-center text-gray-500">
+                        <td colSpan={6} className="px-6 py-4 text-center text-text-muted">
                             No job applications found.
                         </td>
                     </tr>
@@ -97,14 +98,14 @@ export const JobApplicationTable: React.FC<JobApplicationTableProps> = ({
                         const colorSet = JOB_APPLICATION_STATUS_COLORS[application.status as keyof typeof JOB_APPLICATION_STATUS_COLORS] || DEFAULT_COLORS;
                         const statusColorClasses = `${colorSet.bg} ${colorSet.text} border-transparent`;
                         return (
-                            <tr key={application.id} className="border-b hover:bg-gray-50">
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            <tr key={application.id} className="hover:bg-page">
+                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-text-primary">
                                     {application.company}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
                                     {application.role}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
                                     <div className="w-40">
                                         <Select
                                             name={`status-${application.id}`}
@@ -113,29 +114,31 @@ export const JobApplicationTable: React.FC<JobApplicationTableProps> = ({
                                             value={application.status}
                                             onChange={(newStatus) => onChangeStatus(application.id, newStatus)}
                                             className="!mb-0"
-                                            buttonClassName={statusColorClasses}
+                                            buttonClassName={`text-black ${statusColorClasses}`}
                                         />
                                     </div>
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
                                     {new Date(application.updatedAt).toLocaleString()}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
                                     {new Date(application.createdAt).toLocaleString()}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <button
+                                    <Button
+                                        type="secondary"
                                         onClick={() => onEdit(application.id)}
-                                        className="text-indigo-600 hover:text-indigo-900 mr-3"
+                                        className="px-3 py-1 border-transparent bg-transparent"
                                     >
-                                        Edit
-                                    </button>
-                                    <button
+                                        <span className="material-symbols-outlined text-2xl">edit</span>
+                                    </Button>
+                                    <Button
+                                        type="danger"
                                         onClick={() => onDelete(application.id)}
-                                        className="text-red-600 hover:text-red-900"
+                                        className="border-transparent bg-transparent"
                                     >
-                                        Delete
-                                    </button>
+                                        <span className="material-symbols-outlined text-2xl">delete</span>
+                                    </Button>
                                 </td>
                             </tr>
                         )})
