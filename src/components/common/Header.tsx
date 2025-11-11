@@ -32,46 +32,61 @@ const Header: React.FC = () => {
     const toggleTheme = () => {
         setIsDark(!isDark);
     };
-    // TODO change buttons style and make adaptive design
+
+    const navButtonClasses =
+        "flex items-center gap-2 " +
+        "px-3 py-1 " +
+        "rounded-3xl font-semibold " +
+        "bg-content " +
+        "border border-transparent " +
+        "text-text-secondary " +
+        "hover:text-content " +
+        "hover:bg-button-secondary " +
+        "transition-colors duration-200";
     return (
         <header className="bg-content text-text-primary p-4 flex justify-between items-center border-b border-border">
-            <h1 className="text-xl font-bold">
-                <Link to="/resume/active" className="text-text-primary hover:text-text-accent transition-colors">
-                    Alexander Smirnov
-                </Link>
-            </h1>
-            <nav className="flex space-x-4 text-text-secondary items-center">
+            <Link to="/resume/active" className={navButtonClasses}>
+                <span className="material-symbols-outlined text-2xl">home</span>
+            </Link>
+            <nav className="flex space-x-4 items-center">
                 {token ? (
                     <>
-                        <Link to="/resumes" className="hover:text-text-accent transition-colors">
-                            Resume List
+                        <Link to="/resumes" className={navButtonClasses}>
+                            <span className="material-symbols-outlined text-2xl">article_person</span>
+                            <span className="hidden md:inline">Resume List</span>
                         </Link>
-                        <Link to="/jobapplications" className="hover:text-text-accent transition-colors">
-                            Job Applications
+
+                        <Link to="/jobapplications" className={navButtonClasses}>
+                            <span className="material-symbols-outlined text-2xl">cases</span>
+                            <span className="hidden md:inline">Job Applications</span>
                         </Link>
+
                         <button
                             onClick={handleLogout}
-                            className="hover:text-text-accent transition-colors"
+                            className={navButtonClasses}
                         >
-                            Log out
+                            <span className="material-symbols-outlined text-2xl">move_item</span>
+                            <span className="hidden md:inline">Log Out</span>
                         </button>
                     </>
                 ) : (
-                    <Link to="/login" className="hover:text-text-accent transition-colors">
-                        Login
+                    <Link to="/login" className={navButtonClasses}>
+                        <span className="material-symbols-outlined text-2xl">person</span>
+                        <span className="hidden md:inline">Login</span>
                     </Link>
                 )}
                 <button
                     onClick={toggleTheme}
                     type="button"
-                    className="flex items-center hover:text-text-accent transition-colors"
+                    className={navButtonClasses}
                     aria-label="Toggle theme"
                 >
                     {isDark ? (
-                        <span className="material-symbols-outlined">light_mode</span>
+                        <span className="material-symbols-outlined text-2xl">light_mode</span>
                     ) : (
-                        <span className="material-symbols-outlined">dark_mode</span>
+                        <span className="material-symbols-outlined text-2xl">dark_mode</span>
                     )}
+                    <span className="hidden md:inline">Change Theme</span>
                 </button>
             </nav>
         </header>
