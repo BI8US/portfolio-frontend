@@ -13,7 +13,7 @@ export const ResumeCardHeader: React.FC<ResumeCardProps> = ({ resume, onEditClic
     return (
         <>
             <ContentCard>
-                <div className="flex justify-between items-start w-full">
+                <div className="flex flex-col md:flex-row justify-between items-start w-full">
                     {resume.picture && (
                         <div className="w-28 h-28 rounded-full border-2 border-border mr-6 overflow-hidden flex-shrink-0">
                             <img
@@ -26,6 +26,9 @@ export const ResumeCardHeader: React.FC<ResumeCardProps> = ({ resume, onEditClic
 
                     <div className="flex-1">
                             <h2 className="text-2xl font-bold text-text-primary">{resume.fullName}</h2>
+                            {resume.intro && (
+                                <p className="text-text-secondary italic mb-2">{resume.intro}</p>
+                            )}
                         <div className="flex flex-wrap text-text-secondary mt-2 gap-2">
                             {resume.mediaLinks && (
                                 <ResumeCardMediaLinks mediaLinks={resume.mediaLinks}/>
@@ -40,6 +43,12 @@ export const ResumeCardHeader: React.FC<ResumeCardProps> = ({ resume, onEditClic
                                 <p className='flex items-center gap-1 border border-border p-2 rounded-full hover:bg-border'>
                                     <span className="material-symbols-outlined">call</span>
                                     {resume.phone}
+                                </p>
+                            )}
+                            {resume.location && (
+                                <p className='flex items-center gap-1 border border-border p-2 rounded-full hover:bg-border'>
+                                    <span className="material-symbols-outlined">location_on</span>
+                                    {resume.location}
                                 </p>
                             )}
                         </div>

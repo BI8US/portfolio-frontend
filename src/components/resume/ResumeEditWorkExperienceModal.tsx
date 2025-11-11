@@ -46,7 +46,7 @@ export const ResumeEditWorkExperiencesModal: React.FC<ResumeEditWorkExperiencesM
                 .filter(p => p !== "")
                 .map((point, idx) => ({
                     id: exp.descriptionPoints?.[idx]?.id ?? -idx - 1,
-                    educationEntityId: exp.id || 0,
+                    workExperienceEntityId: exp.id || 0,
                     descriptionPoint: point,
                 }));
 

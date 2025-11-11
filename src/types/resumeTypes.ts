@@ -21,6 +21,8 @@ export interface ResumeItem {
     phone?: string;
     picture?: string;
     summary?: string;
+    location?: string;
+    intro?: string;
     createdAt: Date;
     updatedAt: Date;
     educations?: EducationItem[];

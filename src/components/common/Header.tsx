@@ -32,7 +32,7 @@ const Header: React.FC = () => {
     const toggleTheme = () => {
         setIsDark(!isDark);
     };
-
+    // TODO change buttons style and make adaptive design
     return (
         <header className="bg-content text-text-primary p-4 flex justify-between items-center border-b border-border">
             <h1 className="text-xl font-bold">

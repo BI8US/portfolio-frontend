@@ -19,7 +19,6 @@ export const ResumeListItemCard: React.FC<ResumeCardProps> = ({ resume, onEdit, 
             <div>
                 <h3 className="text-lg font-semibold mb-2 text-text-primary">{resume.resumeName}</h3>
                 <p className="mb-2">
-                    {/*TODO make variables for status colors*/}
                     <span
                         className={`px-3 py-1 rounded-full text-sm mb-2 font-semibold ${statusColorClasses}`}
                     >

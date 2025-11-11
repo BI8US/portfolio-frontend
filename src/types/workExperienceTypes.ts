@@ -18,7 +18,7 @@ export interface WorkExperienceItemPartial {
 
 export interface WorkExperienceDescriptionPoint {
     id: number;
-    educationEntityId: number;
+    workExperienceEntityId: number;
     descriptionPoint: string;
 }
 

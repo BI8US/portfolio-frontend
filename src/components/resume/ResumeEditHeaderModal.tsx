@@ -22,6 +22,8 @@ export const ResumeEditHeaderModal: React.FC<ResumeEditFormHeaderProps> = ({resu
 }) => {
     const [resumeName, setResumeName] = React.useState(resumeItem.resumeName || "");
     const [fullName, setFullName] = React.useState(resumeItem.fullName || "");
+    const [intro, setIntro] = React.useState(resumeItem.intro || "");
+    const [location, setLocation] = React.useState(resumeItem.location || "");
     const [email, setEmail] = React.useState(resumeItem.email || "");
     const [phone, setPhone] = React.useState(resumeItem.phone || "");
     const [summary, setSummary] = React.useState(resumeItem.summary || "");
@@ -57,6 +59,8 @@ export const ResumeEditHeaderModal: React.FC<ResumeEditFormHeaderProps> = ({resu
                 picture,
                 summary,
                 isActive,
+                intro,
+                location,
                 },
             mediaLinks: mediaLinks
         };
@@ -84,6 +88,14 @@ export const ResumeEditHeaderModal: React.FC<ResumeEditFormHeaderProps> = ({resu
                         placeholder="Full name"
                         value={fullName}
                         onChange={(e) => setFullName(e.target.value)}
+                    />
+                    <Input
+                        textarea
+                        label="Intro"
+                        placeholder="A short intro"
+                        value={intro}
+                        onChange={(e) => setIntro(e.target.value)}
+                        rows={2}
                     />
                     <h3 className="mb-1 font-medium text-text-secondary">Media Links</h3>
 
@@ -140,6 +152,13 @@ export const ResumeEditHeaderModal: React.FC<ResumeEditFormHeaderProps> = ({resu
                         placeholder="Phone"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
+                    />
+                    <Input
+                        type="text"
+                        label="Location"
+                        placeholder="City, Country"
+                        value={location}
+                        onChange={(e) => setLocation(e.target.value)}
                     />
                     <Input
                         textarea

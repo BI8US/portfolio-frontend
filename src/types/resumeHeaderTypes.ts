@@ -7,6 +7,8 @@ export interface ResumeHeaderItem {
     phone?: string;
     picture?: string;
     summary?: string;
+    location?: string;
+    intro?: string;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -19,4 +21,6 @@ export interface ResumeHeaderItemPartial {
     phone?: string;
     picture?: string;
     summary?: string;
+    location?: string;
+    intro?: string;
 }

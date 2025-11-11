@@ -189,7 +189,7 @@ export const JobApplicationListPage: React.FC = () => {
             )}
 
             {applications && applications.length === 0 && (
-                <div className="mt-6 text-center text-gray-500 p-4 border rounded-lg bg-white">
+                <div className="mt-6 text-center text-gray-500 p-4 border rounded-3xl bg-white">
                     You haven't added any job applications yet.
                 </div>
             )}
