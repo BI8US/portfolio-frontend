@@ -1,8 +1,18 @@
 import axios from "axios";
 import {getToken} from "../utils/auth";
 
+const PROD_URL = process.env.REACT_APP_API_URL;
+const DEV_URL = "http://127.0.0.1:8080/api";
+
+const getBaseURL = () => {
+    if (process.env.NODE_ENV === 'production') {
+        return PROD_URL;
+    }
+    return DEV_URL;
+};
+
 export const api = axios.create({
-    baseURL: process.env.REACT_APP_API_URL,
+    baseURL: getBaseURL(),
 });
 
 api.interceptors.request.use((config) => {
