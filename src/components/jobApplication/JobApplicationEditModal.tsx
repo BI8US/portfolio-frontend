@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {JobApplicationItem} from "../../types/jobApplicationTypes";
 import {ContentCard} from "../common/ContentCard";
 import {Modal} from "../common/Modal";

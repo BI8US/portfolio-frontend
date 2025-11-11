@@ -82,9 +82,12 @@ export const Select: React.FC<SelectProps> = ({
     const combinedClasses = `flex flex-col mb-2 w-full relative ${className || ""}`.trim();
     const baseButtonClasses =
         "border border-border p-2 w-full rounded-3xl flex justify-between items-center transition-colors duration-150 focus:outline-none focus:ring-1 focus:ring-text-accent";
-    const finalButtonClasses = `${baseButtonClasses} ${
-        buttonClassName || "bg-content"
-    } ${selected ? 'text-text-primary' : 'text-text-muted'}`.trim();
+    const finalButtonClasses = [
+        baseButtonClasses,
+        buttonClassName
+            ? buttonClassName
+            : `bg-content ${selected ? 'text-text-primary' : 'text-text-muted'}`
+    ].join(' ').trim();
 
     return (
         <div className={combinedClasses} ref={wrapperRef} {...props}>

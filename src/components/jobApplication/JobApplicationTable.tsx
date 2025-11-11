@@ -1,13 +1,13 @@
 import React from "react";
 import {JobApplicationItem} from "../../types/jobApplicationTypes";
-import {JOB_APPLICATION_STATUSES } from "../../constants/jobApplicationStatuses";
-import {JOB_APPLICATION_STATUS_COLORS} from "../../constants/statusColors";
+import {STATUSES } from "../../constants/Statuses";
+import {STATUS_COLORS} from "../../constants/statusColors";
 import {Select} from "../common/Select"
 import {Button} from "../common/Button";
 
 const DEFAULT_COLORS = { bg: "bg-content", text: "text-text-primary" };
 
-const statusOptions = JOB_APPLICATION_STATUSES.map(status => ({
+const statusOptions = STATUSES.map(status => ({
     label: status,
     value: status,
 }));
@@ -95,7 +95,7 @@ export const JobApplicationTable: React.FC<JobApplicationTableProps> = ({
                     </tr>
                 ) : (
                     applications.map((application) => {
-                        const colorSet = JOB_APPLICATION_STATUS_COLORS[application.status as keyof typeof JOB_APPLICATION_STATUS_COLORS] || DEFAULT_COLORS;
+                        const colorSet = STATUS_COLORS[application.status as keyof typeof STATUS_COLORS] || DEFAULT_COLORS;
                         const statusColorClasses = `${colorSet.bg} ${colorSet.text} border-transparent`;
                         return (
                             <tr key={application.id} className="hover:bg-page">
@@ -114,7 +114,7 @@ export const JobApplicationTable: React.FC<JobApplicationTableProps> = ({
                                             value={application.status}
                                             onChange={(newStatus) => onChangeStatus(application.id, newStatus)}
                                             className="!mb-0"
-                                            buttonClassName={`text-black ${statusColorClasses}`}
+                                            buttonClassName={statusColorClasses}
                                         />
                                     </div>
                                 </td>

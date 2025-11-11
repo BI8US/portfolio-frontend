@@ -1,4 +1,6 @@
-export const JOB_APPLICATION_STATUSES = [
+export const STATUSES = [
+    "ACTIVE",
+    "INACTIVE",
     "APPLIED",
     "INTERVIEW_1",
     "INTERVIEW_2",

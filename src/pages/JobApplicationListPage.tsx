@@ -12,7 +12,7 @@ import {JobApplicationItemPartial} from "../types/jobApplicationTypes"
 import {Input} from "../components/common/Input";
 import {Select} from "../components/common/Select";
 import {Button} from "../components/common/Button";
-import {JOB_APPLICATION_STATUSES} from "../constants/jobApplicationStatuses";
+import {STATUSES} from "../constants/Statuses";
 import {ResumeListItemCard} from "../components/resume/ResumeListItemCard";
 import {ConfirmationModal} from "../components/common/ConfirmationModal";
 import {JobApplicationTable} from "../components/jobApplication/JobApplicationTable";
@@ -41,7 +41,7 @@ export const JobApplicationListPage: React.FC = () => {
         role: "",
     });
 
-    const statusOptions = JOB_APPLICATION_STATUSES.map(status => ({
+    const statusOptions = STATUSES.map(status => ({
         label: status,
         value: status,
     }));

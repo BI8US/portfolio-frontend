@@ -7,8 +7,8 @@ import {ContentPage} from "../components/common/ContentPage";
 import {ContentCard} from "../components/common/ContentCard";
 import {Button} from "../components/common/Button";
 import {Select} from "../components/common/Select";
-import {JOB_APPLICATION_STATUS_COLORS} from "../constants/statusColors";
-import {JOB_APPLICATION_STATUSES} from "../constants/jobApplicationStatuses";
+import {STATUS_COLORS} from "../constants/statusColors";
+import {STATUSES} from "../constants/Statuses";
 import {Input} from "../components/common/Input";
 import {JobApplicationEditModal, ApplicationInfo} from "../components/jobApplication/JobApplicationEditModal"
 
@@ -38,8 +38,8 @@ export const JobApplicationEditPage: React.FC = () => {
         };
     }, [isEditModalOpen]);
 
-    const statusColors = JOB_APPLICATION_STATUS_COLORS[application?.status || ""];
-    const statusOptions = JOB_APPLICATION_STATUSES.map(status => ({
+    const statusColors = STATUS_COLORS[application?.status || ""];
+    const statusOptions = STATUSES.map(status => ({
         label: status,
         value: status,
     }));
@@ -84,17 +84,17 @@ export const JobApplicationEditPage: React.FC = () => {
     return (
         <ContentPage className="max-w-4xl">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                <div className="border rounded-3xl shadow-md p-4 flex flex-col bg-content">
+                <div className="border border-border rounded-3xl shadow-md p-4 flex flex-col bg-content">
                     <div className="flex items-center justify-between mb-2">
                         <h2 className="text-2xl font-bold text-text-primary">Job info</h2>
                         <span>
                             <Button
                                 type="secondary"
                                 onClick={handleOpenModal}
-                                className="ml-4 px-3 py-1"
+                                className="px-3 py-1 border-transparent"
                             >
-                                Edit
-                            </Button>
+                            <span className="material-symbols-outlined text-2xl">edit</span>
+                        </Button>
                         </span>
                     </div>
                     <h3 className="text-lg font-bold mb-2 text-text-primary">{application.company}</h3>
@@ -119,14 +119,14 @@ export const JobApplicationEditPage: React.FC = () => {
                     )}
                 </div>
                 <div>
-                    <div className="border rounded-3xl shadow-md p-4 flex flex-col justify-between bg-content mb-4">
+                    <div className="border border-border rounded-3xl shadow-md p-4 flex flex-col justify-between bg-content mb-4">
                         <h2 className="text-2xl font-bold text-gray-800 mb-2 text-text-primary">Status</h2>
                         <p className="mb-2">
                             <span className={`px-3 py-1 rounded-full text-sm font-semibold ${statusColors.bg} ${statusColors.text}`}>
                                 {application.status}
                             </span>
                         </p>
-                        <div className="flex gap-2 items-start">
+                        <div className="flex gap-2 items-center">
                             <Select
                                 name="status"
                                 options={statusOptions}
@@ -137,13 +137,13 @@ export const JobApplicationEditPage: React.FC = () => {
                             <Button
                                 type="secondary"
                                 onClick={handleUpdateStatus}
-                                className="flex-shrink-0"
+                                className="border-transparent mb-2"
                             >
-                                ✓
+                                <span className="material-symbols-outlined text-2xl">check</span>
                             </Button>
                         </div>
                     </div>
-                    <div className="border rounded-3xl shadow-md p-4 flex flex-col justify-between bg-content">
+                    <div className="border border-border rounded-3xl shadow-md p-4 flex flex-col justify-between bg-content">
                         <h2 className="text-2xl font-bold text-gray-800 mb-2 text-text-primary">Notes</h2>
                         <Input
                             textarea

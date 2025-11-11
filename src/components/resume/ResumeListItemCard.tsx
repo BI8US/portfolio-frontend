@@ -1,6 +1,7 @@
 import React from "react";
 import {ResumeListItem} from "../../types/resumeTypes";
 import {Button} from "../common/Button";
+import {STATUS_COLORS} from "../../constants/statusColors";
 
 interface ResumeCardProps {
     resume: ResumeListItem;
@@ -9,6 +10,10 @@ interface ResumeCardProps {
 }
 
 export const ResumeListItemCard: React.FC<ResumeCardProps> = ({ resume, onEdit, onDelete }) => {
+    const statusKey = resume.isActive ? "ACTIVE" : "INACTIVE";
+    const colorSet = STATUS_COLORS[statusKey] || { bg: "bg-page", text: "text-text-secondary" };
+    const statusColorClasses = `${colorSet.bg} ${colorSet.text}`;
+
     return (
         <div className="border border-border rounded-3xl shadow-md p-4 flex flex-col justify-between bg-content">
             <div>
@@ -16,9 +21,7 @@ export const ResumeListItemCard: React.FC<ResumeCardProps> = ({ resume, onEdit, 
                 <p className="mb-2">
                     {/*TODO make variables for status colors*/}
                     <span
-                        className={`px-3 py-1 rounded-full text-sm mb-8 font-semibold ${
-                            resume.isActive ? "bg-green-200 text-green-800" : "bg-gray-300 text-gray-600"
-                        }`}
+                        className={`px-3 py-1 rounded-full text-sm mb-2 font-semibold ${statusColorClasses}`}
                     >
                         {resume.isActive ? "Active" : "Inactive"}
                     </span>
