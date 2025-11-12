@@ -65,7 +65,7 @@ export const ResumeEditWorkExperiencesModal: React.FC<ResumeEditWorkExperiencesM
                 <form onSubmit={handleSubmit}>
                     <h2 className="text-xl font-bold mb-4 text-text-primary">Edit Work Experience</h2>
                     {currentWorkExperiences.map((exp, index) => (
-                        <div key={index} className="mb-4 p-4 border rounded-lg">
+                        <div key={index} className="mb-4 p-4 border rounded-3xl">
                             <Input
                                 type="text"
                                 label="Company"

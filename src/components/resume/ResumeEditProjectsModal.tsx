@@ -44,7 +44,7 @@ export const ResumeEditProjectsModal: React.FC<ResumeEditProjectsModalProps> = (
                     <h2 className="text-xl font-bold mb-4 text-text-primary">Edit Projects</h2>
 
                     {currentProjects.map((project, index) => (
-                        <div key={index} className="mb-4 p-4 border rounded-lg">
+                        <div key={index} className="mb-4 p-4 border rounded-3xl">
                             <Input
                                 type="text"
                                 label="Project Title"
