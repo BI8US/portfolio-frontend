@@ -30,9 +30,9 @@ export const ResumeCardEducations = ({ educations, onEditClick }: ResumeCardEduc
                 <div className="flex flex-col gap-4">
                     {educations.map((item) => (
                         <div key={item.id}>
-                            <div className="flex items-center space-x-2 font-semibold text-lg text-text-primary">
+                            <div className="flex flex-col md:flex-row md:items-center md:space-x-2 font-semibold text-lg text-text-primary">
                                 <div>{item.school}</div>
-                                <span>|</span>
+                                <span className="hidden md:inline">|</span>
                                 <div>{item.educationName}</div>
                             </div>
                             <p className="font-semibold mt-1 text-text-secondary">
