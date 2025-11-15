@@ -10,6 +10,20 @@ interface ResumeCardProps {
 }
 
 export const ResumeCardHeader: React.FC<ResumeCardProps> = ({ resume, onEditClick }) => {
+
+    const handleCopyToClipboard = (text: string | undefined) => {
+        if (!text) return;
+
+        navigator.clipboard.writeText(text)
+            .then(() => {
+                // (Позже мы добавим сюда toast)
+                console.log(`Copied "${text}"`);
+            })
+            .catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+    };
+
     return (
         <>
             <ContentCard>
@@ -34,16 +48,24 @@ export const ResumeCardHeader: React.FC<ResumeCardProps> = ({ resume, onEditClic
                                 <ResumeCardMediaLinks mediaLinks={resume.mediaLinks}/>
                             )}
                             {resume.email && (
-                                <p className='flex items-center gap-1 border border-border p-2 rounded-full hover:bg-border'>
+                                <button
+                                    type="button"
+                                    onClick={() => handleCopyToClipboard(resume.email)}
+                                    className='flex items-center gap-1 border border-border p-2 rounded-full text-text-secondary hover:hover:bg-border active:bg-border'
+                                >
                                     <span className="material-symbols-outlined">mail</span>
                                     {resume.email}
-                                </p>
+                                </button>
                             )}
                             {resume.phone && (
-                                <p className='flex items-center gap-1 border border-border p-2 rounded-full hover:bg-border'>
+                                <button
+                                    type="button"
+                                    onClick={() => handleCopyToClipboard(resume.phone)}
+                                    className='flex items-center gap-1 border border-border p-2 rounded-full text-text-secondary hover:hover:bg-border active:bg-border'
+                                >
                                     <span className="material-symbols-outlined">call</span>
                                     {resume.phone}
-                                </p>
+                                </button>
                             )}
                             {resume.location && (
                                 <p className='flex items-center gap-1 border border-border p-2 rounded-full hover:bg-border'>
