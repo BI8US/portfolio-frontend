@@ -3,6 +3,7 @@ import {ResumeItem} from "../../types/resumeTypes";
 import {ResumeCardMediaLinks} from "./ResumeCardMediaLinks";
 import {ContentCard} from "../common/ContentCard";
 import {Button} from "../common/Button";
+import {toast} from 'react-hot-toast'
 
 interface ResumeCardProps {
     resume: ResumeItem;
@@ -16,8 +17,7 @@ export const ResumeCardHeader: React.FC<ResumeCardProps> = ({ resume, onEditClic
 
         navigator.clipboard.writeText(text)
             .then(() => {
-                // (Позже мы добавим сюда toast)
-                console.log(`Copied "${text}"`);
+                toast.success(`"${text}" copied to clipboard!`);
             })
             .catch(err => {
                 console.error('Failed to copy: ', err);
