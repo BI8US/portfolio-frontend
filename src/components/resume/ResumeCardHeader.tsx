@@ -3,7 +3,7 @@ import {ResumeItem} from "../../types/resumeTypes";
 import {ResumeCardMediaLinks} from "./ResumeCardMediaLinks";
 import {ContentCard} from "../common/ContentCard";
 import {Button} from "../common/Button";
-import {toast} from 'react-hot-toast'
+import {toast} from 'sonner'
 
 interface ResumeCardProps {
     resume: ResumeItem;

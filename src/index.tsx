@@ -4,7 +4,7 @@ import './styles/index.css';
 import App from './App';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
-import {Toaster} from 'react-hot-toast'
+import {Toaster} from 'sonner'
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -24,7 +24,15 @@ root.render(
     <React.StrictMode>
         <QueryClientProvider client={queryClient}>
             <App />
-            <Toaster position="bottom-right" />
+            <Toaster
+                position="bottom-right"
+                toastOptions={{
+                    classNames: {
+                        success: '!bg-content !text-text-success !border-border !rounded-3xl !shadow-lg !p-4',
+                        error: '!bg-content !text-text-danger !border-border !rounded-3xl !shadow-lg !p-4',
+                    },
+                }}
+            />
             <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
     </React.StrictMode>
