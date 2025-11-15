@@ -24,6 +24,7 @@ module.exports = {
                 'text-secondary': 'rgb(var(--color-text-secondary) / <alpha-value>)',
                 'text-muted': 'rgb(var(--color-text-muted) / <alpha-value>)',
                 'text-accent': 'rgb(var(--color-text-accent) / <alpha-value>)',
+                'text-success': 'rgb(var(--color-text-success) / <alpha-value>)',
                 'text-danger': 'rgb(var(--color-text-danger) / <alpha-value>)',
 
                 // borders

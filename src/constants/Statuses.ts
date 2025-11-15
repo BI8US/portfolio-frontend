@@ -1,6 +1,4 @@
 export const STATUSES = [
-    "ACTIVE",
-    "INACTIVE",
     "APPLIED",
     "INTERVIEW_1",
     "INTERVIEW_2",
@@ -9,5 +7,7 @@ export const STATUSES = [
     "TECHNICAL_TASK_2",
     "OFFER",
     "REJECTED",
-    "ARCHIVED"
+    "ARCHIVED",
+    "ACTIVE",
+    "INACTIVE"
 ];
