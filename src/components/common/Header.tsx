@@ -1,15 +1,27 @@
 import React, { useState, useEffect } from "react";
 import {Link, useNavigate} from "react-router-dom";
 import { getToken, removeToken } from "../../utils/auth";
+import {ConfirmationModal} from "./ConfirmationModal";
 
 const Header: React.FC = () => {
     const navigate = useNavigate();
     const token = getToken();
 
+    const [isLogoutModalOpen, setIsLogoutModalOpen] = React.useState(false);
+
     const handleLogout = () => {
+        setIsLogoutModalOpen(true);
+    };
+
+    const handleConfirmLogout = () => {
+        setIsLogoutModalOpen(false);
         removeToken();
         navigate("/resume/active");
-    };
+    }
+
+    const handleCancelLogout = () => {
+        setIsLogoutModalOpen(false);
+    }
 
     const [isDark, setIsDark] = useState(() => {
         if (localStorage.theme === 'dark') {
@@ -89,6 +101,13 @@ const Header: React.FC = () => {
                     <span className="hidden md:inline">Change Theme</span>
                 </button>
             </nav>
+            <ConfirmationModal
+                isOpen={isLogoutModalOpen}
+                title="Log Out"
+                message="Are you sure you want to log out?"
+                onCancel={handleCancelLogout}
+                onConfirm={handleConfirmLogout}
+            />
         </header>
     );
 };
