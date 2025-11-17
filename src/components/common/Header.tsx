@@ -52,8 +52,9 @@ const Header: React.FC = () => {
         "bg-content " +
         "border border-transparent " +
         "text-text-secondary " +
-        "hover:text-content " +
-        "hover:bg-button-secondary " +
+        "hover:hover:text-content " +
+        "hover:hover:bg-button-secondary " +
+        "active:text-content active:bg-button-secondary " +
         "transition-colors duration-200";
     return (
         <header className="bg-content text-text-primary p-4 flex justify-between items-center border-b border-border">
