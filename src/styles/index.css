@@ -79,6 +79,3 @@
 * {
     scrollbar-color: var(--color-scrollbar-thumb) transparent;
 }
-html, body {
-    scrollbar-gutter: stable;
-}
