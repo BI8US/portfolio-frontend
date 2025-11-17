@@ -85,7 +85,6 @@ export const JobApplicationListPage: React.FC = () => {
 
     const handleCreateSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // TODO need other solution, maybe fully customizable form with own inputs
         if (!newApplication.status || !newApplication.company || !newApplication.role) {
             toast.error("Fill all fields for new application.");
             return;
