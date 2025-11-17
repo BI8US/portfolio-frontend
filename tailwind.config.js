@@ -2,7 +2,9 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    // TODO create dark theme
+    future: {
+        hoverOnlyWhenSupported: true,
+    },
     darkMode: 'class',
     content: [
         "./src/**/*.{js,ts,jsx,tsx}",
