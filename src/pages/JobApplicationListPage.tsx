@@ -16,6 +16,7 @@ import {STATUSES} from "../constants/Statuses";
 import {ResumeListItemCard} from "../components/resume/ResumeListItemCard";
 import {ConfirmationModal} from "../components/common/ConfirmationModal";
 import {JobApplicationTable} from "../components/jobApplication/JobApplicationTable";
+import {toast} from "sonner";
 
 type SortKey = 'company' | 'role' | 'status' | 'updatedAt' | 'createdAt';
 type SortDirection = 'asc' | 'desc';
@@ -86,7 +87,7 @@ export const JobApplicationListPage: React.FC = () => {
         e.preventDefault();
         // TODO need other solution, maybe fully customizable form with own inputs
         if (!newApplication.status || !newApplication.company || !newApplication.role) {
-            alert("Fill all fields for new application.");
+            toast.error("Fill all fields for new application.");
             return;
         }
         createApplicationMutation.mutate(newApplication, {
@@ -154,7 +155,6 @@ export const JobApplicationListPage: React.FC = () => {
                         options={statusOptions}
                         value={newApplication.status}
                         onChange={handleSelectChange}
-                        required
                     />
                     <Input
                         type="text"
@@ -162,7 +162,6 @@ export const JobApplicationListPage: React.FC = () => {
                         placeholder="Company"
                         value={newApplication.company}
                         onChange={handleInputChange}
-                        required
                     />
                     <Input
                         type="text"
@@ -170,7 +169,6 @@ export const JobApplicationListPage: React.FC = () => {
                         placeholder="Role"
                         value={newApplication.role}
                         onChange={handleInputChange}
-                        required
                     />
                     <Button type={"primary"}>
                         Create
