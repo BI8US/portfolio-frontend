@@ -51,7 +51,7 @@ export const ResumeCardHeader: React.FC<ResumeCardProps> = ({ resume, onEditClic
                                 <button
                                     type="button"
                                     onClick={() => handleCopyToClipboard(resume.email)}
-                                    className='flex items-center gap-1 border border-border p-2 rounded-full text-text-secondary hover:hover:bg-border active:bg-border'
+                                    className='flex items-center gap-1 border border-border p-2 rounded-full text-text-secondary hover:bg-border active:bg-border'
                                 >
                                     <span className="material-symbols-outlined">mail</span>
                                     {resume.email}
@@ -61,7 +61,7 @@ export const ResumeCardHeader: React.FC<ResumeCardProps> = ({ resume, onEditClic
                                 <button
                                     type="button"
                                     onClick={() => handleCopyToClipboard(resume.phone)}
-                                    className='flex items-center gap-1 border border-border p-2 rounded-full text-text-secondary hover:hover:bg-border active:bg-border'
+                                    className='flex items-center gap-1 border border-border p-2 rounded-full text-text-secondary hover:bg-border active:bg-border'
                                 >
                                     <span className="material-symbols-outlined">call</span>
                                     {resume.phone}
