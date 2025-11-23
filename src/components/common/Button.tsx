@@ -1,14 +1,11 @@
 import React from 'react';
 
-interface ButtonProps {
+interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
     type?: 'primary' | 'secondary' | 'danger';
     htmlType?: 'button' | 'submit' | 'reset';
-    children: React.ReactNode;
-    onClick?: () => void;
-    className?: string;
 }
 
-export const Button: React.FC<ButtonProps> = ({ type = 'primary', htmlType = 'submit', children, onClick, className }) => {
+export const Button: React.FC<ButtonProps> = ({ type = 'primary', htmlType = 'submit', children, className, ...props }) => {
     const baseClasses = 'py-2 px-4 rounded-full font-semibold duration-200 border-2';
 
     let typeClasses = '';
@@ -34,7 +31,7 @@ export const Button: React.FC<ButtonProps> = ({ type = 'primary', htmlType = 'su
     const allClasses = `${baseClasses} ${typeClasses} ${className || ''}`;
 
     return (
-        <button type={htmlType} className={allClasses} onClick={onClick}>
+        <button type={htmlType} className={allClasses} {...props}>
             {children}
         </button>
     );
