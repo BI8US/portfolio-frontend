@@ -60,10 +60,16 @@ const Header: React.FC = () => {
         <header className="bg-content text-text-primary p-4 flex justify-between items-center border-b border-border">
             <Link to="/resume/active" className={navButtonClasses}>
                 <span className="material-symbols-outlined text-2xl">home</span>
+                <span className="hidden md:inline font-bold">Resume</span>
             </Link>
             <nav className="flex space-x-4 items-center">
                 {token ? (
                     <>
+                        <Link to="/games/snake" className={navButtonClasses}>
+                            <span className="material-symbols-outlined text-2xl">sports_esports</span>
+                            <span className="hidden md:inline">Snake game</span>
+                        </Link>
+
                         <Link to="/resumes" className={navButtonClasses}>
                             <span className="material-symbols-outlined text-2xl">article_person</span>
                             <span className="hidden md:inline">Resume List</span>
@@ -83,10 +89,16 @@ const Header: React.FC = () => {
                         </button>
                     </>
                 ) : (
-                    <Link to="/login" className={navButtonClasses}>
-                        <span className="material-symbols-outlined text-2xl">person</span>
-                        <span className="hidden md:inline">Login</span>
-                    </Link>
+                    <>
+                        <Link to="/games/snake" className={navButtonClasses}>
+                            <span className="material-symbols-outlined text-2xl">sports_esports</span>
+                            <span className="hidden md:inline">Snake game</span>
+                        </Link>
+                        <Link to="/login" className={navButtonClasses}>
+                            <span className="material-symbols-outlined text-2xl">person</span>
+                            <span className="hidden md:inline">Login</span>
+                        </Link>
+                    </>
                 )}
                 <button
                     onClick={toggleTheme}

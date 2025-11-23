@@ -8,7 +8,7 @@ import {LoginPage} from "./pages/LoginPage";
 import {PrivateRoute} from "./utils/PrivateRoute";
 import {JobApplicationListPage} from "./pages/JobApplicationListPage";
 import {JobApplicationEditPage} from "./pages/JobApplicationEditPage";
-import {TestSnakePage} from "./pages/TestSnake";
+import {TestSnakePage} from "./pages/SnakeGame";
 
 function App() {
     return (
