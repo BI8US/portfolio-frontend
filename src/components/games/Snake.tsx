@@ -11,7 +11,7 @@ const ControlBtn = React.memo(({ onClick, icon, disabled }: { onClick: () => voi
     <Button
         type="secondary"
         className={`
-            w-14 h-14 !p-0 flex items-center justify-center !rounded-2xl shadow-sm
+            w-16 h-16 !p-0 flex items-center justify-center
             pointer-events-auto 
         `}
         onPointerDown={(e) => {
@@ -167,8 +167,8 @@ export const Snake: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center w-full h-full p-4 animate-fade-in">
-            <div className="relative p-2 bg-content border-2 border-border rounded-xl shadow-lg">
+        <div className="flex flex-col items-center justify-center w-full h-full">
+            <div className="relative p-2 bg-content border-2 border-border rounded-3xl shadow-lg">
                 <div className="absolute top-4 left-4 z-10 pointer-events-none">
                     <div className="bg-page/50 px-2 py-1 rounded-lg border border-border text-xs font-mono text-text-secondary shadow-sm">
                         BEST: {highScore}
@@ -187,7 +187,7 @@ export const Snake: React.FC = () => {
                 </div>
 
                 {(!isPlaying || isGameOver) && (
-                    <div className="absolute inset-0 bg-page/50 flex flex-col items-center justify-center rounded-lg backdrop-blur-sm z-20">
+                    <div className="absolute inset-0 bg-page/50 flex flex-col items-center justify-center rounded-3xl backdrop-blur-sm z-20">
                         {isGameOver && (
                             <div className="text-text-primary text-2xl font-bold mb-2">
                                 Game Over!
