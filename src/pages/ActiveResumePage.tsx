@@ -66,7 +66,7 @@ export default function ActiveResumePage() {
                         )}
                     </div>
 
-                    <ContentCard className="w-auto flex justify-center py-8 shadow-2xl border-2 border-border-color">
+                    <ContentCard className="!w-fit flex justify-center py-8 shadow-2xl border-2 border-border-color">
                         <Snake />
                     </ContentCard>
                 </div>

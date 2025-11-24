@@ -16,14 +16,15 @@ export const TestSnakePage: React.FC = () => {
                     <p className="text-text-secondary text-lg leading-relaxed">
                         This game was originally created for the <strong>loading screen</strong>.
                         <br />
-                        This usually takes about <span className="font-semibold text-text-primary">30-50 seconds</span>.
+                        Since I use a free tier, the database goes to &laquo;sleep&raquo; after some time of inactivity.
+                        To make the wait for the server wake-up (cold start) less boring, I added this mini-game.
                     </p>
 
                     <p className="text-text-accent font-medium mt-4">
                         Here it is available <strong>just for fun</strong>!
                     </p>
                 </div>
-                <ContentCard className="w-auto flex justify-center py-8 shadow-2xl border-2 border-border">
+                <ContentCard className="!w-fit flex justify-center py-8 shadow-2xl border-2 border-border">
                     <Snake />
                 </ContentCard>
             </div>
