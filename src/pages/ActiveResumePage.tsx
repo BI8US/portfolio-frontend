@@ -86,16 +86,16 @@ export default function ActiveResumePage() {
                 <ResumeCardSkills skills={skills} />
             )}
 
-            {educations && educations.length > 0 && (
-                <ResumeCardEducations educations={educations} />
+            {workExperiences && workExperiences.length > 0 && (
+                <ResumeCardWorkExperiences workExperiences={workExperiences} />
             )}
 
             {projects && projects.length > 0 && (
                 <ResumeCardProjects projects={projects} />
             )}
 
-            {workExperiences && workExperiences.length > 0 && (
-                <ResumeCardWorkExperiences workExperiences={workExperiences} />
+            {educations && educations.length > 0 && (
+                <ResumeCardEducations educations={educations} />
             )}
         </ContentPage>
     );

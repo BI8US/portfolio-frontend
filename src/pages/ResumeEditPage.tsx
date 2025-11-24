@@ -136,9 +136,9 @@ export const ResumeEditPage: React.FC = () => {
         <ContentPage>
             <ResumeCardHeader resume={resume} onEditClick={() => handleOpenModal("header")} />
             <ResumeCardSkills skills={skills? skills : []} onEditClick={() => handleOpenModal("skills")} />
-            <ResumeCardEducations educations={educations? educations : []} onEditClick={() => handleOpenModal("educations")} />
-            <ResumeCardProjects projects={projects? projects : []} onEditClick={() => handleOpenModal("projects")} />
             <ResumeCardWorkExperiences workExperiences={workExperiences? workExperiences : []} onEditClick={() => handleOpenModal("workExperiences")} />
+            <ResumeCardProjects projects={projects? projects : []} onEditClick={() => handleOpenModal("projects")} />
+            <ResumeCardEducations educations={educations? educations : []} onEditClick={() => handleOpenModal("educations")} />
 
             {activeModal === 'header' && (
                 <ResumeEditHeaderModal resumeItem={resume} onSubmit={handleHeaderSubmit} onCancel={handleCloseModal} />
@@ -146,9 +146,9 @@ export const ResumeEditPage: React.FC = () => {
             {activeModal === 'skills' && (
                 <ResumeEditSkillsModal skills={skills ? skills : []} onSubmit={handleSkillsSubmit} onCancel={handleCloseModal} />
             )}
-            {activeModal === 'educations' && (<ResumeEditEducationsModal educations={educations ? educations : []} onSubmit={handleEducationsSubmit} onCancel={handleCloseModal} />)}
-            {activeModal === 'projects' && (<ResumeEditProjectsModal projects={projects ? projects : []} onSubmit={handleProjectsSubmit} onCancel={handleCloseModal} />)}
             {activeModal === 'workExperiences' && (<ResumeEditWorkExperiencesModal workExperiences={workExperiences ? workExperiences : []} onSubmit={handleWorkExperiencesSubmit} onCancel={handleCloseModal} />)}
+            {activeModal === 'projects' && (<ResumeEditProjectsModal projects={projects ? projects : []} onSubmit={handleProjectsSubmit} onCancel={handleCloseModal} />)}
+            {activeModal === 'educations' && (<ResumeEditEducationsModal educations={educations ? educations : []} onSubmit={handleEducationsSubmit} onCancel={handleCloseModal} />)}
         </ContentPage>
     );
 };

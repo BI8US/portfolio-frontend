@@ -22,6 +22,15 @@ export const LoginPage = () => {
         }
     };
 
+    const handleDemoSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            await loginMutation.mutateAsync({userName: "testuser", password: "testuserpassword"});
+            navigate("/");
+        } catch {
+        }
+    };
+
     return (
         <ContentPage>
             <ContentCard className="max-w-lg">
@@ -40,13 +49,23 @@ export const LoginPage = () => {
                         placeholder="Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        className="mb-6"
                     />
 
                     <Button
                         type="primary"
-                        className="w-full"
+                        className="w-full mb-4"
                     >
                         {loginMutation.isPending ? "Logging in..." : "Login"}
+                    </Button>
+
+                    <Button
+                        type="secondary"
+                        htmlType="button"
+                        onClick={handleDemoSubmit}
+                        className="w-full"
+                    >
+                        Demo Login
                     </Button>
 
                     {loginMutation.isError && (

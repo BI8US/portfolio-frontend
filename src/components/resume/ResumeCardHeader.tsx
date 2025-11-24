@@ -41,7 +41,13 @@ export const ResumeCardHeader: React.FC<ResumeCardProps> = ({ resume, onEditClic
                     <div className="flex-1">
                             <h2 className="text-2xl font-bold text-text-primary">{resume.fullName}</h2>
                             {resume.intro && (
-                                <p className="text-text-secondary italic mb-2">{resume.intro}</p>
+                                <p className="text-text-secondary italic">{resume.intro}</p>
+                            )}
+                            {resume.location && (
+                                <p className='flex items-center italic text-text-muted mb-2'>
+                                    <span className="material-symbols-outlined text-text-muted">location_on</span>
+                                    {resume.location}
+                                </p>
                             )}
                         <div className="flex flex-wrap text-text-secondary mt-2 gap-2">
                             {resume.mediaLinks && (
@@ -66,12 +72,6 @@ export const ResumeCardHeader: React.FC<ResumeCardProps> = ({ resume, onEditClic
                                     <span className="material-symbols-outlined">call</span>
                                     {resume.phone}
                                 </button>
-                            )}
-                            {resume.location && (
-                                <p className='flex items-center gap-1 border border-border p-2 rounded-full hover:bg-border'>
-                                    <span className="material-symbols-outlined">location_on</span>
-                                    {resume.location}
-                                </p>
                             )}
                         </div>
                     </div>

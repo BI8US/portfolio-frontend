@@ -170,12 +170,12 @@ export const Snake: React.FC = () => {
         <div className="flex flex-col items-center justify-center w-full h-full">
             <div className="relative p-2 bg-content border-2 border-border rounded-3xl shadow-lg">
                 <div className="absolute top-4 left-4 z-10 pointer-events-none">
-                    <div className="bg-page/50 px-2 py-1 rounded-lg border border-border text-xs font-mono text-text-secondary shadow-sm">
+                    <div className="bg-page/50 px-2 py-1 rounded-3xl border border-border text-xs font-mono text-text-secondary shadow-sm">
                         BEST: {highScore}
                     </div>
                 </div>
                 <div className="absolute top-4 right-4 z-10 pointer-events-none">
-                    <div className="bg-page/50 px-2 py-1 rounded-lg border border-border text-xs font-mono font-bold text-text-primary shadow-sm">
+                    <div className="bg-page/50 px-2 py-1 rounded-3xl border border-border text-xs font-mono font-bold text-text-primary shadow-sm">
                         SCORE: {score}
                     </div>
                 </div>
@@ -193,7 +193,8 @@ export const Snake: React.FC = () => {
                                 Game Over!
                             </div>
                         )}
-                        <div className="text-text-primary mb-6 text-lg">Score: {score}</div>
+                        <div className="text-text-primary text-lg">Score: {score}</div>
+                        <div className="text-text-primary font-medium mb-6 text-lg">Best: {highScore}</div>
 
                         <Button
                             type="primary"
