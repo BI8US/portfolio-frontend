@@ -25,40 +25,37 @@ export default function ActiveResumePage() {
 
         return (
             <ContentPage>
-                <div className="flex flex-col items-center justify-center min-h-[80vh] gap-8">
+                <div className="flex flex-col items-center justify-center">
 
-                    <div className="text-center animate-fade-in">
+                    <div className="text-center">
                         {isReady ? (
                             <>
-                                <h1 className="text-3xl font-bold text-text-primary mb-2 flex items-center justify-center gap-2">
-                                    <span className="text-text-success text-4xl material-symbols-outlined">check_circle</span>
-                                    Resume Ready!
-                                </h1>
-                                <p className="text-text-secondary mb-6 text-lg">
+                                <div className="flex items-center justify-center gap-2 mb-2">
+                                    <span className="material-symbols-outlined text-text-success text-2xl">check_circle</span>
+                                    <h2 className="text-2xl font-bold text-text-primary">Resume Ready!</h2>
+                                </div>
+                                <p className="text-text-secondary mb-2 text-lg">
                                     Server is up and running. You can continue playing or view the resume.
                                 </p>
                                 <Button
                                     type="primary"
                                     onClick={() => setShowGame(false)}
-                                    className="px-8 py-3 text-lg font-bold shadow-xl hover:scale-105 transition-transform"
+                                    className="mb-2"
                                 >
                                     View Resume
                                 </Button>
                             </>
                         ) : (
                             <>
-                                <div className="text-center mb-6 max-w-lg">
-                                    <h2 className="text-2xl font-bold text-text-primary mb-4 animate-pulse">
+                                <div className="text-center mb-2">
+                                    <h2 className="text-2xl font-bold text-text-primary mb-2 animate-pulse">
                                         Server is waking up...
                                     </h2>
-
-                                    <p className="text-text-secondary text-lg leading-relaxed">
-                                        The free tier server is performing a <span className="font-semibold text-text-primary">"Cold Start"</span>.
-                                        <br />
+                                    <p className="text-text-secondary text-lg">
                                         This usually takes about <span className="font-semibold text-text-primary">30-50 seconds</span>.
                                     </p>
 
-                                    <p className="text-text-accent font-medium mt-4">
+                                    <p className="text-text-accent font-semibold text-lg">
                                         Play Snake while you wait!
                                     </p>
                                 </div>
@@ -66,7 +63,7 @@ export default function ActiveResumePage() {
                         )}
                     </div>
 
-                    <ContentCard className="!w-fit flex justify-center py-8 shadow-2xl border-2 border-border-color">
+                    <ContentCard className="!w-fit">
                         <Snake />
                     </ContentCard>
                 </div>
