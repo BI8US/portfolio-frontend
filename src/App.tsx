@@ -8,6 +8,7 @@ import {LoginPage} from "./pages/LoginPage";
 import {PrivateRoute} from "./utils/PrivateRoute";
 import {JobApplicationListPage} from "./pages/JobApplicationListPage";
 import {JobApplicationEditPage} from "./pages/JobApplicationEditPage";
+import {TestSnakePage} from "./pages/SnakeGame";
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
                     <Routes>
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/resume/active" element={<ActiveResumePage />} />
+                        <Route path="/games/snake/" element={<TestSnakePage />} />
 
                         <Route path="/" element={<Navigate to="/resume/active" replace />} />
                         <Route
