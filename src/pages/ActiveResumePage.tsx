@@ -40,7 +40,7 @@ export default function ActiveResumePage() {
                                 <Button
                                     type="primary"
                                     onClick={() => setShowGame(false)}
-                                    className="mb-2"
+                                    className="mb-4"
                                 >
                                     View Resume
                                 </Button>

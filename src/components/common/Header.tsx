@@ -47,7 +47,7 @@ const Header: React.FC = () => {
 
     const navButtonClasses =
         "flex items-center gap-2 " +
-        "px-3 py-1 " +
+        "px-1 py-1 md:px-3 md:py-1 " +
         "rounded-3xl font-semibold " +
         "bg-content " +
         "border border-transparent " +
