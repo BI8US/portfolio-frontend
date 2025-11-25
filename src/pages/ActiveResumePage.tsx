@@ -63,7 +63,7 @@ export default function ActiveResumePage() {
                         )}
                     </div>
 
-                    <ContentCard className="!w-fit">
+                    <ContentCard className="!w-fit !max-w-full">
                         <Snake />
                     </ContentCard>
                 </div>
