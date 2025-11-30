@@ -1,11 +1,12 @@
-import React from "react";
-import {ResumeItem} from "../../types/resumeTypes";
-import {ResumeHeaderItemPartial} from "../../types/resumeHeaderTypes";
-import {ContentCard} from "../common/ContentCard";
-import {Input} from "../common/Input";
-import {Button} from "../common/Button";
-import {MediaLinkItemPartial} from "../../types/mediaLinkTypes";
-import {Modal} from "../common/Modal";
+import React from 'react';
+
+import { MediaLinkItemPartial } from '../../types/mediaLinkTypes';
+import { ResumeHeaderItemPartial } from '../../types/resumeHeaderTypes';
+import { ResumeItem } from '../../types/resumeTypes';
+import { Button } from '../common/Button';
+import { ContentCard } from '../common/ContentCard';
+import { Input } from '../common/Input';
+import { Modal } from '../common/Modal';
 
 export interface Payload {
     header: ResumeHeaderItemPartial;
@@ -18,17 +19,22 @@ interface ResumeEditFormHeaderProps {
     onCancel: () => void;
 }
 
-export const ResumeEditHeaderModal: React.FC<ResumeEditFormHeaderProps> = ({resumeItem, onSubmit, onCancel
+export const ResumeEditHeaderModal: React.FC<ResumeEditFormHeaderProps> = ({
+    resumeItem,
+    onSubmit,
+    onCancel,
 }) => {
-    const [resumeName, setResumeName] = React.useState(resumeItem.resumeName || "");
-    const [fullName, setFullName] = React.useState(resumeItem.fullName || "");
-    const [intro, setIntro] = React.useState(resumeItem.intro || "");
-    const [location, setLocation] = React.useState(resumeItem.location || "");
-    const [email, setEmail] = React.useState(resumeItem.email || "");
-    const [phone, setPhone] = React.useState(resumeItem.phone || "");
-    const [summary, setSummary] = React.useState(resumeItem.summary || "");
+    const [resumeName, setResumeName] = React.useState(resumeItem.resumeName || '');
+    const [fullName, setFullName] = React.useState(resumeItem.fullName || '');
+    const [intro, setIntro] = React.useState(resumeItem.intro || '');
+    const [location, setLocation] = React.useState(resumeItem.location || '');
+    const [email, setEmail] = React.useState(resumeItem.email || '');
+    const [phone, setPhone] = React.useState(resumeItem.phone || '');
+    const [summary, setSummary] = React.useState(resumeItem.summary || '');
     const [isActive, setIsActive] = React.useState(resumeItem.isActive);
-    const [mediaLinks, setMediaLinks] = React.useState<MediaLinkItemPartial[]>(resumeItem.mediaLinks || []);
+    const [mediaLinks, setMediaLinks] = React.useState<MediaLinkItemPartial[]>(
+        resumeItem.mediaLinks || [],
+    );
 
     const handleLinkChange = (index: number, key: keyof MediaLinkItemPartial, value: string) => {
         const updatedLinks = [...mediaLinks];
@@ -48,7 +54,7 @@ export const ResumeEditHeaderModal: React.FC<ResumeEditFormHeaderProps> = ({resu
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         // TODO implement at least a field for this in interface
-        const picture = '/images/avatar.png'
+        const picture = '/images/avatar.png';
 
         const payload: Payload = {
             header: {
@@ -61,8 +67,8 @@ export const ResumeEditHeaderModal: React.FC<ResumeEditFormHeaderProps> = ({resu
                 isActive,
                 intro,
                 location,
-                },
-            mediaLinks: mediaLinks
+            },
+            mediaLinks: mediaLinks,
         };
 
         onSubmit(payload);
@@ -106,7 +112,9 @@ export const ResumeEditHeaderModal: React.FC<ResumeEditFormHeaderProps> = ({resu
                                     type="text"
                                     placeholder="Media"
                                     value={link.name}
-                                    onChange={(e) => handleLinkChange(index, 'name', e.target.value)}
+                                    onChange={(e) =>
+                                        handleLinkChange(index, 'name', e.target.value)
+                                    }
                                     className="mb-0"
                                 />
                             </div>
@@ -115,7 +123,9 @@ export const ResumeEditHeaderModal: React.FC<ResumeEditFormHeaderProps> = ({resu
                                     type="text"
                                     placeholder="URL"
                                     value={link.link}
-                                    onChange={(e) => handleLinkChange(index, 'link', e.target.value)}
+                                    onChange={(e) =>
+                                        handleLinkChange(index, 'link', e.target.value)
+                                    }
                                     className="mb-0"
                                 />
                             </div>
@@ -140,7 +150,8 @@ export const ResumeEditHeaderModal: React.FC<ResumeEditFormHeaderProps> = ({resu
                             <span className="material-symbols-outlined text-2xl">add_2</span>
                         </Button>
                     </div>
-                    <Input type="email"
+                    <Input
+                        type="email"
                         label="Email"
                         placeholder="Email"
                         value={email}
@@ -181,9 +192,7 @@ export const ResumeEditHeaderModal: React.FC<ResumeEditFormHeaderProps> = ({resu
                         <Button type="secondary" onClick={onCancel}>
                             Cancel
                         </Button>
-                        <Button type="primary">
-                            Save changes
-                        </Button>
+                        <Button type="primary">Save changes</Button>
                     </div>
                 </form>
             </ContentCard>

@@ -1,7 +1,8 @@
-import React from "react";
-import {EducationItem} from "../../types/educationTypes";
-import {ContentCard} from "../common/ContentCard";
-import {Button} from "../common/Button";
+import React from 'react';
+
+import { EducationItem } from '../../types/educationTypes';
+import { Button } from '../common/Button';
+import { ContentCard } from '../common/ContentCard';
 
 export interface ResumeCardEducationsProps {
     educations: EducationItem[];
@@ -13,7 +14,9 @@ export const ResumeCardEducations = ({ educations, onEditClick }: ResumeCardEduc
         <>
             <div className="flex justify-between items-center mb-2">
                 <div className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-text-primary text-2xl">school</span>
+                    <span className="material-symbols-outlined text-text-primary text-2xl">
+                        school
+                    </span>
                     <h2 className="text-2xl font-bold text-text-primary">Education</h2>
                 </div>
                 {onEditClick && (
@@ -51,4 +54,4 @@ export const ResumeCardEducations = ({ educations, onEditClick }: ResumeCardEduc
             </ContentCard>
         </>
     );
-}
+};

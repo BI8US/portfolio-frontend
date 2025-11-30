@@ -1,15 +1,16 @@
-import {useQuery, useMutation, useQueryClient} from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+
 import {
-    getAllEducations,
     addEducation,
-    updateEducation,
     deleteEducation,
-} from "../api/educationApi";
-import {EducationItem} from "../types/educationTypes";
+    getAllEducations,
+    updateEducation,
+} from '../api/educationApi';
+import { EducationItem } from '../types/educationTypes';
 
 export function useGetAllEducations(resumeId: number) {
     return useQuery<EducationItem[]>({
-        queryKey: ["educations", resumeId],
+        queryKey: ['educations', resumeId],
         queryFn: () => getAllEducations(resumeId),
         enabled: !!resumeId,
     });
@@ -18,9 +19,9 @@ export function useGetAllEducations(resumeId: number) {
 export function useAddEducation(resumeId: number) {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (education: Omit<EducationItem, "id">) => addEducation(resumeId, education),
+        mutationFn: (education: Omit<EducationItem, 'id'>) => addEducation(resumeId, education),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["educations", resumeId] });
+            queryClient.invalidateQueries({ queryKey: ['educations', resumeId] });
         },
     });
 }
@@ -28,11 +29,16 @@ export function useAddEducation(resumeId: number) {
 export function useUpdateEducation(resumeId: number) {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: ({ educationId, partial }: { educationId: number; partial: Partial<EducationItem> }) =>
-            updateEducation(resumeId, educationId, partial),
+        mutationFn: ({
+            educationId,
+            partial,
+        }: {
+            educationId: number;
+            partial: Partial<EducationItem>;
+        }) => updateEducation(resumeId, educationId, partial),
         onSuccess: (_, { educationId }) => {
-            queryClient.invalidateQueries({ queryKey: ["educations", resumeId] });
-            queryClient.invalidateQueries({ queryKey: ["education", resumeId, educationId] });
+            queryClient.invalidateQueries({ queryKey: ['educations', resumeId] });
+            queryClient.invalidateQueries({ queryKey: ['education', resumeId, educationId] });
         },
     });
 }
@@ -42,7 +48,7 @@ export function useDeleteEducation(resumeId: number) {
     return useMutation({
         mutationFn: (educationId: number) => deleteEducation(resumeId, educationId),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["educations", resumeId] });
+            queryClient.invalidateQueries({ queryKey: ['educations', resumeId] });
         },
     });
 }

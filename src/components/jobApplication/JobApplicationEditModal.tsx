@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import {JobApplicationItem} from "../../types/jobApplicationTypes";
-import {ContentCard} from "../common/ContentCard";
-import {Modal} from "../common/Modal";
-import {Button} from "../common/Button";
-import {Input} from "../common/Input";
+import React, { useState } from 'react';
+
+import { JobApplicationItem } from '../../types/jobApplicationTypes';
+import { Button } from '../common/Button';
+import { ContentCard } from '../common/ContentCard';
+import { Input } from '../common/Input';
+import { Modal } from '../common/Modal';
 
 export interface ApplicationInfo {
     company: string;
@@ -21,19 +22,24 @@ export interface JobApplicationEditModalProps {
     onCancel: () => void;
 }
 
-export const JobApplicationEditModal: React.FC<JobApplicationEditModalProps> = ({application, isOpen, onSubmit, onCancel}) => {
+export const JobApplicationEditModal: React.FC<JobApplicationEditModalProps> = ({
+    application,
+    isOpen,
+    onSubmit,
+    onCancel,
+}) => {
     const [formData, setFormData] = useState<ApplicationInfo>({
         company: application.company,
         role: application.role,
-        link: application.link || "",
-        contact: application.contact || "",
-        schedule: application.schedule || "",
-        description: application.description || "",
+        link: application.link || '',
+        contact: application.contact || '',
+        schedule: application.schedule || '',
+        description: application.description || '',
     });
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -47,7 +53,9 @@ export const JobApplicationEditModal: React.FC<JobApplicationEditModalProps> = (
         <Modal>
             <ContentCard>
                 <form onSubmit={handleSubmit}>
-                    <h2 className="text-xl font-bold mb-4 text-text-primary">Edit Job Application</h2>
+                    <h2 className="text-xl font-bold mb-4 text-text-primary">
+                        Edit Job Application
+                    </h2>
                     <Input
                         label="Company"
                         name="company"
@@ -90,9 +98,7 @@ export const JobApplicationEditModal: React.FC<JobApplicationEditModalProps> = (
                         <Button type="secondary" onClick={onCancel}>
                             Cancel
                         </Button>
-                        <Button type="primary">
-                            Save changes
-                        </Button>
+                        <Button type="primary">Save changes</Button>
                     </div>
                 </form>
             </ContentCard>

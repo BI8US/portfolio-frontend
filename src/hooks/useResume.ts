@@ -1,36 +1,37 @@
-import {useQuery, useMutation, useQueryClient} from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+
 import {
+    createResume,
+    deleteResume,
+    getActiveResume,
     getAllResumes,
     getResumeById,
-    createResume,
-    updateHeaderWithMediaLinks,
-    updateHeader,
     updateEducations,
+    updateHeader,
+    updateHeaderWithMediaLinks,
     updateMediaLinks,
     updateProjects,
     updateSkills,
     updateWorkExperiences,
-    deleteResume,
-    getActiveResume,
-} from "../api/resumeApi";
-import {ResumeListItem, ResumeItem} from "../types/resumeTypes";
-import {ResumeHeaderItemPartial} from "../types/resumeHeaderTypes";
-import {EducationItemPartial} from "../types/educationTypes";
-import {MediaLinkItemPartial} from "../types/mediaLinkTypes";
-import {ProjectItemPartial} from "../types/projectTypes";
-import {SkillItemPartial} from "../types/skillTypes";
-import {WorkExperienceItemPartial} from "../types/workExperienceTypes";
+} from '../api/resumeApi';
+import { EducationItemPartial } from '../types/educationTypes';
+import { MediaLinkItemPartial } from '../types/mediaLinkTypes';
+import { ProjectItemPartial } from '../types/projectTypes';
+import { ResumeHeaderItemPartial } from '../types/resumeHeaderTypes';
+import { ResumeItem, ResumeListItem } from '../types/resumeTypes';
+import { SkillItemPartial } from '../types/skillTypes';
+import { WorkExperienceItemPartial } from '../types/workExperienceTypes';
 
 export function useGetAllResumes() {
     return useQuery<ResumeListItem[]>({
-        queryKey: ["resume"],
+        queryKey: ['resume'],
         queryFn: getAllResumes,
     });
 }
 
 export function useGetResumeById(id: number) {
     return useQuery<ResumeItem>({
-        queryKey: ["resume", id],
+        queryKey: ['resume', id],
         queryFn: () => getResumeById(id),
         enabled: !!id,
     });
@@ -41,7 +42,7 @@ export function useCreateResume() {
     return useMutation({
         mutationFn: (resumeName: string) => createResume(resumeName),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["resume"] });
+            queryClient.invalidateQueries({ queryKey: ['resume'] });
         },
     });
 }
@@ -50,18 +51,18 @@ export function useUpdateHeaderWithMediaLinks() {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: ({
-                         id,
-                         headerPartial,
-                         mediaLinks
-                     }: {
+            id,
+            headerPartial,
+            mediaLinks,
+        }: {
             id: number;
             headerPartial: Partial<ResumeHeaderItemPartial>;
             mediaLinks: MediaLinkItemPartial[];
         }) => updateHeaderWithMediaLinks(id, headerPartial, mediaLinks),
         onSuccess: (_, { id }) => {
-            queryClient.invalidateQueries({ queryKey: ["resume"] });
-            queryClient.invalidateQueries({ queryKey: ["resume", id] });
-            queryClient.invalidateQueries({ queryKey: ["resume/active"] });
+            queryClient.invalidateQueries({ queryKey: ['resume'] });
+            queryClient.invalidateQueries({ queryKey: ['resume', id] });
+            queryClient.invalidateQueries({ queryKey: ['resume/active'] });
         },
     });
 }
@@ -72,9 +73,9 @@ export function useUpdateHeader() {
         mutationFn: ({ id, partial }: { id: number; partial: Partial<ResumeHeaderItemPartial> }) =>
             updateHeader(id, partial),
         onSuccess: (_, { id }) => {
-            queryClient.invalidateQueries({ queryKey: ["resume"] });
-            queryClient.invalidateQueries({ queryKey: ["resume", id] });
-            queryClient.invalidateQueries({ queryKey: ["resume/active"] });
+            queryClient.invalidateQueries({ queryKey: ['resume'] });
+            queryClient.invalidateQueries({ queryKey: ['resume', id] });
+            queryClient.invalidateQueries({ queryKey: ['resume/active'] });
         },
     });
 }
@@ -85,8 +86,8 @@ export function useUpdateEducations() {
         mutationFn: ({ id, educations }: { id: number; educations: EducationItemPartial[] }) =>
             updateEducations(id, educations),
         onSuccess: (_, { id }) => {
-            queryClient.invalidateQueries({ queryKey: ["resume"] });
-            queryClient.invalidateQueries({ queryKey: ["resume", id] });
+            queryClient.invalidateQueries({ queryKey: ['resume'] });
+            queryClient.invalidateQueries({ queryKey: ['resume', id] });
         },
     });
 }
@@ -97,8 +98,8 @@ export function useUpdateMediaLinks() {
         mutationFn: ({ id, mediaLinks }: { id: number; mediaLinks: MediaLinkItemPartial[] }) =>
             updateMediaLinks(id, mediaLinks),
         onSuccess: (_, { id }) => {
-            queryClient.invalidateQueries({ queryKey: ["resume"] });
-            queryClient.invalidateQueries({ queryKey: ["resume", id] });
+            queryClient.invalidateQueries({ queryKey: ['resume'] });
+            queryClient.invalidateQueries({ queryKey: ['resume', id] });
         },
     });
 }
@@ -109,8 +110,8 @@ export function useUpdateProjects() {
         mutationFn: ({ id, projects }: { id: number; projects: ProjectItemPartial[] }) =>
             updateProjects(id, projects),
         onSuccess: (_, { id }) => {
-            queryClient.invalidateQueries({ queryKey: ["resume"] });
-            queryClient.invalidateQueries({ queryKey: ["resume", id] });
+            queryClient.invalidateQueries({ queryKey: ['resume'] });
+            queryClient.invalidateQueries({ queryKey: ['resume', id] });
         },
     });
 }
@@ -121,8 +122,8 @@ export function useUpdateSkills() {
         mutationFn: ({ id, skills }: { id: number; skills: SkillItemPartial[] }) =>
             updateSkills(id, skills),
         onSuccess: (_, { id }) => {
-            queryClient.invalidateQueries({ queryKey: ["resume"] });
-            queryClient.invalidateQueries({ queryKey: ["resume", id] });
+            queryClient.invalidateQueries({ queryKey: ['resume'] });
+            queryClient.invalidateQueries({ queryKey: ['resume', id] });
         },
     });
 }
@@ -130,11 +131,16 @@ export function useUpdateSkills() {
 export function useUpdateWorkExperiences() {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: ({ id, workExperiences }: { id: number; workExperiences: WorkExperienceItemPartial[] }) =>
-            updateWorkExperiences(id, workExperiences),
+        mutationFn: ({
+            id,
+            workExperiences,
+        }: {
+            id: number;
+            workExperiences: WorkExperienceItemPartial[];
+        }) => updateWorkExperiences(id, workExperiences),
         onSuccess: (_, { id }) => {
-            queryClient.invalidateQueries({ queryKey: ["resume"] });
-            queryClient.invalidateQueries({ queryKey: ["resume", id] });
+            queryClient.invalidateQueries({ queryKey: ['resume'] });
+            queryClient.invalidateQueries({ queryKey: ['resume', id] });
         },
     });
 }
@@ -144,17 +150,16 @@ export function useDeleteResume() {
     return useMutation({
         mutationFn: (id: number) => deleteResume(id),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["resume"] });
-            queryClient.invalidateQueries({ queryKey: ["resume/active"] });
+            queryClient.invalidateQueries({ queryKey: ['resume'] });
+            queryClient.invalidateQueries({ queryKey: ['resume/active'] });
         },
     });
 }
 
 export function useGetActiveResume() {
     return useQuery<ResumeItem>({
-        queryKey: ["resume/active"],
+        queryKey: ['resume/active'],
         queryFn: getActiveResume,
-        staleTime: 0
+        staleTime: 0,
     });
 }
-

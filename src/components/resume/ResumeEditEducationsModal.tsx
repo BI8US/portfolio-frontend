@@ -1,9 +1,10 @@
-import React from "react";
-import { EducationItemPartial } from "../../types/educationTypes";
-import { Modal } from "../common/Modal";
-import { Button } from "../common/Button";
-import { ContentCard } from "../common/ContentCard";
-import { Input } from "../common/Input";
+import React from 'react';
+
+import { EducationItemPartial } from '../../types/educationTypes';
+import { Button } from '../common/Button';
+import { ContentCard } from '../common/ContentCard';
+import { Input } from '../common/Input';
+import { Modal } from '../common/Modal';
 
 interface ResumeEditEducationsModalProps {
     educations: EducationItemPartial[];
@@ -11,8 +12,14 @@ interface ResumeEditEducationsModalProps {
     onCancel: () => void;
 }
 
-export const ResumeEditEducationsModal: React.FC<ResumeEditEducationsModalProps> = ({educations, onSubmit, onCancel}) => {
-    const [currentEducations, setCurrentEducations] = React.useState<EducationItemPartial[]>(educations || []);
+export const ResumeEditEducationsModal: React.FC<ResumeEditEducationsModalProps> = ({
+    educations,
+    onSubmit,
+    onCancel,
+}) => {
+    const [currentEducations, setCurrentEducations] = React.useState<EducationItemPartial[]>(
+        educations || [],
+    );
 
     const handleChange = (index: number, field: keyof EducationItemPartial, value: string) => {
         const updatedEducations = [...currentEducations];
@@ -21,7 +28,10 @@ export const ResumeEditEducationsModal: React.FC<ResumeEditEducationsModalProps>
     };
 
     const handleAddEducation = () => {
-        setCurrentEducations([...currentEducations, { school: '', educationName: '', startDate: '', endDate: '' }]);
+        setCurrentEducations([
+            ...currentEducations,
+            { school: '', educationName: '', startDate: '', endDate: '' },
+        ]);
     };
 
     const handleRemoveEducation = (index: number) => {
@@ -34,16 +44,16 @@ export const ResumeEditEducationsModal: React.FC<ResumeEditEducationsModalProps>
 
         const sanitizedEducations = currentEducations.map((edu) => {
             const descriptionText =
-                typeof edu.descriptionPoints === "string"
+                typeof edu.descriptionPoints === 'string'
                     ? edu.descriptionPoints
                     : Array.isArray(edu.descriptionPoints)
-                        ? edu.descriptionPoints.map(p => p.descriptionPoint).join("\n")
-                        : "";
+                      ? edu.descriptionPoints.map((p) => p.descriptionPoint).join('\n')
+                      : '';
 
             const points = descriptionText
-                .split("\n")
-                .map(p => p.trim())
-                .filter(p => p !== "")
+                .split('\n')
+                .map((p) => p.trim())
+                .filter((p) => p !== '')
                 .map((point, idx) => ({
                     id: edu.descriptionPoints?.[idx]?.id ?? -idx - 1,
                     educationEntityId: edu.id || 0,
@@ -69,38 +79,48 @@ export const ResumeEditEducationsModal: React.FC<ResumeEditEducationsModalProps>
                             <Input
                                 type="text"
                                 label="School"
-                                value={edu.school || ""}
-                                onChange={(e) => handleChange(index, "school", e.target.value)}
+                                value={edu.school || ''}
+                                onChange={(e) => handleChange(index, 'school', e.target.value)}
                             />
                             <Input
                                 type="text"
                                 label="Degree/Field"
-                                value={edu.educationName || ""}
-                                onChange={(e) => handleChange(index, "educationName", e.target.value)}
+                                value={edu.educationName || ''}
+                                onChange={(e) =>
+                                    handleChange(index, 'educationName', e.target.value)
+                                }
                             />
                             <div className="flex gap-4">
                                 <Input
                                     type="text"
                                     label="Start Date"
                                     placeholder="e.g. 2018"
-                                    value={edu.startDate || ""}
-                                    onChange={(e) => handleChange(index, "startDate", e.target.value)}
+                                    value={edu.startDate || ''}
+                                    onChange={(e) =>
+                                        handleChange(index, 'startDate', e.target.value)
+                                    }
                                 />
                                 <Input
                                     type="text"
                                     label="End Date"
                                     placeholder="e.g. 2022 or Present"
-                                    value={edu.endDate || ""}
-                                    onChange={(e) => handleChange(index, "endDate", e.target.value)}
+                                    value={edu.endDate || ''}
+                                    onChange={(e) => handleChange(index, 'endDate', e.target.value)}
                                 />
                             </div>
                             <Input
                                 textarea
                                 label="Description Points (one per line)"
-                                value={Array.isArray(edu.descriptionPoints)
-                                    ? edu.descriptionPoints.map(p => p.descriptionPoint).join("\n")
-                                    : edu.descriptionPoints || ""}
-                                onChange={(e) => handleChange(index, "descriptionPoints", e.target.value)}
+                                value={
+                                    Array.isArray(edu.descriptionPoints)
+                                        ? edu.descriptionPoints
+                                              .map((p) => p.descriptionPoint)
+                                              .join('\n')
+                                        : edu.descriptionPoints || ''
+                                }
+                                onChange={(e) =>
+                                    handleChange(index, 'descriptionPoints', e.target.value)
+                                }
                             />
                             <div className="flex justify-end mt-2">
                                 <Button
@@ -109,7 +129,9 @@ export const ResumeEditEducationsModal: React.FC<ResumeEditEducationsModalProps>
                                     htmlType="button"
                                     className="border-transparent"
                                 >
-                                    <span className="material-symbols-outlined text-2xl">delete</span>
+                                    <span className="material-symbols-outlined text-2xl">
+                                        delete
+                                    </span>
                                 </Button>
                             </div>
                         </div>

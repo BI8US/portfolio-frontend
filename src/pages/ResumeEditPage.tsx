@@ -1,26 +1,30 @@
-import React from "react";
-import {useParams} from "react-router-dom";
+import React from 'react';
+import { useParams } from 'react-router-dom';
+
+import { ContentPage } from '../components/common/ContentPage';
+import { StatusMessage } from '../components/common/StatusMessage';
+import { ResumeCardEducations } from '../components/resume/ResumeCardEducations';
+import { ResumeCardHeader } from '../components/resume/ResumeCardHeader';
+import { ResumeCardProjects } from '../components/resume/ResumeCardProjects';
+import { ResumeCardSkills } from '../components/resume/ResumeCardSkills';
+import { ResumeCardWorkExperiences } from '../components/resume/ResumeCardWorkExperiences';
+import { ResumeEditEducationsModal } from '../components/resume/ResumeEditEducationsModal';
+import { Payload, ResumeEditHeaderModal } from '../components/resume/ResumeEditHeaderModal';
+import { ResumeEditProjectsModal } from '../components/resume/ResumeEditProjectsModal';
+import { ResumeEditSkillsModal } from '../components/resume/ResumeEditSkillsModal';
+import { ResumeEditWorkExperiencesModal } from '../components/resume/ResumeEditWorkExperienceModal';
 import {
-    useGetResumeById, useUpdateHeaderWithMediaLinks, useUpdateHeader, useUpdateMediaLinks, useUpdateSkills,
-    useUpdateWorkExperiences, useUpdateProjects
-} from "../hooks/useResume";
-import {Payload, ResumeEditHeaderModal} from "../components/resume/ResumeEditHeaderModal";
-import {ResumeEditSkillsModal} from "../components/resume/ResumeEditSkillsModal";
-import {ContentPage} from "../components/common/ContentPage";
-import {ResumeCardHeader} from "../components/resume/ResumeCardHeader";
-import {ResumeCardSkills} from "../components/resume/ResumeCardSkills";
-import {ResumeCardEducations} from "../components/resume/ResumeCardEducations";
-import {ResumeCardProjects} from "../components/resume/ResumeCardProjects";
-import {ResumeCardWorkExperiences} from "../components/resume/ResumeCardWorkExperiences";
-import {StatusMessage} from "../components/common/StatusMessage";
-import {SkillItemPartial} from "../types/skillTypes";
-import {EducationItemPartial} from "../types/educationTypes"
-import {ResumeEditEducationsModal} from "../components/resume/ResumeEditEducationsModal";
-import {useUpdateEducations} from "../hooks/useResume";
-import {ResumeEditWorkExperiencesModal} from "../components/resume/ResumeEditWorkExperienceModal";
-import {WorkExperienceItemPartial} from "../types/workExperienceTypes";
-import {ResumeEditProjectsModal} from "../components/resume/ResumeEditProjectsModal";
-import {ProjectItemPartial} from "../types/projectTypes";
+    useGetResumeById,
+    useUpdateEducations,
+    useUpdateHeaderWithMediaLinks,
+    useUpdateProjects,
+    useUpdateSkills,
+    useUpdateWorkExperiences,
+} from '../hooks/useResume';
+import { EducationItemPartial } from '../types/educationTypes';
+import { ProjectItemPartial } from '../types/projectTypes';
+import { SkillItemPartial } from '../types/skillTypes';
+import { WorkExperienceItemPartial } from '../types/workExperienceTypes';
 
 export const ResumeEditPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -29,12 +33,12 @@ export const ResumeEditPage: React.FC = () => {
 
     React.useEffect(() => {
         if (activeModal) {
-            document.body.style.overflow = "hidden";
+            document.body.style.overflow = 'hidden';
         } else {
-            document.body.style.overflow = "";
+            document.body.style.overflow = '';
         }
         return () => {
-            document.body.style.overflow = "";
+            document.body.style.overflow = '';
         };
     }, [activeModal]);
 
@@ -45,11 +49,17 @@ export const ResumeEditPage: React.FC = () => {
     const updateProjectsMutation = useUpdateProjects();
     const updateWorkExperiencesMutation = useUpdateWorkExperiences();
 
-    if (isLoading) {return (<StatusMessage message="Loading resume..." />);}
-    if (isError) {return (<StatusMessage message="An error occurred while fetching the resume." />);}
-    if (!resume) {return (<StatusMessage message={`Resume with id ${id} not found`} />);}
+    if (isLoading) {
+        return <StatusMessage message="Loading resume..." />;
+    }
+    if (isError) {
+        return <StatusMessage message="An error occurred while fetching the resume." />;
+    }
+    if (!resume) {
+        return <StatusMessage message={`Resume with id ${id} not found`} />;
+    }
 
-    const {educations, projects, skills, workExperiences} = resume;
+    const { educations, projects, skills, workExperiences } = resume;
 
     const handleHeaderSubmit = async (payload: Payload) => {
         updateHeaderWithMediaLinksMutation.mutate(
@@ -63,9 +73,9 @@ export const ResumeEditPage: React.FC = () => {
                     handleCloseModal();
                 },
                 onError: (error) => {
-                    console.error("Failed to update header:", error);
+                    console.error('Failed to update header:', error);
                 },
-            }
+            },
         );
     };
 
@@ -77,9 +87,9 @@ export const ResumeEditPage: React.FC = () => {
                     handleCloseModal();
                 },
                 onError: (error) => {
-                    console.error("Failed to update skills:", error);
+                    console.error('Failed to update skills:', error);
                 },
-            }
+            },
         );
     };
 
@@ -91,9 +101,9 @@ export const ResumeEditPage: React.FC = () => {
                     handleCloseModal();
                 },
                 onError: (error) => {
-                    console.error("Failed to update educations:", error);
+                    console.error('Failed to update educations:', error);
                 },
-            }
+            },
         );
     };
 
@@ -105,11 +115,11 @@ export const ResumeEditPage: React.FC = () => {
                     handleCloseModal();
                 },
                 onError: (error) => {
-                    console.error("Failed to update projects:", error);
+                    console.error('Failed to update projects:', error);
                 },
-            }
-        )
-    }
+            },
+        );
+    };
 
     const handleWorkExperiencesSubmit = (workExperiences: WorkExperienceItemPartial[]) => {
         updateWorkExperiencesMutation.mutate(
@@ -119,11 +129,11 @@ export const ResumeEditPage: React.FC = () => {
                     handleCloseModal();
                 },
                 onError: (error) => {
-                    console.error("Failed to update workExperience:", error);
+                    console.error('Failed to update workExperience:', error);
                 },
-            }
-        )
-    }
+            },
+        );
+    };
 
     const handleOpenModal = (modalName: string) => {
         setActiveModal(modalName);
@@ -134,21 +144,59 @@ export const ResumeEditPage: React.FC = () => {
     };
     return (
         <ContentPage>
-            <ResumeCardHeader resume={resume} onEditClick={() => handleOpenModal("header")} />
-            <ResumeCardSkills skills={skills? skills : []} onEditClick={() => handleOpenModal("skills")} />
-            <ResumeCardWorkExperiences workExperiences={workExperiences? workExperiences : []} onEditClick={() => handleOpenModal("workExperiences")} />
-            <ResumeCardProjects projects={projects? projects : []} onEditClick={() => handleOpenModal("projects")} />
-            <ResumeCardEducations educations={educations? educations : []} onEditClick={() => handleOpenModal("educations")} />
+            <ResumeCardHeader resume={resume} onEditClick={() => handleOpenModal('header')} />
+            <ResumeCardSkills
+                skills={skills ? skills : []}
+                onEditClick={() => handleOpenModal('skills')}
+            />
+            <ResumeCardWorkExperiences
+                workExperiences={workExperiences ? workExperiences : []}
+                onEditClick={() => handleOpenModal('workExperiences')}
+            />
+            <ResumeCardProjects
+                projects={projects ? projects : []}
+                onEditClick={() => handleOpenModal('projects')}
+            />
+            <ResumeCardEducations
+                educations={educations ? educations : []}
+                onEditClick={() => handleOpenModal('educations')}
+            />
 
             {activeModal === 'header' && (
-                <ResumeEditHeaderModal resumeItem={resume} onSubmit={handleHeaderSubmit} onCancel={handleCloseModal} />
+                <ResumeEditHeaderModal
+                    resumeItem={resume}
+                    onSubmit={handleHeaderSubmit}
+                    onCancel={handleCloseModal}
+                />
             )}
             {activeModal === 'skills' && (
-                <ResumeEditSkillsModal skills={skills ? skills : []} onSubmit={handleSkillsSubmit} onCancel={handleCloseModal} />
+                <ResumeEditSkillsModal
+                    skills={skills ? skills : []}
+                    onSubmit={handleSkillsSubmit}
+                    onCancel={handleCloseModal}
+                />
             )}
-            {activeModal === 'workExperiences' && (<ResumeEditWorkExperiencesModal workExperiences={workExperiences ? workExperiences : []} onSubmit={handleWorkExperiencesSubmit} onCancel={handleCloseModal} />)}
-            {activeModal === 'projects' && (<ResumeEditProjectsModal projects={projects ? projects : []} onSubmit={handleProjectsSubmit} onCancel={handleCloseModal} />)}
-            {activeModal === 'educations' && (<ResumeEditEducationsModal educations={educations ? educations : []} onSubmit={handleEducationsSubmit} onCancel={handleCloseModal} />)}
+            {activeModal === 'workExperiences' && (
+                <ResumeEditWorkExperiencesModal
+                    workExperiences={workExperiences ? workExperiences : []}
+                    onSubmit={handleWorkExperiencesSubmit}
+                    onCancel={handleCloseModal}
+                />
+            )}
+            {activeModal === 'projects' && (
+                <ResumeEditProjectsModal
+                    projects={projects ? projects : []}
+                    onSubmit={handleProjectsSubmit}
+                    onCancel={handleCloseModal}
+                />
+            )}
+            {activeModal === 'educations' && (
+                <ResumeEditEducationsModal
+                    educations={educations ? educations : []}
+                    onSubmit={handleEducationsSubmit}
+                    onCancel={handleCloseModal}
+                />
+            )}
         </ContentPage>
     );
 };

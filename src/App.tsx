@@ -1,14 +1,15 @@
-import React from "react";
-import {BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom";
-import Header from "./components/common/Header";
-import ActiveResumePage from "./pages/ActiveResumePage";
-import {ResumeListPage} from "./pages/ResumeListPage";
-import {ResumeEditPage} from "./pages/ResumeEditPage";
-import {LoginPage} from "./pages/LoginPage";
-import {PrivateRoute} from "./utils/PrivateRoute";
-import {JobApplicationListPage} from "./pages/JobApplicationListPage";
-import {JobApplicationEditPage} from "./pages/JobApplicationEditPage";
-import {TestSnakePage} from "./pages/SnakeGame";
+import React from 'react';
+import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
+
+import Header from './components/common/Header';
+import ActiveResumePage from './pages/ActiveResumePage';
+import { JobApplicationEditPage } from './pages/JobApplicationEditPage';
+import { JobApplicationListPage } from './pages/JobApplicationListPage';
+import { LoginPage } from './pages/LoginPage';
+import { ResumeEditPage } from './pages/ResumeEditPage';
+import { ResumeListPage } from './pages/ResumeListPage';
+import { TestSnakePage } from './pages/SnakeGame';
+import { PrivateRoute } from './utils/PrivateRoute';
 
 function App() {
     return (

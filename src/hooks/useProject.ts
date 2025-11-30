@@ -1,10 +1,11 @@
-import {useQuery, useMutation, useQueryClient} from "@tanstack/react-query";
-import {getAllProjects, addProject, updateProject, deleteProject} from "../api/projectApi";
-import {ProjectItem} from "../types/projectTypes";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+
+import { addProject, deleteProject, getAllProjects, updateProject } from '../api/projectApi';
+import { ProjectItem } from '../types/projectTypes';
 
 export function useGetAllProjects(resumeId: number) {
     return useQuery<ProjectItem[]>({
-        queryKey: ["projects", resumeId],
+        queryKey: ['projects', resumeId],
         queryFn: () => getAllProjects(resumeId),
         enabled: !!resumeId,
     });
@@ -13,9 +14,9 @@ export function useGetAllProjects(resumeId: number) {
 export function useAddProject(resumeId: number) {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (project: Omit<ProjectItem, "id">) => addProject(resumeId, project),
+        mutationFn: (project: Omit<ProjectItem, 'id'>) => addProject(resumeId, project),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["projects", resumeId] });
+            queryClient.invalidateQueries({ queryKey: ['projects', resumeId] });
         },
     });
 }
@@ -23,11 +24,16 @@ export function useAddProject(resumeId: number) {
 export function useUpdateProject(resumeId: number) {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: ({ projectId, partial }: { projectId: number; partial: Partial<ProjectItem> }) =>
-            updateProject(resumeId, projectId, partial),
+        mutationFn: ({
+            projectId,
+            partial,
+        }: {
+            projectId: number;
+            partial: Partial<ProjectItem>;
+        }) => updateProject(resumeId, projectId, partial),
         onSuccess: (_, { projectId }) => {
-            queryClient.invalidateQueries({ queryKey: ["projects", resumeId] });
-            queryClient.invalidateQueries({ queryKey: ["project", resumeId, projectId] });
+            queryClient.invalidateQueries({ queryKey: ['projects', resumeId] });
+            queryClient.invalidateQueries({ queryKey: ['project', resumeId, projectId] });
         },
     });
 }
@@ -37,7 +43,7 @@ export function useDeleteProject(resumeId: number) {
     return useMutation({
         mutationFn: (projectId: number) => deleteProject(resumeId, projectId),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["projects", resumeId] });
+            queryClient.invalidateQueries({ queryKey: ['projects', resumeId] });
         },
     });
 }

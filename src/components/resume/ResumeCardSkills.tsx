@@ -1,8 +1,9 @@
-import React from "react";
-import {SkillItem} from "../../types/skillTypes";
-import {ContentCard} from "../common/ContentCard";
-import {Button} from "../common/Button";
-import {getGroupedSkillsNames} from "../../utils/skillUtils";
+import React from 'react';
+
+import { SkillItem } from '../../types/skillTypes';
+import { getGroupedSkillsNames } from '../../utils/skillUtils';
+import { Button } from '../common/Button';
+import { ContentCard } from '../common/ContentCard';
 
 export interface ResumeCardSkillsProps {
     skills: SkillItem[];
@@ -16,7 +17,9 @@ export const ResumeCardSkills = ({ skills, onEditClick }: ResumeCardSkillsProps)
         <>
             <div className="flex justify-between items-center mb-2">
                 <div className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-text-primary text-2xl">cards_star</span>
+                    <span className="material-symbols-outlined text-text-primary text-2xl">
+                        cards_star
+                    </span>
                     <h2 className="text-2xl font-bold text-text-primary">Skills</h2>
                 </div>
                 {onEditClick && (
@@ -42,8 +45,8 @@ export const ResumeCardSkills = ({ skills, onEditClick }: ResumeCardSkillsProps)
                                         key={skillName}
                                         className="px-3 py-1 bg-button-secondary-bg text-text-secondary border border-border rounded-full text-sm font-medium"
                                     >
-                                    {skillName}
-                                </span>
+                                        {skillName}
+                                    </span>
                                 ))}
                             </div>
                         </div>
@@ -52,4 +55,4 @@ export const ResumeCardSkills = ({ skills, onEditClick }: ResumeCardSkillsProps)
             </ContentCard>
         </>
     );
-}
+};

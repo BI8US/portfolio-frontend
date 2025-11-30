@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 interface ContentPageProps {
     children: React.ReactNode;
@@ -6,12 +6,8 @@ interface ContentPageProps {
 }
 
 export const ContentPage: React.FC<ContentPageProps> = ({ children, className }) => {
-    const baseClasses = "mx-auto pt-4 pb-4 max-w-4xl p-2";
-    const combinedClasses = `${baseClasses} ${className || ""}`;
+    const baseClasses = 'mx-auto pt-4 pb-4 max-w-4xl p-2';
+    const combinedClasses = `${baseClasses} ${className || ''}`;
 
-    return (
-        <div className={combinedClasses}>
-            {children}
-        </div>
-    );
+    return <div className={combinedClasses}>{children}</div>;
 };

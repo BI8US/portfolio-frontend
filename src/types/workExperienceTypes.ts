@@ -21,4 +21,3 @@ export interface WorkExperienceDescriptionPoint {
     workExperienceEntityId: number;
     descriptionPoint: string;
 }
-

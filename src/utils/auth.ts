@@ -1,4 +1,4 @@
-const TOKEN_KEY = "jwt";
+const TOKEN_KEY = 'jwt';
 
 export const setToken = (token: string) => {
     sessionStorage.setItem(TOKEN_KEY, token);
@@ -14,7 +14,7 @@ export const removeToken = () => {
 
 export const parseJwt = (token: string) => {
     try {
-        return JSON.parse(atob(token.split(".")[1]));
+        return JSON.parse(atob(token.split('.')[1]));
     } catch {
         return null;
     }

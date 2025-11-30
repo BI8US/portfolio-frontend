@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Button } from '../common/Button';
 
 const GRID_SIZE = 15;
@@ -7,22 +8,23 @@ const SPEED = 150;
 type Point = { x: number; y: number };
 type Direction = 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
 
-const ControlBtn = React.memo(({ onClick, icon, disabled }: { onClick: () => void, icon: string, disabled: boolean }) => (
-    <Button
-        type="secondary"
-        className={`
+const ControlBtn = React.memo(
+    ({ onClick, icon, disabled }: { onClick: () => void; icon: string; disabled: boolean }) => (
+        <Button
+            type="secondary"
+            className={`
             w-16 h-16 !p-0 flex items-center justify-center
             pointer-events-auto 
         `}
-        onPointerDown={(e) => {
-            e.preventDefault();
-            if (!disabled) onClick();
-        }}
-    >
-        <span className="material-symbols-outlined text-3xl">{icon}</span>
-    </Button>
-));
-
+            onPointerDown={(e) => {
+                e.preventDefault();
+                if (!disabled) onClick();
+            }}
+        >
+            <span className="material-symbols-outlined text-3xl">{icon}</span>
+        </Button>
+    ),
+);
 
 export const Snake: React.FC = () => {
     const [snake, setSnake] = React.useState<Point[]>([{ x: 1, y: 1 }]);
@@ -45,7 +47,8 @@ export const Snake: React.FC = () => {
                 x: Math.floor(Math.random() * GRID_SIZE),
                 y: Math.floor(Math.random() * GRID_SIZE),
             };
-            const onSnake = snake.some(s => s.x === newFood.x && s.y === newFood.y);
+            // eslint-disable-next-line no-loop-func
+            const onSnake = snake.some((s) => s.x === newFood.x && s.y === newFood.y);
             if (!onSnake) break;
         }
         setFood(newFood);
@@ -74,20 +77,36 @@ export const Snake: React.FC = () => {
 
     React.useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
-            if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
+            if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
                 e.preventDefault();
             }
             switch (e.key) {
-                case 'ArrowUp': case 'w': case 'W': case 'ц': case 'Ц':
+                case 'ArrowUp':
+                case 'w':
+                case 'W':
+                case 'ц':
+                case 'Ц':
                     changeDirection('UP');
                     break;
-                case 'ArrowDown': case 's': case 'S': case 'ы': case 'Ы':
+                case 'ArrowDown':
+                case 's':
+                case 'S':
+                case 'ы':
+                case 'Ы':
                     changeDirection('DOWN');
                     break;
-                case 'ArrowLeft': case 'a': case 'A': case 'ф': case 'Ф':
+                case 'ArrowLeft':
+                case 'a':
+                case 'A':
+                case 'ф':
+                case 'Ф':
                     changeDirection('LEFT');
                     break;
-                case 'ArrowRight': case 'd': case 'D': case 'в': case 'В':
+                case 'ArrowRight':
+                case 'd':
+                case 'D':
+                case 'в':
+                case 'В':
                     changeDirection('RIGHT');
                     break;
             }
@@ -108,15 +127,25 @@ export const Snake: React.FC = () => {
                 const newHead = { ...head };
 
                 switch (dir) {
-                    case 'UP': newHead.y -= 1; break;
-                    case 'DOWN': newHead.y += 1; break;
-                    case 'LEFT': newHead.x -= 1; break;
-                    case 'RIGHT': newHead.x += 1; break;
+                    case 'UP':
+                        newHead.y -= 1;
+                        break;
+                    case 'DOWN':
+                        newHead.y += 1;
+                        break;
+                    case 'LEFT':
+                        newHead.x -= 1;
+                        break;
+                    case 'RIGHT':
+                        newHead.x += 1;
+                        break;
                 }
 
                 if (
-                    newHead.x < 0 || newHead.x >= GRID_SIZE ||
-                    newHead.y < 0 || newHead.y >= GRID_SIZE ||
+                    newHead.x < 0 ||
+                    newHead.x >= GRID_SIZE ||
+                    newHead.y < 0 ||
+                    newHead.y >= GRID_SIZE ||
                     prevSnake.some((s) => s.x === newHead.x && s.y === newHead.y)
                 ) {
                     setIsGameOver(true);
@@ -147,20 +176,19 @@ export const Snake: React.FC = () => {
         };
     }, [food, isGameOver, isPlaying, spawnFood, score, highScore]);
 
-
     const renderGrid = () => {
         return Array.from({ length: GRID_SIZE * GRID_SIZE }).map((_, index) => {
             const x = index % GRID_SIZE;
             const y = Math.floor(index / GRID_SIZE);
             const isSnakeHead = snake[0].x === x && snake[0].y === y;
-            const isSnakeBody = snake.slice(1).some(s => s.x === x && s.y === y);
+            const isSnakeBody = snake.slice(1).some((s) => s.x === x && s.y === y);
             const isFood = food.x === x && food.y === y;
 
-            let cellClass = "w-full h-full rounded-sm transition-all duration-100 ";
-            if (isSnakeHead) cellClass += "bg-button-primary rounded-md";
-            else if (isSnakeBody) cellClass += "bg-button-primary/60";
-            else if (isFood) cellClass += "bg-text-danger !rounded-full scale-75";
-            else cellClass += "bg-border/20";
+            let cellClass = 'w-full h-full rounded-sm transition-all duration-100 ';
+            if (isSnakeHead) cellClass += 'bg-button-primary rounded-md';
+            else if (isSnakeBody) cellClass += 'bg-button-primary/60';
+            else if (isFood) cellClass += 'bg-text-danger !rounded-full scale-75';
+            else cellClass += 'bg-border/20';
 
             return <div key={`${x}-${y}`} className={cellClass} />;
         });
@@ -194,12 +222,11 @@ export const Snake: React.FC = () => {
                             </div>
                         )}
                         <div className="text-text-primary text-lg">Score: {score}</div>
-                        <div className="text-text-primary font-medium mb-6 text-lg">Best: {highScore}</div>
+                        <div className="text-text-primary font-medium mb-6 text-lg">
+                            Best: {highScore}
+                        </div>
 
-                        <Button
-                            type="primary"
-                            onClick={resetGame}
-                        >
+                        <Button type="primary" onClick={resetGame}>
                             {isGameOver ? 'Try Again' : 'Start Game'}
                         </Button>
 
@@ -210,14 +237,32 @@ export const Snake: React.FC = () => {
                 )}
             </div>
 
-            <div className={`mt-6 grid grid-cols-3 gap-3 transition-opacity duration-500 ${isPlaying ? 'opacity-100' : 'opacity-50 pointer-events-none'}`}>
+            <div
+                className={`mt-6 grid grid-cols-3 gap-3 transition-opacity duration-500 ${isPlaying ? 'opacity-100' : 'opacity-50 pointer-events-none'}`}
+            >
                 <div />
-                <ControlBtn onClick={() => changeDirection('UP')} icon="arrow_upward" disabled={!isPlaying || isGameOver} />
+                <ControlBtn
+                    onClick={() => changeDirection('UP')}
+                    icon="arrow_upward"
+                    disabled={!isPlaying || isGameOver}
+                />
                 <div />
 
-                <ControlBtn onClick={() => changeDirection('LEFT')} icon="arrow_back" disabled={!isPlaying || isGameOver} />
-                <ControlBtn onClick={() => changeDirection('DOWN')} icon="arrow_downward" disabled={!isPlaying || isGameOver} />
-                <ControlBtn onClick={() => changeDirection('RIGHT')} icon="arrow_forward" disabled={!isPlaying || isGameOver} />
+                <ControlBtn
+                    onClick={() => changeDirection('LEFT')}
+                    icon="arrow_back"
+                    disabled={!isPlaying || isGameOver}
+                />
+                <ControlBtn
+                    onClick={() => changeDirection('DOWN')}
+                    icon="arrow_downward"
+                    disabled={!isPlaying || isGameOver}
+                />
+                <ControlBtn
+                    onClick={() => changeDirection('RIGHT')}
+                    icon="arrow_forward"
+                    disabled={!isPlaying || isGameOver}
+                />
             </div>
         </div>
     );

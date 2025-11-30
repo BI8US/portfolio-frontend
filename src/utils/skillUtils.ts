@@ -1,5 +1,4 @@
-import React from "react";
-import {SkillItem, SkillItemPartial} from "../types/skillTypes";
+import { SkillItem, SkillItemPartial } from '../types/skillTypes';
 
 interface GroupedSkillsList {
     [key: string]: (SkillItem | SkillItemPartial)[];
@@ -12,7 +11,9 @@ interface GroupedSkillNamesList {
 export const getGroupedSkills = (skills: (SkillItem | SkillItemPartial)[]) => {
     return skills.reduce((acc, item) => {
         const groupName = item.skillGroup;
-        if (!acc[groupName]) {acc[groupName] = [];}
+        if (!acc[groupName]) {
+            acc[groupName] = [];
+        }
         acc[groupName].push(item);
         return acc;
     }, {} as GroupedSkillsList);

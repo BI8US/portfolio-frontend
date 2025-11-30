@@ -1,15 +1,16 @@
-import {useQuery, useMutation, useQueryClient} from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+
 import {
-    getAllMediaLinks,
     addMediaLink,
-    updateMediaLink,
     deleteMediaLink,
-} from "../api/mediaLinkApi";
-import {MediaLinkItem} from "../types/mediaLinkTypes";
+    getAllMediaLinks,
+    updateMediaLink,
+} from '../api/mediaLinkApi';
+import { MediaLinkItem } from '../types/mediaLinkTypes';
 
 export function useGetAllMediaLinks(resumeId: number) {
     return useQuery<MediaLinkItem[]>({
-        queryKey: ["mediaLinks", resumeId],
+        queryKey: ['mediaLinks', resumeId],
         queryFn: () => getAllMediaLinks(resumeId),
         enabled: !!resumeId,
     });
@@ -18,9 +19,9 @@ export function useGetAllMediaLinks(resumeId: number) {
 export function useAddMediaLink(resumeId: number) {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (mediaLink: Omit<MediaLinkItem, "id">) => addMediaLink(resumeId, mediaLink),
+        mutationFn: (mediaLink: Omit<MediaLinkItem, 'id'>) => addMediaLink(resumeId, mediaLink),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["mediaLinks", resumeId] });
+            queryClient.invalidateQueries({ queryKey: ['mediaLinks', resumeId] });
         },
     });
 }
@@ -28,11 +29,16 @@ export function useAddMediaLink(resumeId: number) {
 export function useUpdateMediaLink(resumeId: number) {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: ({ mediaLinkId, partial }: { mediaLinkId: number; partial: Partial<MediaLinkItem> }) =>
-            updateMediaLink(resumeId, mediaLinkId, partial),
+        mutationFn: ({
+            mediaLinkId,
+            partial,
+        }: {
+            mediaLinkId: number;
+            partial: Partial<MediaLinkItem>;
+        }) => updateMediaLink(resumeId, mediaLinkId, partial),
         onSuccess: (_, { mediaLinkId }) => {
-            queryClient.invalidateQueries({ queryKey: ["mediaLinks", resumeId] });
-            queryClient.invalidateQueries({ queryKey: ["mediaLink", resumeId, mediaLinkId] });
+            queryClient.invalidateQueries({ queryKey: ['mediaLinks', resumeId] });
+            queryClient.invalidateQueries({ queryKey: ['mediaLink', resumeId, mediaLinkId] });
         },
     });
 }
@@ -42,7 +48,7 @@ export function useDeleteMediaLink(resumeId: number) {
     return useMutation({
         mutationFn: (mediaLinkId: number) => deleteMediaLink(resumeId, mediaLinkId),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["mediaLinks", resumeId] });
+            queryClient.invalidateQueries({ queryKey: ['mediaLinks', resumeId] });
         },
     });
 }
