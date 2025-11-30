@@ -47,6 +47,7 @@ export const Snake: React.FC = () => {
                 x: Math.floor(Math.random() * GRID_SIZE),
                 y: Math.floor(Math.random() * GRID_SIZE),
             };
+            // eslint-disable-next-line no-loop-func
             const onSnake = snake.some((s) => s.x === newFood.x && s.y === newFood.y);
             if (!onSnake) break;
         }
