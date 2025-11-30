@@ -1,7 +1,8 @@
-import React from "react";
-import {MediaLinkItem} from "../../types/mediaLinkTypes";
-import {FaGithub, FaLinkedin, FaGlobe} from "react-icons/fa";
-import {IconType} from "react-icons";
+import React from 'react';
+import { IconType } from 'react-icons';
+import { FaGithub, FaGlobe, FaLinkedin } from 'react-icons/fa';
+
+import { MediaLinkItem } from '../../types/mediaLinkTypes';
 
 export interface ResumeCardMediaLinksProps {
     mediaLinks: MediaLinkItem[];
@@ -16,10 +17,9 @@ export const ResumeCardMediaLinks = ({ mediaLinks }: ResumeCardMediaLinksProps) 
     const getIcon = (name: string) => {
         const IconComponent = iconMap[name] ?? FaGlobe;
         return React.createElement(IconComponent as React.ComponentType<{ className?: string }>, {
-            className: "text-xl",
+            className: 'text-xl',
         });
     };
-
 
     return (
         <>

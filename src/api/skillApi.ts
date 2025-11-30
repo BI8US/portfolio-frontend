@@ -1,5 +1,5 @@
-import {api} from "./client"
-import {SkillItem} from "../types/skillTypes";
+import { SkillItem } from '../types/skillTypes';
+import { api } from './client';
 
 export const getAllSkills = async (resumeId: number): Promise<SkillItem[]> => {
     const res = await api.get<SkillItem[]>(`/resume/${resumeId}/skills`);
@@ -8,7 +8,7 @@ export const getAllSkills = async (resumeId: number): Promise<SkillItem[]> => {
 
 export const addSkill = async (
     resumeId: number,
-    skill: Omit<SkillItem, "id">
+    skill: Omit<SkillItem, 'id'>,
 ): Promise<SkillItem> => {
     const res = await api.post<SkillItem>(`/resume/${resumeId}/skills`, skill);
     return res.data;
@@ -17,7 +17,7 @@ export const addSkill = async (
 export const updateSkill = async (
     resumeId: number,
     skillId: number,
-    partial: Partial<SkillItem>
+    partial: Partial<SkillItem>,
 ): Promise<SkillItem> => {
     const res = await api.patch<SkillItem>(`/resume/${resumeId}/skills/${skillId}`, partial);
     return res.data;

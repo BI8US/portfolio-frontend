@@ -10,13 +10,17 @@
 
 :root {
     /* Fonts */
-    --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --font-sans:
+        system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+        'Noto Sans', sans-serif;
+    --font-mono:
+        ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+        monospace;
 
     /* Backgrounds */
     --color-page: 248 250 252; /* Tailwind 'slate-50' */
     --color-content: 255 255 255; /* white */
-    --color-overlay: 15 23 42 ; /* Tailwind 'slate-900' */
+    --color-overlay: 15 23 42; /* Tailwind 'slate-900' */
 
     /* Font colors */
     --color-text-primary: 31 41 55; /* Tailwind 'gray-800' */

@@ -1,45 +1,47 @@
-import React from "react";
-import {useParams} from "react-router-dom";
-import {useGetApplicationById, useUpdateApplication} from "../hooks/useJobApplication";
-import {StatusMessage} from "../components/common/StatusMessage";
-import {JobApplicationItemPartial} from "../types/jobApplicationTypes";
-import {ContentPage} from "../components/common/ContentPage";
-import {ContentCard} from "../components/common/ContentCard";
-import {Button} from "../components/common/Button";
-import {Select} from "../components/common/Select";
-import {STATUS_COLORS} from "../constants/statusColors";
-import {STATUSES} from "../constants/Statuses";
-import {Input} from "../components/common/Input";
-import {JobApplicationEditModal, ApplicationInfo} from "../components/jobApplication/JobApplicationEditModal"
+import React from 'react';
+import { useParams } from 'react-router-dom';
+
+import { Button } from '../components/common/Button';
+import { ContentPage } from '../components/common/ContentPage';
+import { Input } from '../components/common/Input';
+import { Select } from '../components/common/Select';
+import { StatusMessage } from '../components/common/StatusMessage';
+import {
+    ApplicationInfo,
+    JobApplicationEditModal,
+} from '../components/jobApplication/JobApplicationEditModal';
+import { STATUS_COLORS } from '../constants/statusColors';
+import { STATUSES } from '../constants/Statuses';
+import { useGetApplicationById, useUpdateApplication } from '../hooks/useJobApplication';
 
 export const JobApplicationEditPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
-    const {data: application, isLoading, isError} = useGetApplicationById(Number(id));
+    const { data: application, isLoading, isError } = useGetApplicationById(Number(id));
     const updateApplicationMutation = useUpdateApplication();
-    const [newStatus, setNewStatus] = React.useState("");
-    const [notes, setNotes] = React.useState("");
+    const [newStatus, setNewStatus] = React.useState('');
+    const [notes, setNotes] = React.useState('');
     const [isEditModalOpen, setIsEditModalOpen] = React.useState(false);
 
     React.useEffect(() => {
         if (application) {
             setNewStatus(application.status);
-            setNotes(application.notes || "");
+            setNotes(application.notes || '');
         }
     }, [application]);
 
     React.useEffect(() => {
         if (isEditModalOpen) {
-            document.body.style.overflow = "hidden";
+            document.body.style.overflow = 'hidden';
         } else {
-            document.body.style.overflow = "";
+            document.body.style.overflow = '';
         }
         return () => {
-            document.body.style.overflow = "";
+            document.body.style.overflow = '';
         };
     }, [isEditModalOpen]);
 
-    const statusColors = STATUS_COLORS[application?.status || ""];
-    const statusOptions = STATUSES.map(status => ({
+    const statusColors = STATUS_COLORS[application?.status || ''];
+    const statusOptions = STATUSES.map((status) => ({
         label: status,
         value: status,
     }));
@@ -47,39 +49,45 @@ export const JobApplicationEditPage: React.FC = () => {
     const handleUpdateStatus = () => {
         updateApplicationMutation.mutate({
             id: Number(id),
-            applicationData: { status: newStatus }
+            applicationData: { status: newStatus },
         });
-    }
+    };
 
     const handleUpdateNotes = () => {
         updateApplicationMutation.mutate({
             id: Number(id),
             applicationData: { notes: notes },
-        })
-    }
+        });
+    };
 
     const handleUpdateInfo = (applicationInfo: ApplicationInfo) => {
         updateApplicationMutation.mutate(
-            {id: Number(id), applicationData: applicationInfo }, {
+            { id: Number(id), applicationData: applicationInfo },
+            {
                 onSuccess: () => {
                     handleCloseModal();
-                }
-            }
+                },
+            },
         );
-    }
+    };
 
     const handleOpenModal = () => {
         setIsEditModalOpen(true);
-    }
+    };
 
     const handleCloseModal = () => {
         setIsEditModalOpen(false);
+    };
+
+    if (isLoading) {
+        return <StatusMessage message="Loading application..." />;
     }
-
-
-    if (isLoading) {return (<StatusMessage message="Loading application..." />);}
-    if (isError) {return (<StatusMessage message="An error occurred while fetching the application." />);}
-    if (!application) {return (<StatusMessage message={`Application with id ${id} not found`} />);}
+    if (isError) {
+        return <StatusMessage message="An error occurred while fetching the application." />;
+    }
+    if (!application) {
+        return <StatusMessage message={`Application with id ${id} not found`} />;
+    }
 
     return (
         <ContentPage className="max-w-4xl">
@@ -93,11 +101,13 @@ export const JobApplicationEditPage: React.FC = () => {
                                 onClick={handleOpenModal}
                                 className="px-3 py-1 border-transparent"
                             >
-                            <span className="material-symbols-outlined text-2xl">edit</span>
-                        </Button>
+                                <span className="material-symbols-outlined text-2xl">edit</span>
+                            </Button>
                         </span>
                     </div>
-                    <h3 className="text-lg font-bold mb-2 text-text-primary">{application.company}</h3>
+                    <h3 className="text-lg font-bold mb-2 text-text-primary">
+                        {application.company}
+                    </h3>
                     <h3 className="text-lg font-bold mb-2 text-text-primary">{application.role}</h3>
                     {application.link && (
                         <a
@@ -106,23 +116,32 @@ export const JobApplicationEditPage: React.FC = () => {
                             rel="noopener noreferrer"
                             className="font-semibold mb-2 break-words text-text-primary"
                         >
-                            Link: {application.link}</a>
+                            Link: {application.link}
+                        </a>
                     )}
                     {application.contact && (
-                        <p className="font-semibold mb-2 text-text-primary">Contact: {application.contact}</p>
+                        <p className="font-semibold mb-2 text-text-primary">
+                            Contact: {application.contact}
+                        </p>
                     )}
                     {application.schedule && (
-                        <p className="font-semibold mb-2 text-text-primary">Schedule: {application.schedule}</p>
+                        <p className="font-semibold mb-2 text-text-primary">
+                            Schedule: {application.schedule}
+                        </p>
                     )}
                     {application.description && (
-                        <p className="text-text-secondary whitespace-pre-line">{application.description}</p>
+                        <p className="text-text-secondary whitespace-pre-line">
+                            {application.description}
+                        </p>
                     )}
                 </div>
                 <div>
                     <div className="border border-border rounded-3xl shadow-md p-4 flex flex-col justify-between bg-content mb-4">
-                        <h2 className="text-2xl font-bold text-gray-800 mb-2 text-text-primary">Status</h2>
+                        <h2 className="text-2xl font-bold mb-2 text-text-primary">Status</h2>
                         <p className="mb-2">
-                            <span className={`px-3 py-1 rounded-full text-sm font-semibold ${statusColors.bg} ${statusColors.text}`}>
+                            <span
+                                className={`px-3 py-1 rounded-full text-sm font-semibold ${statusColors.bg} ${statusColors.text}`}
+                            >
                                 {application.status}
                             </span>
                         </p>
@@ -144,23 +163,25 @@ export const JobApplicationEditPage: React.FC = () => {
                         </div>
                     </div>
                     <div className="border border-border rounded-3xl shadow-md p-4 flex flex-col justify-between bg-content">
-                        <h2 className="text-2xl font-bold text-gray-800 mb-2 text-text-primary">Notes</h2>
+                        <h2 className="text-2xl font-bold mb-2 text-text-primary">Notes</h2>
                         <Input
                             textarea
                             placeholder="Notes"
                             value={notes}
                             onChange={(e) => setNotes(e.target.value)}
                         />
-                        <Button
-                            type="primary"
-                            onClick={handleUpdateNotes}
-                        >
+                        <Button type="primary" onClick={handleUpdateNotes}>
                             Save notes
                         </Button>
                     </div>
                 </div>
             </div>
-            <JobApplicationEditModal application={application} isOpen={isEditModalOpen} onSubmit={handleUpdateInfo} onCancel={handleCloseModal} />
+            <JobApplicationEditModal
+                application={application}
+                isOpen={isEditModalOpen}
+                onSubmit={handleUpdateInfo}
+                onCancel={handleCloseModal}
+            />
         </ContentPage>
-    )
-}
+    );
+};

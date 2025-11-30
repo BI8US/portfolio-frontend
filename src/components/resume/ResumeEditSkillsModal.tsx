@@ -1,10 +1,11 @@
-import React, {useState, useEffect} from "react";
-import {SkillItemPartial} from "../../types/skillTypes";
-import {ContentCard} from "../common/ContentCard";
-import {Modal} from "../common/Modal";
-import {Input} from "../common/Input";
-import {Button} from "../common/Button";
-import {getGroupedSkills} from "../../utils/skillUtils";
+import React, { useEffect, useState } from 'react';
+
+import { SkillItemPartial } from '../../types/skillTypes';
+import { getGroupedSkills } from '../../utils/skillUtils';
+import { Button } from '../common/Button';
+import { ContentCard } from '../common/ContentCard';
+import { Input } from '../common/Input';
+import { Modal } from '../common/Modal';
 
 interface ResumeEditSkillsModalProps {
     skills: SkillItemPartial[];
@@ -12,19 +13,27 @@ interface ResumeEditSkillsModalProps {
     onCancel: () => void;
 }
 
-export const ResumeEditSkillsModal: React.FC<ResumeEditSkillsModalProps>  = ({skills, onSubmit, onCancel}) => {
-
-    const [groupedSkills, setGroupedSkills] = useState<{ [groupName: string]: SkillItemPartial[] }>({});
+export const ResumeEditSkillsModal: React.FC<ResumeEditSkillsModalProps> = ({
+    skills,
+    onSubmit,
+    onCancel,
+}) => {
+    const [groupedSkills, setGroupedSkills] = useState<{ [groupName: string]: SkillItemPartial[] }>(
+        {},
+    );
     const [inputValues, setInputValues] = useState<{ [groupName: string]: string }>({});
 
     useEffect(() => {
-        const skillsGrouped = getGroupedSkills(skills)
-        setGroupedSkills(skillsGrouped)
-        const initialInputValues = Object.entries(skillsGrouped).reduce((acc, [groupName, skills]) => {
-            acc[`skills-${groupName}`] = skills.map(s => s.name).join(', ');
-            acc[groupName] = groupName;
-            return acc;
-        }, {} as { [groupName: string]: string });
+        const skillsGrouped = getGroupedSkills(skills);
+        setGroupedSkills(skillsGrouped);
+        const initialInputValues = Object.entries(skillsGrouped).reduce(
+            (acc, [groupName, skills]) => {
+                acc[`skills-${groupName}`] = skills.map((s) => s.name).join(', ');
+                acc[groupName] = groupName;
+                return acc;
+            },
+            {} as { [groupName: string]: string },
+        );
         setInputValues(initialInputValues);
     }, [skills]);
 
@@ -33,13 +42,13 @@ export const ResumeEditSkillsModal: React.FC<ResumeEditSkillsModalProps>  = ({sk
 
         const parsedSkillNames = skillsString
             .split(',')
-            .map(skill => skill.trim())
-            .filter(skill => skill !== '');
+            .map((skill) => skill.trim())
+            .filter((skill) => skill !== '');
 
         const uniqueSkillNames = [...new Set(parsedSkillNames)];
 
-        const newSkills = uniqueSkillNames.map(skillName => {
-            const existingSkill = currentSkillsInGroup.find(s => s.name === skillName);
+        const newSkills = uniqueSkillNames.map((skillName) => {
+            const existingSkill = currentSkillsInGroup.find((s) => s.name === skillName);
 
             if (existingSkill) {
                 return existingSkill;
@@ -51,7 +60,7 @@ export const ResumeEditSkillsModal: React.FC<ResumeEditSkillsModalProps>  = ({sk
             }
         });
 
-        setGroupedSkills(prevGroups => ({
+        setGroupedSkills((prevGroups) => ({
             ...prevGroups,
             [groupName]: newSkills,
         }));
@@ -62,12 +71,12 @@ export const ResumeEditSkillsModal: React.FC<ResumeEditSkillsModalProps>  = ({sk
             return;
         }
 
-        setGroupedSkills(prevGroups => {
+        setGroupedSkills((prevGroups) => {
             const newGroups = { ...prevGroups };
             const skillsToMove = newGroups[oldGroupName];
             delete newGroups[oldGroupName];
 
-            const updatedSkills = skillsToMove.map(s => ({ ...s, skillGroup: newGroupName }));
+            const updatedSkills = skillsToMove.map((s) => ({ ...s, skillGroup: newGroupName }));
 
             newGroups[newGroupName] = [...(newGroups[newGroupName] || []), ...updatedSkills];
             return newGroups;
@@ -76,14 +85,14 @@ export const ResumeEditSkillsModal: React.FC<ResumeEditSkillsModalProps>  = ({sk
 
     const handleAddGroup = () => {
         const newGroupName = `New Group ${Object.keys(groupedSkills).length + 1}`;
-        setGroupedSkills(prevGroups => ({
+        setGroupedSkills((prevGroups) => ({
             ...prevGroups,
             [newGroupName]: [],
         }));
     };
 
     const handleRemoveGroup = (groupName: string) => {
-        setGroupedSkills(prevGroups => {
+        setGroupedSkills((prevGroups) => {
             const newGroups = { ...prevGroups };
             delete newGroups[groupName];
             return newGroups;
@@ -115,7 +124,12 @@ export const ResumeEditSkillsModal: React.FC<ResumeEditSkillsModalProps>  = ({sk
                                 <Input
                                     type="text"
                                     value={inputValues[groupName] ?? groupName}
-                                    onChange={(e) => setInputValues(prev => ({ ...prev, [groupName]: e.target.value }))}
+                                    onChange={(e) =>
+                                        setInputValues((prev) => ({
+                                            ...prev,
+                                            [groupName]: e.target.value,
+                                        }))
+                                    }
                                     onBlur={(e) => handleGroupNameBlur(groupName, e.target.value)}
                                     placeholder="Skill Group Name"
                                     onKeyDown={(e) => {
@@ -130,9 +144,19 @@ export const ResumeEditSkillsModal: React.FC<ResumeEditSkillsModalProps>  = ({sk
                             <div className="basis-2/3">
                                 <Input
                                     type="text"
-                                    value={inputValues[`skills-${groupName}`] ?? skillsInGroup.map(s => s.name).join(', ')}
-                                    onChange={(e) => setInputValues(prev => ({ ...prev, [`skills-${groupName}`]: e.target.value }))}
-                                    onBlur={(e) => handleSkillsStringChange(groupName, e.target.value)}
+                                    value={
+                                        inputValues[`skills-${groupName}`] ??
+                                        skillsInGroup.map((s) => s.name).join(', ')
+                                    }
+                                    onChange={(e) =>
+                                        setInputValues((prev) => ({
+                                            ...prev,
+                                            [`skills-${groupName}`]: e.target.value,
+                                        }))
+                                    }
+                                    onBlur={(e) =>
+                                        handleSkillsStringChange(groupName, e.target.value)
+                                    }
                                     placeholder="e.g., React, JavaScript, TypeScript"
                                     onKeyDown={(e) => {
                                         if (e.key === 'Enter') {
@@ -155,11 +179,7 @@ export const ResumeEditSkillsModal: React.FC<ResumeEditSkillsModalProps>  = ({sk
                     ))}
 
                     <div className="flex justify-end mt-4">
-                        <Button
-                            type="secondary"
-                            onClick={handleAddGroup}
-                            htmlType="button"
-                        >
+                        <Button type="secondary" onClick={handleAddGroup} htmlType="button">
                             <span className="material-symbols-outlined text-2xl">add_2</span>
                         </Button>
                     </div>
@@ -168,7 +188,7 @@ export const ResumeEditSkillsModal: React.FC<ResumeEditSkillsModalProps>  = ({sk
                         <Button type="secondary" onClick={onCancel} htmlType="button">
                             Cancel
                         </Button>
-                        <Button type="primary" htmlType={"submit"}>
+                        <Button type="primary" htmlType={'submit'}>
                             Save changes
                         </Button>
                     </div>

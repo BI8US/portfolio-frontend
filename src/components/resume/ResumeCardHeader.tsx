@@ -1,9 +1,10 @@
-import React from "react";
-import {ResumeItem} from "../../types/resumeTypes";
-import {ResumeCardMediaLinks} from "./ResumeCardMediaLinks";
-import {ContentCard} from "../common/ContentCard";
-import {Button} from "../common/Button";
-import {toast} from 'sonner'
+import React from 'react';
+import { toast } from 'sonner';
+
+import { ResumeItem } from '../../types/resumeTypes';
+import { Button } from '../common/Button';
+import { ContentCard } from '../common/ContentCard';
+import { ResumeCardMediaLinks } from './ResumeCardMediaLinks';
 
 interface ResumeCardProps {
     resume: ResumeItem;
@@ -11,15 +12,15 @@ interface ResumeCardProps {
 }
 
 export const ResumeCardHeader: React.FC<ResumeCardProps> = ({ resume, onEditClick }) => {
-
     const handleCopyToClipboard = (text: string | undefined) => {
         if (!text) return;
 
-        navigator.clipboard.writeText(text)
+        navigator.clipboard
+            .writeText(text)
             .then(() => {
                 toast.success(`"${text}" copied to clipboard!`);
             })
-            .catch(err => {
+            .catch((err) => {
                 console.error('Failed to copy: ', err);
             });
     };
@@ -39,25 +40,27 @@ export const ResumeCardHeader: React.FC<ResumeCardProps> = ({ resume, onEditClic
                     )}
 
                     <div className="flex-1">
-                            <h2 className="text-2xl font-bold text-text-primary">{resume.fullName}</h2>
-                            {resume.intro && (
-                                <p className="text-text-secondary italic">{resume.intro}</p>
-                            )}
-                            {resume.location && (
-                                <p className='flex items-center italic text-text-muted mb-2'>
-                                    <span className="material-symbols-outlined text-text-muted">location_on</span>
-                                    {resume.location}
-                                </p>
-                            )}
+                        <h2 className="text-2xl font-bold text-text-primary">{resume.fullName}</h2>
+                        {resume.intro && (
+                            <p className="text-text-secondary italic">{resume.intro}</p>
+                        )}
+                        {resume.location && (
+                            <p className="flex items-center italic text-text-muted mb-2">
+                                <span className="material-symbols-outlined text-text-muted">
+                                    location_on
+                                </span>
+                                {resume.location}
+                            </p>
+                        )}
                         <div className="flex flex-wrap text-text-secondary mt-2 gap-2">
                             {resume.mediaLinks && (
-                                <ResumeCardMediaLinks mediaLinks={resume.mediaLinks}/>
+                                <ResumeCardMediaLinks mediaLinks={resume.mediaLinks} />
                             )}
                             {resume.email && (
                                 <button
                                     type="button"
                                     onClick={() => handleCopyToClipboard(resume.email)}
-                                    className='flex items-center gap-1 border border-border p-2 rounded-full text-text-secondary hover:bg-border active:bg-border'
+                                    className="flex items-center gap-1 border border-border p-2 rounded-full text-text-secondary hover:bg-border active:bg-border"
                                 >
                                     <span className="material-symbols-outlined">mail</span>
                                     {resume.email}
@@ -67,7 +70,7 @@ export const ResumeCardHeader: React.FC<ResumeCardProps> = ({ resume, onEditClic
                                 <button
                                     type="button"
                                     onClick={() => handleCopyToClipboard(resume.phone)}
-                                    className='flex items-center gap-1 border border-border p-2 rounded-full text-text-secondary hover:bg-border active:bg-border'
+                                    className="flex items-center gap-1 border border-border p-2 rounded-full text-text-secondary hover:bg-border active:bg-border"
                                 >
                                     <span className="material-symbols-outlined">call</span>
                                     {resume.phone}
@@ -79,7 +82,9 @@ export const ResumeCardHeader: React.FC<ResumeCardProps> = ({ resume, onEditClic
             </ContentCard>
             <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-text-primary text-2xl">person</span>
+                    <span className="material-symbols-outlined text-text-primary text-2xl">
+                        person
+                    </span>
                     <h2 className="text-2xl font-bold text-text-primary">About me</h2>
                 </div>
                 <span>

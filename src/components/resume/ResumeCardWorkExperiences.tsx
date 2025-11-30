@@ -1,19 +1,25 @@
-import React from "react";
-import {WorkExperienceItem} from "../../types/workExperienceTypes";
-import {ContentCard} from "../common/ContentCard";
-import {Button} from "../common/Button";
+import React from 'react';
+
+import { WorkExperienceItem } from '../../types/workExperienceTypes';
+import { Button } from '../common/Button';
+import { ContentCard } from '../common/ContentCard';
 
 export interface ResumeCardWorkExperiencesProps {
     workExperiences: WorkExperienceItem[];
     onEditClick?: () => void;
 }
 
-export const ResumeCardWorkExperiences = ({ workExperiences, onEditClick }: ResumeCardWorkExperiencesProps) => {
+export const ResumeCardWorkExperiences = ({
+    workExperiences,
+    onEditClick,
+}: ResumeCardWorkExperiencesProps) => {
     return (
         <>
             <div className="flex justify-between items-center mb-2">
                 <div className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-text-primary text-2xl">work</span>
+                    <span className="material-symbols-outlined text-text-primary text-2xl">
+                        work
+                    </span>
                     <h2 className="text-2xl font-bold text-text-primary">Work experience</h2>
                 </div>
                 {onEditClick && (
@@ -51,4 +57,4 @@ export const ResumeCardWorkExperiences = ({ workExperiences, onEditClick }: Resu
             </ContentCard>
         </>
     );
-}
+};

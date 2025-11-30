@@ -1,28 +1,28 @@
-import React from "react";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
+
+import { Button } from '../components/common/Button';
+import { ConfirmationModal } from '../components/common/ConfirmationModal';
+import { ContentCard } from '../components/common/ContentCard';
+import { ContentPage } from '../components/common/ContentPage';
+import { Input } from '../components/common/Input';
+import { Select } from '../components/common/Select';
+import { JobApplicationTable } from '../components/jobApplication/JobApplicationTable';
+import { STATUSES } from '../constants/Statuses';
 import {
     useCreateApplication,
     useDeleteApplication,
     useGetAllApplications,
-    useUpdateApplication
-} from "../hooks/useJobApplication";
-import {useNavigate} from "react-router-dom";
-import {ContentPage} from "../components/common/ContentPage"
-import {ContentCard} from "../components/common/ContentCard";
-import {JobApplicationItemPartial} from "../types/jobApplicationTypes"
-import {Input} from "../components/common/Input";
-import {Select} from "../components/common/Select";
-import {Button} from "../components/common/Button";
-import {STATUSES} from "../constants/Statuses";
-import {ResumeListItemCard} from "../components/resume/ResumeListItemCard";
-import {ConfirmationModal} from "../components/common/ConfirmationModal";
-import {JobApplicationTable} from "../components/jobApplication/JobApplicationTable";
-import {toast} from "sonner";
+    useUpdateApplication,
+} from '../hooks/useJobApplication';
+import { JobApplicationItemPartial } from '../types/jobApplicationTypes';
 
 type SortKey = 'company' | 'role' | 'status' | 'updatedAt' | 'createdAt';
 type SortDirection = 'asc' | 'desc';
 
 export const JobApplicationListPage: React.FC = () => {
-    const {data: applications, isLoading} = useGetAllApplications();
+    const { data: applications, isLoading } = useGetAllApplications();
     const navigate = useNavigate();
     const createApplicationMutation = useCreateApplication();
     const deleteApplicationMutation = useDeleteApplication();
@@ -31,18 +31,21 @@ export const JobApplicationListPage: React.FC = () => {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false);
     const [applicationToDeleteId, setApplicationToDeleteId] = React.useState<number | null>(null);
 
-    const [sortConfig, setSortConfig] = React.useState<{ key: SortKey, direction: SortDirection } | null>({
+    const [sortConfig, setSortConfig] = React.useState<{
+        key: SortKey;
+        direction: SortDirection;
+    } | null>({
         key: 'updatedAt',
-        direction: 'desc'
+        direction: 'desc',
     });
 
     const [newApplication, setNewApplication] = React.useState<JobApplicationItemPartial>({
-        status: "",
-        company: "",
-        role: "",
+        status: '',
+        company: '',
+        role: '',
     });
 
-    const statusOptions = STATUSES.map(status => ({
+    const statusOptions = STATUSES.map((status) => ({
         label: status,
         value: status,
     }));
@@ -54,7 +57,6 @@ export const JobApplicationListPage: React.FC = () => {
         }
         setSortConfig({ key, direction });
     };
-
 
     const sortedApplications = React.useMemo(() => {
         if (!applications) return [];
@@ -82,23 +84,22 @@ export const JobApplicationListPage: React.FC = () => {
         return sortableItems;
     }, [applications, sortConfig]);
 
-
     const handleCreateSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!newApplication.status || !newApplication.company || !newApplication.role) {
-            toast.error("Fill all fields for new application.");
+            toast.error('Fill all fields for new application.');
             return;
         }
         createApplicationMutation.mutate(newApplication, {
             onSuccess: () => {
                 setNewApplication({
-                    status: "",
-                    company: "",
-                    role: "",
+                    status: '',
+                    company: '',
+                    role: '',
                 });
-            }
+            },
         });
-    }
+    };
 
     const handleEdit = (applicationId: number) => {
         navigate(`/jobapplication/edit/${applicationId}`);
@@ -107,9 +108,9 @@ export const JobApplicationListPage: React.FC = () => {
     const handleChangeStatus = (applicationId: number, newStatus: string) => {
         updateApplicationMutation.mutate({
             id: applicationId,
-            applicationData: { status: newStatus }
+            applicationData: { status: newStatus },
         });
-    }
+    };
 
     const handleDelete = (applicationId: number) => {
         setApplicationToDeleteId(applicationId);
@@ -133,12 +134,12 @@ export const JobApplicationListPage: React.FC = () => {
     };
 
     const handleSelectChange = (value: string) => {
-        setNewApplication(prev => ({ ...prev, status: value }));
+        setNewApplication((prev) => ({ ...prev, status: value }));
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        setNewApplication(prev => ({ ...prev, [name]: value }));
+        setNewApplication((prev) => ({ ...prev, [name]: value }));
     };
 
     if (isLoading) return <p>Loading job applications...</p>;
@@ -147,7 +148,9 @@ export const JobApplicationListPage: React.FC = () => {
         <ContentPage className="max-w-6xl">
             <ContentCard>
                 <form onSubmit={handleCreateSubmit}>
-                    <h2 className="text-lg font-semibold mb-2 text-text-primary">Add job application</h2>
+                    <h2 className="text-lg font-semibold mb-2 text-text-primary">
+                        Add job application
+                    </h2>
                     <Select
                         name="status"
                         placeholder="Status"
@@ -169,9 +172,7 @@ export const JobApplicationListPage: React.FC = () => {
                         value={newApplication.role}
                         onChange={handleInputChange}
                     />
-                    <Button type={"primary"}>
-                        Create
-                    </Button>
+                    <Button type={'primary'}>Create</Button>
                 </form>
             </ContentCard>
             {applications && applications.length > 0 && (
@@ -199,5 +200,5 @@ export const JobApplicationListPage: React.FC = () => {
                 onConfirm={handleConfirmDelete}
             />
         </ContentPage>
-    )
-}
+    );
+};

@@ -1,8 +1,8 @@
-import {EducationItem} from "./educationTypes";
-import {MediaLinkItem} from "./mediaLinkTypes";
-import {ProjectItem} from "./projectTypes";
-import {SkillItem} from "./skillTypes";
-import {WorkExperienceItem} from "./workExperienceTypes";
+import { EducationItem } from './educationTypes';
+import { MediaLinkItem } from './mediaLinkTypes';
+import { ProjectItem } from './projectTypes';
+import { SkillItem } from './skillTypes';
+import { WorkExperienceItem } from './workExperienceTypes';
 
 export interface ResumeListItem {
     id: number;

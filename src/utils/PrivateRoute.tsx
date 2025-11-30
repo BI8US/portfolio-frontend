@@ -1,7 +1,8 @@
-import React from "react";
-import {Navigate} from "react-router-dom";
-import {getToken} from "./auth";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from 'jwt-decode';
+import React from 'react';
+import { Navigate } from 'react-router-dom';
+
+import { getToken } from './auth';
 
 interface PrivateRouteProps {
     children: React.ReactNode;
@@ -27,15 +28,14 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, role }) =>
         const currentTime = Date.now() / 1000;
 
         if (decodedToken.exp < currentTime) {
-            return <Navigate to="/login" replace/>;
+            return <Navigate to="/login" replace />;
         }
 
         if (role && decodedToken.role !== role) {
             return <Navigate to="/resume/active" replace />;
         }
-
     } catch (error) {
-        console.error("JWT decoding error:", error);
+        console.error('JWT decoding error:', error);
         return <Navigate to="/login" replace />;
     }
 

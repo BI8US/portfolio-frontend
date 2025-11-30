@@ -34,4 +34,3 @@ export interface JobApplicationItemPartial {
     createdAt?: string;
     updatedAt?: string;
 }
-

@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
-import {Link, useNavigate} from "react-router-dom";
-import { getToken, removeToken } from "../../utils/auth";
-import {ConfirmationModal} from "./ConfirmationModal";
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { getToken, removeToken } from '../../utils/auth';
+import { ConfirmationModal } from './ConfirmationModal';
 
 const Header: React.FC = () => {
     const navigate = useNavigate();
@@ -16,18 +17,20 @@ const Header: React.FC = () => {
     const handleConfirmLogout = () => {
         setIsLogoutModalOpen(false);
         removeToken();
-        navigate("/resume/active");
-    }
+        navigate('/resume/active');
+    };
 
     const handleCancelLogout = () => {
         setIsLogoutModalOpen(false);
-    }
+    };
 
     const [isDark, setIsDark] = useState(() => {
         if (localStorage.theme === 'dark') {
             return true;
         }
-        return (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        return (
+            !('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches
+        );
     });
 
     useEffect(() => {
@@ -46,16 +49,16 @@ const Header: React.FC = () => {
     };
 
     const navButtonClasses =
-        "flex items-center gap-2 " +
-        "px-1 py-1 md:px-3 md:py-1 " +
-        "rounded-3xl font-semibold " +
-        "bg-content " +
-        "border border-transparent " +
-        "text-text-secondary " +
-        "hover:text-content " +
-        "hover:bg-button-secondary " +
-        "active:text-content active:bg-button-secondary " +
-        "transition-colors duration-200";
+        'flex items-center gap-2 ' +
+        'px-1 py-1 md:px-3 md:py-1 ' +
+        'rounded-3xl font-semibold ' +
+        'bg-content ' +
+        'border border-transparent ' +
+        'text-text-secondary ' +
+        'hover:text-content ' +
+        'hover:bg-button-secondary ' +
+        'active:text-content active:bg-button-secondary ' +
+        'transition-colors duration-200';
     return (
         <header className="bg-content text-text-primary p-4 flex justify-between items-center border-b border-border">
             <Link to="/resume/active" className={navButtonClasses}>
@@ -66,12 +69,16 @@ const Header: React.FC = () => {
                 {token ? (
                     <>
                         <Link to="/games/snake" className={navButtonClasses}>
-                            <span className="material-symbols-outlined text-2xl">sports_esports</span>
+                            <span className="material-symbols-outlined text-2xl">
+                                sports_esports
+                            </span>
                             <span className="hidden md:inline">Snake game</span>
                         </Link>
 
                         <Link to="/resumes" className={navButtonClasses}>
-                            <span className="material-symbols-outlined text-2xl">article_person</span>
+                            <span className="material-symbols-outlined text-2xl">
+                                article_person
+                            </span>
                             <span className="hidden md:inline">Resume List</span>
                         </Link>
 
@@ -80,10 +87,7 @@ const Header: React.FC = () => {
                             <span className="hidden md:inline">Job Applications</span>
                         </Link>
 
-                        <button
-                            onClick={handleLogout}
-                            className={navButtonClasses}
-                        >
+                        <button onClick={handleLogout} className={navButtonClasses}>
                             <span className="material-symbols-outlined text-2xl">move_item</span>
                             <span className="hidden md:inline">Log Out</span>
                         </button>
@@ -91,7 +95,9 @@ const Header: React.FC = () => {
                 ) : (
                     <>
                         <Link to="/games/snake" className={navButtonClasses}>
-                            <span className="material-symbols-outlined text-2xl">sports_esports</span>
+                            <span className="material-symbols-outlined text-2xl">
+                                sports_esports
+                            </span>
                             <span className="hidden md:inline">Snake game</span>
                         </Link>
                         <Link to="/login" className={navButtonClasses}>

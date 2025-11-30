@@ -1,7 +1,8 @@
-import React from "react";
-import {ProjectItem} from "../../types/projectTypes";
-import {ContentCard} from "../common/ContentCard";
-import {Button} from "../common/Button";
+import React from 'react';
+
+import { ProjectItem } from '../../types/projectTypes';
+import { Button } from '../common/Button';
+import { ContentCard } from '../common/ContentCard';
 
 export interface ResumeCardProjectsProps {
     projects: ProjectItem[];
@@ -13,7 +14,9 @@ export const ResumeCardProjects = ({ projects, onEditClick }: ResumeCardProjects
         <>
             <div className="flex justify-between items-center mb-2">
                 <div className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-text-primary text-2xl">rocket_launch</span>
+                    <span className="material-symbols-outlined text-text-primary text-2xl">
+                        rocket_launch
+                    </span>
                     <h2 className="text-2xl font-bold text-text-primary">Projects</h2>
                 </div>
                 {onEditClick && (
@@ -34,13 +37,11 @@ export const ResumeCardProjects = ({ projects, onEditClick }: ResumeCardProjects
                                 <div>{item.title}</div>
                                 <div>({item.subTitle})</div>
                             </div>
-                            <div className="text-text-secondary">
-                                {item.description}
-                            </div>
+                            <div className="text-text-secondary">{item.description}</div>
                         </div>
                     ))}
                 </div>
             </ContentCard>
         </>
     );
-}
+};

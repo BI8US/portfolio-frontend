@@ -1,12 +1,13 @@
-import React from "react";
-import {ResumeListItemCard} from "../components/resume/ResumeListItemCard";
-import {useCreateResume, useGetAllResumes, useDeleteResume} from "../hooks/useResume";
-import {useNavigate} from "react-router-dom";
-import {ContentPage} from "../components/common/ContentPage";
-import {ContentCard} from "../components/common/ContentCard";
-import {Button} from "../components/common/Button";
-import {Input} from "../components/common/Input";
-import {ConfirmationModal} from "../components/common/ConfirmationModal";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { Button } from '../components/common/Button';
+import { ConfirmationModal } from '../components/common/ConfirmationModal';
+import { ContentCard } from '../components/common/ContentCard';
+import { ContentPage } from '../components/common/ContentPage';
+import { Input } from '../components/common/Input';
+import { ResumeListItemCard } from '../components/resume/ResumeListItemCard';
+import { useCreateResume, useDeleteResume, useGetAllResumes } from '../hooks/useResume';
 
 export const ResumeListPage: React.FC = () => {
     const { data: resumes, isLoading } = useGetAllResumes();
@@ -30,7 +31,7 @@ export const ResumeListPage: React.FC = () => {
         createResumeMutation.mutate(newResumeName, {
             onSuccess: () => {
                 setNewResumeName('');
-            }
+            },
         });
     };
 
@@ -65,7 +66,9 @@ export const ResumeListPage: React.FC = () => {
         <ContentPage className="max-w-4xl">
             <ContentCard>
                 <form onSubmit={handleCreateSubmit}>
-                    <h2 className="text-lg font-semibold mb-2 text-text-primary">Create new resume</h2>
+                    <h2 className="text-lg font-semibold mb-2 text-text-primary">
+                        Create new resume
+                    </h2>
                     <Input
                         type="text"
                         placeholder="Resume name"
@@ -73,14 +76,17 @@ export const ResumeListPage: React.FC = () => {
                         onChange={(e) => setNewResumeName(e.target.value)}
                         required
                     />
-                    <Button type={"primary"}>
-                        Create
-                    </Button>
+                    <Button type={'primary'}>Create</Button>
                 </form>
             </ContentCard>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                 {sortedResumes?.map((resume) => (
-                    <ResumeListItemCard key={resume.id} resume={resume} onEdit={handleEdit} onDelete={handleDelete} />
+                    <ResumeListItemCard
+                        key={resume.id}
+                        resume={resume}
+                        onEdit={handleEdit}
+                        onDelete={handleDelete}
+                    />
                 ))}
             </div>
 

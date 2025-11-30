@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { createPortal } from "react-dom";
+import React, { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 interface Option {
     label: string;
@@ -19,20 +19,20 @@ interface SelectProps {
 }
 
 export const Select: React.FC<SelectProps> = ({
-                                                  label,
-                                                  placeholder = "Select...",
-                                                  options,
-                                                  name,
-                                                  value,
-                                                  onChange,
-                                                  required,
-                                                  className,
-                                                  buttonClassName,
-                                                  ...props
-                                              }) => {
+    label,
+    placeholder = 'Select...',
+    options,
+    name,
+    value,
+    onChange,
+    required,
+    className,
+    buttonClassName,
+    ...props
+}) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selected, setSelected] = useState<Option | null>(
-        options.find((opt) => opt.value === value) || null
+        options.find((opt) => opt.value === value) || null,
     );
     const wrapperRef = useRef<HTMLDivElement>(null);
     const dropdownRef = useRef<HTMLUListElement>(null);
@@ -57,8 +57,8 @@ export const Select: React.FC<SelectProps> = ({
                 setIsOpen(false);
             }
         };
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
     const handleSelect = (option: Option) => {
@@ -79,15 +79,17 @@ export const Select: React.FC<SelectProps> = ({
         setIsOpen((prev) => !prev);
     };
 
-    const combinedClasses = `flex flex-col mb-2 w-full relative ${className || ""}`.trim();
+    const combinedClasses = `flex flex-col mb-2 w-full relative ${className || ''}`.trim();
     const baseButtonClasses =
-        "border border-border p-2 w-full rounded-3xl flex justify-between items-center transition-colors duration-150 focus:outline-none focus:ring-1 focus:ring-text-accent";
+        'border border-border p-2 w-full rounded-3xl flex justify-between items-center transition-colors duration-150 focus:outline-none focus:ring-1 focus:ring-text-accent';
     const finalButtonClasses = [
         baseButtonClasses,
         buttonClassName
             ? buttonClassName
-            : `bg-content ${selected ? 'text-text-primary' : 'text-text-muted'}`
-    ].join(' ').trim();
+            : `bg-content ${selected ? 'text-text-primary' : 'text-text-muted'}`,
+    ]
+        .join(' ')
+        .trim();
 
     return (
         <div className={combinedClasses} ref={wrapperRef} {...props}>
@@ -102,15 +104,15 @@ export const Select: React.FC<SelectProps> = ({
             >
                 <span>{selected ? selected.label : placeholder}</span>
                 <span className="ml-2 flex items-center">
-          <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4 text-text-muted"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-          >
-            <path d="M10 12l-6-6h12z" />
-          </svg>
-        </span>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-4 text-text-muted"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                    >
+                        <path d="M10 12l-6-6h12z" />
+                    </svg>
+                </span>
             </button>
 
             {isOpen &&
@@ -119,7 +121,7 @@ export const Select: React.FC<SelectProps> = ({
                         ref={dropdownRef}
                         className="absolute border border-border rounded-xl bg-content shadow-lg z-[9999] max-h-48 overflow-y-auto"
                         style={{
-                            position: "absolute",
+                            position: 'absolute',
                             top: dropdownPosition.top,
                             left: dropdownPosition.left,
                             width: dropdownPosition.width,
@@ -131,10 +133,11 @@ export const Select: React.FC<SelectProps> = ({
                                 key={option.value}
                                 className={`
                                     p-2 hover:text-text-accent cursor-pointer
-                                    ${selected?.value === option.value
-                                    ? 'font-semibold text-text-accent'
-                                    : 'text-text-primary'
-                                }
+                                    ${
+                                        selected?.value === option.value
+                                            ? 'font-semibold text-text-accent'
+                                            : 'text-text-primary'
+                                    }
                                 `}
                                 onClick={() => handleSelect(option)}
                                 role="option"
@@ -144,10 +147,10 @@ export const Select: React.FC<SelectProps> = ({
                             </li>
                         ))}
                     </ul>,
-                    document.body
+                    document.body,
                 )}
 
-            <input type="hidden" name={name} value={selected?.value || ""} required={required} />
+            <input type="hidden" name={name} value={selected?.value || ''} required={required} />
         </div>
     );
 };
