@@ -72,7 +72,7 @@ npm install --legacy-peer-deps
 
 ### 3. Setup Environment Variables
 Create a `.env` file in the root directory to point to your local or production backend.
-```
+```dotenv
 REACT_APP_API_URL_DEV=http://localhost:8080/api
 ```
 
