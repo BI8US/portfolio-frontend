@@ -8,7 +8,7 @@
 This repository contains the **Frontend Client** for my interactive portfolio and resume platform. It is a Single Page Application built with React and TypeScript, designed to provide a seamless, responsive, and engaging user experience.
 
 🔗 **Live Demo:** [https://asmirnov.pages.dev](https://asmirnov.pages.dev)
-🔗 **Backend Repository:** [https://github.com/BI8US/server-node](https://github.com/BI8US/server-node)
+🔗 **Backend Repository:** [https://github.com/BI8US/portfolio-backend](https://github.com/BI8US/portfolio-backend)
 
 ---
 
@@ -60,7 +60,7 @@ Follow these steps to run the project locally.
 
 ### 1. Clone the Repository
 ```bash
-git clone git@github.com:BI8US/frontend.git
+git clone git@github.com:BI8US/portfolio-frontend.git
 cd frontend
 ```
 
