@@ -3,18 +3,10 @@ import { toast } from 'sonner';
 
 import { getToken } from '../utils/auth';
 
-const PROD_URL = process.env.REACT_APP_API_URL;
-const DEV_URL = process.env.REACT_APP_API_URL_DEV;
-
-const getBaseURL = () => {
-    if (process.env.NODE_ENV === 'production') {
-        return PROD_URL;
-    }
-    return DEV_URL;
-};
+const baseURL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8080/api';
 
 export const api = axios.create({
-    baseURL: getBaseURL(),
+    baseURL: baseURL,
 });
 
 api.interceptors.request.use((config) => {
