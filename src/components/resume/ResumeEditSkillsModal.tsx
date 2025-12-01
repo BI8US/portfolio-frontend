@@ -84,7 +84,13 @@ export const ResumeEditSkillsModal: React.FC<ResumeEditSkillsModalProps> = ({
     };
 
     const handleAddGroup = () => {
-        const newGroupName = `New Group ${Object.keys(groupedSkills).length + 1}`;
+        let i = 1;
+        let newGroupName = `New Group ${i}`;
+        while (groupedSkills.hasOwnProperty(newGroupName)) {
+            i++;
+            newGroupName = `New Group ${i}`;
+        }
+
         setGroupedSkills((prevGroups) => ({
             ...prevGroups,
             [newGroupName]: [],
