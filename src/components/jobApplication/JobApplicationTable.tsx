@@ -31,7 +31,7 @@ const SortIcon: React.FC<{ direction: SortDirection | null }> = ({ direction }) 
             <svg className="w-3 h-3 text-text-muted ml-1" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2L17 7H7L12 2Z M17 17L12 22L7 17H17Z" />
             </svg>
-        ); // Две стрелки (неактивная)
+        );
     }
 
     const d = direction === 'asc' ? 'M7 14l5-5 5 5H7z' : 'M7 10l5 5 5-5H7z';
