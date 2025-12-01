@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 import { getToken } from '../utils/auth';
 
 const PROD_URL = process.env.REACT_APP_API_URL;
-const DEV_URL = 'http://127.0.0.1:8080/api';
+const DEV_URL = process.env.REACT_APP_API_URL_DEV;
 
 const getBaseURL = () => {
     if (process.env.NODE_ENV === 'production') {
