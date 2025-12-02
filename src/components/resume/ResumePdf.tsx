@@ -3,12 +3,14 @@ import React from 'react';
 
 import { ResumeItem } from '../../types/resumeTypes';
 
-const portfolioLink = {
+// --- CONSTANTS ---
+const PORTFOLIO_LINK = {
     id: 'portfolio',
     name: 'Portfolio',
     link: 'https://asmirnov.pages.dev',
 };
 
+// --- STYLES ---
 const styles = StyleSheet.create({
     page: {
         padding: 30,
@@ -24,10 +26,10 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
     },
     name: {
-        fontSize: 18,
+        fontSize: 16,
         fontFamily: 'Helvetica-Bold',
         textTransform: 'uppercase',
-        marginBottom: 12,
+        marginBottom: 8,
         letterSpacing: 0.5,
     },
     intro: {
@@ -55,14 +57,11 @@ const styles = StyleSheet.create({
         color: '#000000',
     },
     separator: {
-        marginHorizontal: 2,
-        color: '#9CA3AF',
+        marginHorizontal: 4,
+        fontSize: 10,
+        fontWeight: 'normal',
+        textDecoration: 'none',
     },
-    generatedNote: {
-        color: '#9CA3AF',
-        fontFamily: 'Helvetica-Oblique',
-    },
-
     section: {
         marginBottom: 8,
     },
@@ -75,7 +74,6 @@ const styles = StyleSheet.create({
         paddingBottom: 2,
         letterSpacing: 0.5,
     },
-
     entryContainer: {
         marginBottom: 6,
     },
@@ -97,7 +95,6 @@ const styles = StyleSheet.create({
         fontFamily: 'Helvetica-Oblique',
         marginBottom: 1,
     },
-
     description: {
         marginTop: 2,
         textAlign: 'justify',
@@ -124,17 +121,19 @@ const styles = StyleSheet.create({
     skillCategory: {
         fontFamily: 'Helvetica-Bold',
         width: 110,
-        marginRight: 0,
     },
     skillList: {
         flex: 1,
     },
 });
 
-const formatText = (text: string) => {
-    const cleanText = text.replace(/\*\*(.*?)\*\*/g, '$1').replace(/__(.*?)__/g, '$1');
+// --- HELPERS ---
 
-    const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+const Separator = () => <Text style={styles.separator}>|</Text>;
+
+const formatText = (text: string) => {
+    const cleanText = text.replace(/(\*\*|__)(.*?)\1/g, '$2');
+    const linkRegex = /\[([^\]]+)]\(([^)]+)\)/g;
 
     const parts = [];
     let lastIndex = 0;
@@ -165,62 +164,54 @@ const formatText = (text: string) => {
 
 const renderDescription = (text: string) => {
     if (!text) return null;
-    const lines = text.split('\n').filter((line) => line.trim().length > 0);
-
-    return lines.map((line, index) => {
-        const lineWithoutBullet = line.replace(/^\s*-\s*/, '').replace(/^\s*•\s*/, '');
-
-        return (
-            <View key={index} style={styles.bulletPoint}>
-                <Text style={styles.bulletChar}>•</Text>
-                <Text style={styles.bulletText}>{formatText(lineWithoutBullet)}</Text>
-            </View>
-        );
-    });
+    return text
+        .split('\n')
+        .filter((line) => line.trim().length > 0)
+        .map((line, index) => {
+            const lineWithoutBullet = line.replace(/^[\s-•]+/, '');
+            return (
+                <View key={index} style={styles.bulletPoint}>
+                    <Text style={styles.bulletChar}>•</Text>
+                    <Text style={styles.bulletText}>{formatText(lineWithoutBullet)}</Text>
+                </View>
+            );
+        });
 };
 
-const groupSkills = (skills: any[]) => {
-    const grouped: Record<string, string[]> = {};
+const groupSkills = (skills: ResumeItem['skills']): [string, string[]][] => {
+    if (!skills) return [];
 
-    skills.forEach((skill) => {
-        const group = skill.skillGroup || 'Other';
-        if (!grouped[group]) grouped[group] = [];
-        grouped[group].push(skill.name);
-    });
+    const grouped = skills.reduce(
+        (acc, skill) => {
+            const group = skill.skillGroup || 'Other';
+            if (!acc[group]) acc[group] = [];
+            acc[group].push(skill.name);
+            return acc;
+        },
+        {} as Record<string, string[]>,
+    );
 
     return Object.entries(grouped);
 };
 
 const stripMarkdown = (text: string) => {
     if (!text) return '';
-    return text.replace(/\*\*(.*?)\*\*/g, '$1').replace(/\n/g, ' ');
+    return text.replace(/(\*\*|__)(.*?)\1/g, '$2').replace(/\n/g, ' ');
 };
 
+// --- COMPONENT ---
+
 export const ResumePdf = ({ resume }: { resume: ResumeItem }) => {
-    const groupedSkills = resume.skills ? groupSkills(resume.skills) : [];
-    const Separator = () => (
-        <Text
-            style={{
-                marginHorizontal: 4,
-                fontSize: 10,
-                fontWeight: 'normal',
-                textDecoration: 'none',
-            }}
-        >
-            |
-        </Text>
-    );
-    const allMediaLinks = [...(resume.mediaLinks || []), portfolioLink];
+    const groupedSkills = groupSkills(resume.skills);
+    const allMediaLinks = [...(resume.mediaLinks || []), PORTFOLIO_LINK];
 
     return (
         <Document>
             <Page size="A4" style={styles.page}>
                 {/* HEADER */}
                 <View style={styles.header}>
-                    {/* 1. NAME */}
                     <Text style={styles.name}>{resume.fullName}</Text>
 
-                    {/* CONTACTS */}
                     {(resume.email || resume.phone) && (
                         <View style={styles.contactRow}>
                             {resume.email && <Text>{resume.email}</Text>}
@@ -229,7 +220,6 @@ export const ResumePdf = ({ resume }: { resume: ResumeItem }) => {
                         </View>
                     )}
 
-                    {/* LINKS */}
                     <View style={styles.contactRow}>
                         {allMediaLinks.map((link, i) => (
                             <React.Fragment key={link.id}>
@@ -241,10 +231,7 @@ export const ResumePdf = ({ resume }: { resume: ResumeItem }) => {
                         ))}
                     </View>
 
-                    {/* INTRO */}
                     {resume.intro && <Text style={styles.intro}>{resume.intro}</Text>}
-
-                    {/* LOCATION */}
                     {resume.location && <Text style={styles.location}>{resume.location}</Text>}
                 </View>
 
@@ -273,7 +260,7 @@ export const ResumePdf = ({ resume }: { resume: ResumeItem }) => {
                 {resume.workExperiences && resume.workExperiences.length > 0 && (
                     <View style={styles.section}>
                         <Text style={styles.sectionTitle}>Work Experience</Text>
-                        {resume.workExperiences.map((job) => (
+                        {resume.workExperiences?.map((job) => (
                             <View key={job.id} style={styles.entryContainer} wrap={false}>
                                 <View style={styles.entryHeaderRow}>
                                     <Text style={styles.entryTitle}>{job.company}</Text>
@@ -294,7 +281,7 @@ export const ResumePdf = ({ resume }: { resume: ResumeItem }) => {
                 {resume.projects && resume.projects.length > 0 && (
                     <View style={styles.section}>
                         <Text style={styles.sectionTitle}>Projects</Text>
-                        {resume.projects.map((project) => (
+                        {resume.projects?.map((project) => (
                             <View key={project.id} style={styles.entryContainer} wrap={false}>
                                 <View style={styles.entryHeaderRow}>
                                     <Text style={styles.entryTitle}>{project.title}</Text>
@@ -314,7 +301,7 @@ export const ResumePdf = ({ resume }: { resume: ResumeItem }) => {
                 {resume.educations && resume.educations.length > 0 && (
                     <View style={styles.section}>
                         <Text style={styles.sectionTitle}>Education</Text>
-                        {resume.educations.map((edu) => (
+                        {resume.educations?.map((edu) => (
                             <View key={edu.id} style={styles.entryContainer} wrap={false}>
                                 <View style={styles.entryHeaderRow}>
                                     <Text style={styles.entryTitle}>

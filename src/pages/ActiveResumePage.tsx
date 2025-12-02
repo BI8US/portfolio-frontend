@@ -95,7 +95,7 @@ export default function ActiveResumePage() {
 
     return (
         <ContentPage className="max-w-4xl">
-            <div className="flex justify-end mb-4 print:hidden">
+            <div className="flex justify-end mb-4">
                 <PDFDownloadLink
                     document={<ResumePdf resume={activeResume!} />}
                     fileName={`Resume_${(activeResume?.fullName || 'Candidate').replace(/\s+/g, '_')}.pdf`}
