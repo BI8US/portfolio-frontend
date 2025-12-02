@@ -1,3 +1,4 @@
+import { PDFDownloadLink } from '@react-pdf/renderer';
 import React from 'react';
 
 import { Button } from '../components/common/Button';
@@ -10,6 +11,7 @@ import { ResumeCardHeader } from '../components/resume/ResumeCardHeader';
 import { ResumeCardProjects } from '../components/resume/ResumeCardProjects';
 import { ResumeCardSkills } from '../components/resume/ResumeCardSkills';
 import { ResumeCardWorkExperiences } from '../components/resume/ResumeCardWorkExperiences';
+import { ResumePdf } from '../components/resume/ResumePdf';
 import { useGetActiveResume } from '../hooks/useResume';
 
 export default function ActiveResumePage() {
@@ -93,6 +95,24 @@ export default function ActiveResumePage() {
 
     return (
         <ContentPage className="max-w-4xl">
+            <div className="flex justify-end mb-4 print:hidden">
+                <PDFDownloadLink
+                    document={<ResumePdf resume={activeResume!} />}
+                    fileName={`Resume_${(activeResume?.fullName || 'Candidate').replace(/\s+/g, '_')}.pdf`}
+                >
+                    {({ blob, url, loading, error }) => (
+                        <Button
+                            type="primary"
+                            disabled={loading}
+                            className="flex items-center gap-2"
+                        >
+                            <span className="material-symbols-outlined">download</span>
+                            {loading ? 'Preparing PDF...' : 'Download PDF'}
+                        </Button>
+                    )}
+                </PDFDownloadLink>
+            </div>
+
             <ResumeCardHeader resume={activeResume} />
 
             {skills && skills.length > 0 && <ResumeCardSkills skills={skills} />}
