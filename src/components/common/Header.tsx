@@ -1,12 +1,30 @@
+import { jwtDecode } from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { getToken, removeToken } from '../../utils/auth';
 import { ConfirmationModal } from './ConfirmationModal';
 
+interface TokenPayload {
+    id: string;
+    userName: string;
+    role: string;
+    exp: number;
+}
+
 const Header: React.FC = () => {
     const navigate = useNavigate();
     const token = getToken();
+
+    let isAdmin = false;
+    if (token) {
+        try {
+            const decoded = jwtDecode<TokenPayload>(token);
+            isAdmin = decoded.role === 'ADMIN';
+        } catch (e) {
+            console.error('Failed to decode token', e);
+        }
+    }
 
     const [isLogoutModalOpen, setIsLogoutModalOpen] = React.useState(false);
 
@@ -82,10 +100,12 @@ const Header: React.FC = () => {
                             <span className="hidden md:inline">Resume List</span>
                         </Link>
 
-                        <Link to="/jobapplications" className={navButtonClasses}>
-                            <span className="material-symbols-outlined text-2xl">cases</span>
-                            <span className="hidden md:inline">Job Applications</span>
-                        </Link>
+                        {isAdmin && (
+                            <Link to="/jobapplications" className={navButtonClasses}>
+                                <span className="material-symbols-outlined text-2xl">cases</span>
+                                <span className="hidden md:inline">Job Applications</span>
+                            </Link>
+                        )}
 
                         <button onClick={handleLogout} className={navButtonClasses}>
                             <span className="material-symbols-outlined text-2xl">move_item</span>

@@ -42,7 +42,7 @@ function App() {
                         <Route
                             path="/jobapplications"
                             element={
-                                <PrivateRoute>
+                                <PrivateRoute role={'ADMIN'}>
                                     <JobApplicationListPage />
                                 </PrivateRoute>
                             }

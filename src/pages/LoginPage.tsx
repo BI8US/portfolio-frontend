@@ -54,21 +54,35 @@ export const LoginPage = () => {
                         {loginMutation.isPending ? 'Logging in...' : 'Login'}
                     </Button>
 
-                    <Button
-                        type="secondary"
-                        htmlType="button"
-                        onClick={handleDemoSubmit}
-                        className="w-full"
-                    >
-                        Demo Login
-                    </Button>
-
                     {loginMutation.isError && (
                         <p className="text-text-danger text-sm text-center mt-2">
                             Invalid credentials
                         </p>
                     )}
                 </form>
+
+                <div className="mb-4 text-center">
+                    <h3 className="text-lg font-semibold text-text-primary mb-1">
+                        Recruiter / Guest?
+                    </h3>
+                    <p className="text-sm text-text-secondary leading-relaxed">
+                        Explore the admin interface safely in{' '}
+                        <span className="font-bold text-text-accent">Read-Only Mode</span>.
+                        <br />
+                        No password required.
+                    </p>
+                </div>
+
+                <Button
+                    type="secondary"
+                    htmlType="button"
+                    onClick={handleDemoSubmit}
+                    className="w-full flex items-center justify-center gap-2 group"
+                    title="Log in as a guest user"
+                >
+                    <span className="material-symbols-outlined">visibility</span>
+                    Try Demo Login
+                </Button>
             </ContentCard>
         </ContentPage>
     );
