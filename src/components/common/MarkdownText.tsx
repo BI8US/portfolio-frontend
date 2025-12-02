@@ -48,7 +48,7 @@ export const MarkdownText: React.FC<MarkdownTextProps> = ({ children, className 
                         </h5>
                     ),
 
-                    strong: ({ node, ...props }) => <strong className="font-bold" {...props} />,
+                    strong: ({ node, ...props }) => <strong className="font-semibold" {...props} />,
                     em: ({ node, ...props }) => <em className="italic" {...props} />,
 
                     code: ({ node, ...props }) => (
