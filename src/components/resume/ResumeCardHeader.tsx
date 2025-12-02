@@ -1,3 +1,4 @@
+import { PDFDownloadLink } from '@react-pdf/renderer';
 import React from 'react';
 import { toast } from 'sonner';
 
@@ -6,6 +7,7 @@ import { Button } from '../common/Button';
 import { ContentCard } from '../common/ContentCard';
 import { MarkdownText } from '../common/MarkdownText';
 import { ResumeCardMediaLinks } from './ResumeCardMediaLinks';
+import { ResumePdf } from './ResumePdf';
 
 interface ResumeCardProps {
     resume: ResumeItem;
@@ -28,7 +30,25 @@ export const ResumeCardHeader: React.FC<ResumeCardProps> = ({ resume, onEditClic
 
     return (
         <>
-            <ContentCard>
+            <ContentCard className="relative">
+                <div className="absolute top-4 right-4 print:hidden z-10">
+                    <PDFDownloadLink
+                        document={<ResumePdf resume={resume} />}
+                        fileName={`Resume_${resume.fullName?.replace(/\s+/g, '_') || 'Candidate'}.pdf`}
+                    >
+                        {({ loading }) => (
+                            <Button
+                                type="primary"
+                                disabled={loading}
+                                className="flex items-center gap-1"
+                                title="Download PDF"
+                            >
+                                <span className="material-symbols-outlined">download</span>
+                                <span className="hidden sm:inline text-sm">PDF</span>
+                            </Button>
+                        )}
+                    </PDFDownloadLink>
+                </div>
                 <div className="flex flex-col md:flex-row justify-between items-start w-full">
                     {resume.picture && (
                         <div className="w-28 h-28 rounded-full border-2 border-border mr-6 overflow-hidden flex-shrink-0">
@@ -43,7 +63,7 @@ export const ResumeCardHeader: React.FC<ResumeCardProps> = ({ resume, onEditClic
                     <div className="flex-1">
                         <h2 className="text-2xl font-bold text-text-primary">{resume.fullName}</h2>
                         {resume.intro && (
-                            <p className="text-text-secondary italic">{resume.intro}</p>
+                            <p className="text-text-secondary italic md:pr-24">{resume.intro}</p>
                         )}
                         {resume.location && (
                             <p className="flex items-center italic text-text-muted mb-2">
