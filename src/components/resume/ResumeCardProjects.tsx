@@ -3,6 +3,7 @@ import React from 'react';
 import { ProjectItem } from '../../types/projectTypes';
 import { Button } from '../common/Button';
 import { ContentCard } from '../common/ContentCard';
+import { MarkdownText } from '../common/MarkdownText';
 
 export interface ResumeCardProjectsProps {
     projects: ProjectItem[];
@@ -37,7 +38,9 @@ export const ResumeCardProjects = ({ projects, onEditClick }: ResumeCardProjects
                                 <div>{item.title}</div>
                                 <div>({item.subTitle})</div>
                             </div>
-                            <div className="text-text-secondary">{item.description}</div>
+                            <MarkdownText className="text-text-secondary">
+                                {item.description || ''}
+                            </MarkdownText>
                         </div>
                     ))}
                 </div>

@@ -51,7 +51,7 @@ export const ResumeEditProjectsModal: React.FC<ResumeEditProjectsModalProps> = (
                     <h2 className="text-xl font-bold mb-4 text-text-primary">Edit Projects</h2>
 
                     {currentProjects.map((project, index) => (
-                        <div key={index} className="mb-4 p-4 border rounded-3xl">
+                        <div key={index} className="mb-4 p-4 border border-border rounded-3xl">
                             <Input
                                 type="text"
                                 label="Project Title"
@@ -66,9 +66,10 @@ export const ResumeEditProjectsModal: React.FC<ResumeEditProjectsModalProps> = (
                             />
                             <Input
                                 textarea
-                                label="Description"
+                                label="Description (Markdown supported)"
                                 value={project.description || ''}
                                 onChange={(e) => handleChange(index, 'description', e.target.value)}
+                                rows={4}
                             />
                             <div className="flex justify-end mt-2">
                                 <Button

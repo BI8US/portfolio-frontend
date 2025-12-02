@@ -30,7 +30,7 @@ export const ResumeEditEducationsModal: React.FC<ResumeEditEducationsModalProps>
     const handleAddEducation = () => {
         setCurrentEducations([
             ...currentEducations,
-            { school: '', educationName: '', startDate: '', endDate: '' },
+            { school: '', educationName: '', startDate: '', endDate: '', description: '' },
         ]);
     };
 
@@ -41,32 +41,7 @@ export const ResumeEditEducationsModal: React.FC<ResumeEditEducationsModalProps>
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-
-        const sanitizedEducations = currentEducations.map((edu) => {
-            const descriptionText =
-                typeof edu.descriptionPoints === 'string'
-                    ? edu.descriptionPoints
-                    : Array.isArray(edu.descriptionPoints)
-                      ? edu.descriptionPoints.map((p) => p.descriptionPoint).join('\n')
-                      : '';
-
-            const points = descriptionText
-                .split('\n')
-                .map((p) => p.trim())
-                .filter((p) => p !== '')
-                .map((point, idx) => ({
-                    id: edu.descriptionPoints?.[idx]?.id ?? -idx - 1,
-                    educationEntityId: edu.id || 0,
-                    descriptionPoint: point,
-                }));
-
-            return {
-                ...edu,
-                descriptionPoints: points,
-            };
-        });
-
-        onSubmit(sanitizedEducations);
+        onSubmit(currentEducations);
     };
 
     return (
@@ -75,7 +50,7 @@ export const ResumeEditEducationsModal: React.FC<ResumeEditEducationsModalProps>
                 <form onSubmit={handleSubmit}>
                     <h2 className="text-xl font-bold mb-4 text-text-primary">Edit Education</h2>
                     {currentEducations.map((edu, index) => (
-                        <div key={index} className="mb-4 p-4 border rounded-3xl">
+                        <div key={index} className="mb-4 p-4 border border-border rounded-3xl">
                             <Input
                                 type="text"
                                 label="School"
@@ -110,17 +85,10 @@ export const ResumeEditEducationsModal: React.FC<ResumeEditEducationsModalProps>
                             </div>
                             <Input
                                 textarea
-                                label="Description Points (one per line)"
-                                value={
-                                    Array.isArray(edu.descriptionPoints)
-                                        ? edu.descriptionPoints
-                                              .map((p) => p.descriptionPoint)
-                                              .join('\n')
-                                        : edu.descriptionPoints || ''
-                                }
-                                onChange={(e) =>
-                                    handleChange(index, 'descriptionPoints', e.target.value)
-                                }
+                                label="Description (Markdown supported)"
+                                value={edu.description || ''}
+                                onChange={(e) => handleChange(index, 'description', e.target.value)}
+                                rows={4}
                             />
                             <div className="flex justify-end mt-2">
                                 <Button

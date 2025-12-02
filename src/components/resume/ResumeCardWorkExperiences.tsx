@@ -3,6 +3,7 @@ import React from 'react';
 import { WorkExperienceItem } from '../../types/workExperienceTypes';
 import { Button } from '../common/Button';
 import { ContentCard } from '../common/ContentCard';
+import { MarkdownText } from '../common/MarkdownText';
 
 export interface ResumeCardWorkExperiencesProps {
     workExperiences: WorkExperienceItem[];
@@ -44,13 +45,9 @@ export const ResumeCardWorkExperiences = ({
                             <p className="font-semibold mt-2 text-text-secondary">
                                 {item.startDate} - {item.endDate ? item.endDate : 'Present'}
                             </p>
-                            {item.descriptionPoints && item.descriptionPoints.length > 0 && (
-                                <ul className="list-disc list-inside mt-2 text-text-secondary">
-                                    {item.descriptionPoints.map((point) => (
-                                        <li key={point.id.toString()}>{point.descriptionPoint}</li>
-                                    ))}
-                                </ul>
-                            )}
+                            <MarkdownText className="text-text-secondary">
+                                {item.description || ''}
+                            </MarkdownText>
                         </div>
                     ))}
                 </div>

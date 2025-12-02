@@ -173,10 +173,10 @@ export const ResumeEditHeaderModal: React.FC<ResumeEditFormHeaderProps> = ({
                     />
                     <Input
                         textarea
-                        label="Summary"
-                        placeholder="Summary"
+                        label="Summary (Markdown supported)"
                         value={summary}
                         onChange={(e) => setSummary(e.target.value)}
+                        rows={4}
                     />
 
                     <label className="flex items-center gap-2 mb-2 text-text-primary">

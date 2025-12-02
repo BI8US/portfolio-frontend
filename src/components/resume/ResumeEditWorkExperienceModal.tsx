@@ -30,7 +30,7 @@ export const ResumeEditWorkExperiencesModal: React.FC<ResumeEditWorkExperiencesM
     const handleAddExperience = () => {
         setCurrentWorkExperiences([
             ...currentWorkExperiences,
-            { company: '', position: '', startDate: '', endDate: '' },
+            { company: '', position: '', startDate: '', endDate: '', description: '' },
         ]);
     };
 
@@ -41,32 +41,7 @@ export const ResumeEditWorkExperiencesModal: React.FC<ResumeEditWorkExperiencesM
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-
-        const sanitizedExperiences = currentWorkExperiences.map((exp) => {
-            const descriptionText =
-                typeof exp.descriptionPoints === 'string'
-                    ? exp.descriptionPoints
-                    : Array.isArray(exp.descriptionPoints)
-                      ? exp.descriptionPoints.map((p) => p.descriptionPoint).join('\n')
-                      : '';
-
-            const points = descriptionText
-                .split('\n')
-                .map((p) => p.trim())
-                .filter((p) => p !== '')
-                .map((point, idx) => ({
-                    id: exp.descriptionPoints?.[idx]?.id ?? -idx - 1,
-                    workExperienceEntityId: exp.id || 0,
-                    descriptionPoint: point,
-                }));
-
-            return {
-                ...exp,
-                descriptionPoints: points,
-            };
-        });
-
-        onSubmit(sanitizedExperiences);
+        onSubmit(currentWorkExperiences);
     };
 
     return (
@@ -77,7 +52,7 @@ export const ResumeEditWorkExperiencesModal: React.FC<ResumeEditWorkExperiencesM
                         Edit Work Experience
                     </h2>
                     {currentWorkExperiences.map((exp, index) => (
-                        <div key={index} className="mb-4 p-4 border rounded-3xl">
+                        <div key={index} className="mb-4 p-4 border border-border rounded-3xl">
                             <Input
                                 type="text"
                                 label="Company"
@@ -110,17 +85,10 @@ export const ResumeEditWorkExperiencesModal: React.FC<ResumeEditWorkExperiencesM
                             </div>
                             <Input
                                 textarea
-                                label="Description Points (one per line)"
-                                value={
-                                    Array.isArray(exp.descriptionPoints)
-                                        ? exp.descriptionPoints
-                                              .map((p) => p.descriptionPoint)
-                                              .join('\n')
-                                        : exp.descriptionPoints || ''
-                                }
-                                onChange={(e) =>
-                                    handleChange(index, 'descriptionPoints', e.target.value)
-                                }
+                                label="Description (Markdown supported)"
+                                value={exp.description || ''}
+                                onChange={(e) => handleChange(index, 'description', e.target.value)}
+                                rows={4}
                             />
                             <div className="flex justify-end mt-2">
                                 <Button
