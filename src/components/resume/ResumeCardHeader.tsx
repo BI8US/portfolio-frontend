@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { ResumeItem } from '../../types/resumeTypes';
 import { Button } from '../common/Button';
 import { ContentCard } from '../common/ContentCard';
+import { MarkdownText } from '../common/MarkdownText';
 import { ResumeCardMediaLinks } from './ResumeCardMediaLinks';
 
 interface ResumeCardProps {
@@ -101,7 +102,7 @@ export const ResumeCardHeader: React.FC<ResumeCardProps> = ({ resume, onEditClic
             </div>
             <ContentCard>
                 {resume.summary && (
-                    <p className="text-text-secondary whitespace-pre-line">{resume.summary}</p>
+                    <MarkdownText className="text-text-secondary">{resume.summary}</MarkdownText>
                 )}
             </ContentCard>
         </>

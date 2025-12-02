@@ -4,7 +4,7 @@ export interface WorkExperienceItem {
     position: string;
     startDate: string;
     endDate?: string;
-    descriptionPoints?: WorkExperienceDescriptionPoint[];
+    description?: string;
 }
 
 export interface WorkExperienceItemPartial {
@@ -13,11 +13,5 @@ export interface WorkExperienceItemPartial {
     position?: string;
     startDate?: string;
     endDate?: string;
-    descriptionPoints?: WorkExperienceDescriptionPoint[];
-}
-
-export interface WorkExperienceDescriptionPoint {
-    id: number;
-    workExperienceEntityId: number;
-    descriptionPoint: string;
+    description?: string;
 }

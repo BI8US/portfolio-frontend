@@ -6,9 +6,7 @@ module.exports = {
         hoverOnlyWhenSupported: true,
     },
     darkMode: 'class',
-    content: [
-        "./src/**/*.{js,ts,jsx,tsx}",
-    ],
+    content: ['./src/**/*.{js,ts,jsx,tsx}'],
     theme: {
         extend: {
             fontFamily: {
@@ -17,9 +15,9 @@ module.exports = {
             },
             colors: {
                 // backgrounds
-                'page': 'rgb(var(--color-page) / <alpha-value>)',
-                'content': 'rgb(var(--color-content) / <alpha-value>)',
-                'overlay': 'rgb(var(--color-overlay) / <alpha-value>)',
+                page: 'rgb(var(--color-page) / <alpha-value>)',
+                content: 'rgb(var(--color-content) / <alpha-value>)',
+                overlay: 'rgb(var(--color-overlay) / <alpha-value>)',
 
                 // fonts
                 'text-primary': 'rgb(var(--color-text-primary) / <alpha-value>)',
@@ -30,14 +28,14 @@ module.exports = {
                 'text-danger': 'rgb(var(--color-text-danger) / <alpha-value>)',
 
                 // borders
-                'border': 'rgb(var(--color-border) / <alpha-value>)',
+                border: 'rgb(var(--color-border) / <alpha-value>)',
 
                 // buttons
                 'button-primary': 'rgb(var(--color-button-primary) / <alpha-value>)',
                 'button-secondary': 'rgb(var(--color-button-secondary) / <alpha-value>)',
                 'button-danger': 'rgb(var(--color-button-danger) / <alpha-value>)',
-            }
+            },
         },
     },
-    plugins: [],
-}
+    plugins: [require('@tailwindcss/typography')],
+};
