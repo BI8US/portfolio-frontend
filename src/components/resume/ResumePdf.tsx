@@ -7,7 +7,7 @@ import { ResumeItem } from '../../types/resumeTypes';
 const PORTFOLIO_LINK = {
     id: 'portfolio',
     name: 'Portfolio',
-    link: 'https://asmirnov.pages.dev',
+    link: 'https://asmirnov.ee',
 };
 
 // --- STYLES ---
