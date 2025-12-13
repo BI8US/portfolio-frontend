@@ -62,9 +62,6 @@ const styles = StyleSheet.create({
         fontWeight: 'normal',
         textDecoration: 'none',
     },
-    section: {
-        marginBottom: 8,
-    },
     sectionTitle: {
         fontFamily: 'Helvetica-Bold',
         textTransform: 'uppercase',
@@ -73,6 +70,7 @@ const styles = StyleSheet.create({
         marginBottom: 4,
         paddingBottom: 2,
         letterSpacing: 0.5,
+        marginTop: 4,
     },
     entryContainer: {
         marginBottom: 6,
@@ -97,7 +95,8 @@ const styles = StyleSheet.create({
     },
     description: {
         marginTop: 2,
-        textAlign: 'justify',
+        textAlign: 'left',
+        hyphens: 'none',
     },
     bulletPoint: {
         flexDirection: 'row',
@@ -111,7 +110,8 @@ const styles = StyleSheet.create({
     },
     bulletText: {
         flex: 1,
-        textAlign: 'justify',
+        textAlign: 'left',
+        hyphens: 'none',
     },
     skillRow: {
         flexDirection: 'row',
@@ -134,7 +134,6 @@ const Separator = () => <Text style={styles.separator}>|</Text>;
 const formatText = (text: string) => {
     const cleanText = text.replace(/(\*\*|__)(.*?)\1/g, '$2');
     const linkRegex = /\[([^\]]+)]\(([^)]+)\)/g;
-
     const parts = [];
     let lastIndex = 0;
     let match;
@@ -145,20 +144,16 @@ const formatText = (text: string) => {
                 <Text key={`t-${lastIndex}`}>{cleanText.substring(lastIndex, match.index)}</Text>,
             );
         }
-
         parts.push(
             <Link key={`l-${match.index}`} src={match[2]} style={styles.inlineLink}>
                 {match[1]}
             </Link>,
         );
-
         lastIndex = linkRegex.lastIndex;
     }
-
     if (lastIndex < cleanText.length) {
         parts.push(<Text key={`t-${lastIndex}`}>{cleanText.substring(lastIndex)}</Text>);
     }
-
     return parts.length > 0 ? parts : cleanText;
 };
 
@@ -180,7 +175,6 @@ const renderDescription = (text: string) => {
 
 const groupSkills = (skills: ResumeItem['skills']): [string, string[]][] => {
     if (!skills) return [];
-
     const grouped = skills.reduce(
         (acc, skill) => {
             const group = skill.skillGroup || 'Other';
@@ -190,7 +184,6 @@ const groupSkills = (skills: ResumeItem['skills']): [string, string[]][] => {
         },
         {} as Record<string, string[]>,
     );
-
     return Object.entries(grouped);
 };
 
@@ -237,7 +230,7 @@ export const ResumePdf = ({ resume }: { resume: ResumeItem }) => {
 
                 {/* SUMMARY */}
                 {resume.summary && (
-                    <View style={styles.section}>
+                    <View style={{ marginBottom: 8 }}>
                         <Text style={styles.sectionTitle}>Summary</Text>
                         <Text style={styles.description}>{stripMarkdown(resume.summary)}</Text>
                     </View>
@@ -245,84 +238,131 @@ export const ResumePdf = ({ resume }: { resume: ResumeItem }) => {
 
                 {/* SKILLS */}
                 {groupedSkills.length > 0 && (
-                    <View style={styles.section} wrap={false}>
+                    <React.Fragment>
                         <Text style={styles.sectionTitle}>Skills</Text>
-                        {groupedSkills.map(([group, skills]) => (
-                            <View key={group} style={styles.skillRow}>
-                                <Text style={styles.skillCategory}>{group}:</Text>
-                                <Text style={styles.skillList}>{skills.join(', ')}</Text>
-                            </View>
-                        ))}
-                    </View>
+                        {groupedSkills.map(([group, skills], index) => {
+                            const isLast = index === groupedSkills.length - 1;
+                            return (
+                                <View
+                                    key={group}
+                                    style={[styles.skillRow, isLast ? { marginBottom: 8 } : {}]}
+                                    wrap={false}
+                                >
+                                    <Text style={styles.skillCategory}>{group}:</Text>
+                                    <Text style={styles.skillList}>{skills.join(', ')}</Text>
+                                </View>
+                            );
+                        })}
+                    </React.Fragment>
                 )}
 
                 {/* WORK EXPERIENCE */}
                 {resume.workExperiences && resume.workExperiences.length > 0 && (
-                    <View style={styles.section}>
+                    <React.Fragment>
                         <Text style={styles.sectionTitle}>Work Experience</Text>
-                        {resume.workExperiences?.map((job) => (
-                            <View key={job.id} style={styles.entryContainer} wrap={false}>
-                                <View style={styles.entryHeaderRow}>
-                                    <Text style={styles.entryTitle}>{job.company}</Text>
-                                    <Text style={styles.entryDate}>
-                                        {job.startDate} – {job.endDate || 'Present'}
-                                    </Text>
+                        {resume.workExperiences.map((job, index) => {
+                            const isLast = index === resume.workExperiences!.length - 1;
+
+                            return (
+                                <View
+                                    key={job.id}
+                                    style={[
+                                        styles.entryContainer,
+                                        isLast ? { marginBottom: 8 } : {},
+                                    ]}
+                                >
+                                    <View wrap={false}>
+                                        <View style={styles.entryHeaderRow}>
+                                            <Text style={styles.entryTitle}>{job.company}</Text>
+                                            <Text style={styles.entryDate}>
+                                                {job.startDate} – {job.endDate || 'Present'}
+                                            </Text>
+                                        </View>
+                                        <Text style={styles.entrySubtitle}>{job.position}</Text>
+                                    </View>
+
+                                    {job.description && (
+                                        <View>{renderDescription(job.description)}</View>
+                                    )}
                                 </View>
-                                <Text style={styles.entrySubtitle}>{job.position}</Text>
-                                {job.description && (
-                                    <View>{renderDescription(job.description)}</View>
-                                )}
-                            </View>
-                        ))}
-                    </View>
+                            );
+                        })}
+                    </React.Fragment>
                 )}
 
                 {/* PROJECTS */}
                 {resume.projects && resume.projects.length > 0 && (
-                    <View style={styles.section}>
+                    <React.Fragment>
                         <Text style={styles.sectionTitle}>Projects</Text>
-                        {resume.projects?.map((project) => (
-                            <View key={project.id} style={styles.entryContainer} wrap={false}>
-                                <View style={styles.entryHeaderRow}>
-                                    <Text style={styles.entryTitle}>{project.title}</Text>
+                        {resume.projects.map((project, index) => {
+                            const isLast = index === resume.projects!.length - 1;
+
+                            return (
+                                <View
+                                    key={project.id}
+                                    style={[
+                                        styles.entryContainer,
+                                        isLast ? { marginBottom: 8 } : {},
+                                    ]}
+                                >
+                                    <View wrap={false}>
+                                        <View style={styles.entryHeaderRow}>
+                                            <Text style={styles.entryTitle}>{project.title}</Text>
+                                        </View>
+                                        {project.subTitle && (
+                                            <Text style={styles.entrySubtitle}>
+                                                {project.subTitle}
+                                            </Text>
+                                        )}
+                                    </View>
+                                    {project.description && (
+                                        <View>{renderDescription(project.description)}</View>
+                                    )}
                                 </View>
-                                {project.subTitle && (
-                                    <Text style={styles.entrySubtitle}>{project.subTitle}</Text>
-                                )}
-                                {project.description && (
-                                    <View>{renderDescription(project.description)}</View>
-                                )}
-                            </View>
-                        ))}
-                    </View>
+                            );
+                        })}
+                    </React.Fragment>
                 )}
 
                 {/* EDUCATION */}
                 {resume.educations && resume.educations.length > 0 && (
-                    <View style={styles.section}>
+                    <React.Fragment>
                         <Text style={styles.sectionTitle}>Education</Text>
-                        {resume.educations?.map((edu) => (
-                            <View key={edu.id} style={styles.entryContainer} wrap={false}>
-                                <View style={styles.entryHeaderRow}>
-                                    <Text style={styles.entryTitle}>
-                                        {edu.school}
-                                        {edu.school && edu.educationName ? ' | ' : ''}
-                                        <Text style={{ fontFamily: 'Helvetica' }}>
-                                            {edu.educationName}
-                                        </Text>
-                                    </Text>
-                                    <Text style={styles.entryDate}>
-                                        {edu.startDate} – {edu.endDate || 'Present'}
-                                    </Text>
-                                </View>
-                                {edu.description && (
-                                    <View style={{ marginTop: 2 }}>
-                                        {renderDescription(edu.description)}
+                        {resume.educations.map((edu, index) => {
+                            const isLast = index === resume.educations!.length - 1;
+
+                            return (
+                                <View
+                                    key={edu.id}
+                                    style={[
+                                        styles.entryContainer,
+                                        isLast ? { marginBottom: 8 } : {},
+                                    ]}
+                                >
+                                    <View wrap={false}>
+                                        <View style={styles.entryHeaderRow}>
+                                            <Text style={styles.entryTitle}>
+                                                {edu.school}
+                                                {edu.school && edu.educationName ? ' | ' : ''}
+                                                <Text style={{ fontFamily: 'Helvetica' }}>
+                                                    {edu.educationName}
+                                                </Text>
+                                            </Text>
+                                            <Text style={styles.entryDate}>
+                                                {edu.startDate} – {edu.endDate || 'Present'}
+                                            </Text>
+                                        </View>
                                     </View>
-                                )}
-                            </View>
-                        ))}
-                    </View>
+
+                                    {edu.description && (
+                                        <View style={{ marginTop: 2 }}>
+                                            {renderDescription(edu.description)}
+                                        </View>
+                                    )}
+                                </View>
+                            );
+                        })}
+                    </React.Fragment>
                 )}
             </Page>
         </Document>
