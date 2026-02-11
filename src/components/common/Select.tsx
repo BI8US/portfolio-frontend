@@ -81,7 +81,7 @@ export const Select: React.FC<SelectProps> = ({
 
     const combinedClasses = `flex flex-col mb-2 w-full relative ${className || ''}`.trim();
     const baseButtonClasses =
-        'border border-border p-2 w-full rounded-3xl flex justify-between items-center transition-colors duration-150 focus:outline-none focus:ring-1 focus:ring-text-accent';
+        'border border-border p-2 w-full rounded-3xl flex justify-between items-center focus:outline-none focus:ring-1 focus:ring-text-accent';
     const finalButtonClasses = [
         baseButtonClasses,
         buttonClassName

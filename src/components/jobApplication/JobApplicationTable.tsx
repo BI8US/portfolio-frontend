@@ -55,7 +55,7 @@ const SortableHeader: React.FC<{
     return (
         <th
             scope="col"
-            className="px-6 py-3 text-left text-xs font-medium text-text-muted uppercase tracking-wider cursor-pointer hover:text-text-primary transition-colors duration-150"
+            className="px-6 py-3 text-left text-xs font-medium text-text-muted uppercase tracking-wider cursor-pointer hover:text-text-primary"
             onClick={() => onSort(sortKey)}
         >
             <div className="flex items-center">

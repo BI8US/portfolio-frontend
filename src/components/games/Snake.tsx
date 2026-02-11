@@ -184,7 +184,7 @@ export const Snake: React.FC = () => {
             const isSnakeBody = snake.slice(1).some((s) => s.x === x && s.y === y);
             const isFood = food.x === x && food.y === y;
 
-            let cellClass = 'w-full h-full rounded-sm transition-all duration-100 ';
+            let cellClass = 'w-full h-full rounded-sm';
             if (isSnakeHead) cellClass += 'bg-button-primary rounded-md';
             else if (isSnakeBody) cellClass += 'bg-button-primary/60';
             else if (isFood) cellClass += 'bg-text-danger !rounded-full scale-75';

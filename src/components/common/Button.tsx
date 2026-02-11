@@ -12,7 +12,7 @@ export const Button: React.FC<ButtonProps> = ({
     className,
     ...props
 }) => {
-    const baseClasses = 'py-2 px-4 rounded-full font-semibold duration-200 border-2';
+    const baseClasses = 'py-2 px-4 rounded-full font-semibold border-2';
 
     let typeClasses = '';
     switch (type) {

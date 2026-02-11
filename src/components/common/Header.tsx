@@ -75,8 +75,7 @@ const Header: React.FC = () => {
         'text-text-secondary ' +
         'hover:text-content ' +
         'hover:bg-button-secondary ' +
-        'active:text-content active:bg-button-secondary ' +
-        'transition-colors duration-200';
+        'active:text-content active:bg-button-secondary';
     return (
         <header className="bg-content text-text-primary p-4 flex justify-between items-center border-b border-border">
             <Link to="/resume/active" className={navButtonClasses}>
