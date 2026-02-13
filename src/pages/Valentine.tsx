@@ -122,7 +122,7 @@ export default function Valentine() {
                     onMouseEnter={handleDodge}
                     onTouchStart={handleDodge}
                     onClick={handleDodge}
-                    className="z-20 shadow-md"
+                    className="z-20 shadow-md [-webkit-tap-highlight-color:transparent] touch-manipulation active:!bg-content active:!text-button-danger active:!border-button-danger hover:!bg-content hover:!text-button-danger hover:!border-button-danger"
                     style={
                         isDodging
                             ? {
