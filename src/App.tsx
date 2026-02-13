@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
 import Header from './components/common/Header';
 import ActiveResumePage from './pages/ActiveResumePage';
@@ -9,20 +9,39 @@ import { LoginPage } from './pages/LoginPage';
 import { ResumeEditPage } from './pages/ResumeEditPage';
 import { ResumeListPage } from './pages/ResumeListPage';
 import { TestSnakePage } from './pages/SnakeGame';
+import Valentine from './pages/Valentine';
 import { PrivateRoute } from './utils/PrivateRoute';
 
 function App() {
     return (
         <Router>
-            <div className="bg-page font-sans min-h-screen">
-                <Header />
-                <main>
-                    <Routes>
+            <div className="bg-page font-sans min-h-screen flex flex-col">
+                <Routes>
+                    <Route
+                        path="/nikusja"
+                        element={
+                            <main className="flex-grow">
+                                <Valentine />
+                            </main>
+                        }
+                    />
+
+                    <Route
+                        element={
+                            <>
+                                <Header />
+                                <main className="flex-grow">
+                                    <Outlet />{' '}
+                                </main>
+                            </>
+                        }
+                    >
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/resume/active" element={<ActiveResumePage />} />
                         <Route path="/games/snake/" element={<TestSnakePage />} />
 
                         <Route path="/" element={<Navigate to="/resume/active" replace />} />
+
                         <Route
                             path="/resumes"
                             element={
@@ -57,8 +76,8 @@ function App() {
                         />
 
                         <Route path="*" element={<p>Page not found</p>} />
-                    </Routes>
-                </main>
+                    </Route>
+                </Routes>
             </div>
         </Router>
     );
