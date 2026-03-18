@@ -1,17 +1,17 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
+    JobApplicationItem,
+    JobApplicationItemPartial,
+    JobApplicationListItem,
+} from '../../types/jobApplicationTypes';
+import {
     createApplication,
     deleteApplication,
     getAllApplications,
     getApplicationById,
     updateApplication,
-} from '../api/jobApplicationApi';
-import {
-    JobApplicationItem,
-    JobApplicationItemPartial,
-    JobApplicationListItem,
-} from '../types/jobApplicationTypes';
+} from './api';
 
 export function useGetAllApplications() {
     return useQuery<JobApplicationListItem[]>({

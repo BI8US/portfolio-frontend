@@ -2,8 +2,8 @@ import {
     JobApplicationItem,
     JobApplicationItemPartial,
     JobApplicationListItem,
-} from '../types/jobApplicationTypes';
-import { api } from './client';
+} from '../../types/jobApplicationTypes';
+import { api } from '../client';
 
 export const getAllApplications = async (): Promise<JobApplicationListItem[]> => {
     const response = await api.get<JobApplicationListItem[]>('/applications');

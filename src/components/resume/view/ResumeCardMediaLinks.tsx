@@ -2,7 +2,7 @@ import React from 'react';
 import { IconType } from 'react-icons';
 import { FaGithub, FaGlobe, FaLinkedin } from 'react-icons/fa';
 
-import { MediaLinkItem } from '../../types/mediaLinkTypes';
+import { MediaLinkItem } from '../../../types/mediaLinkTypes';
 
 export interface ResumeCardMediaLinksProps {
     mediaLinks: MediaLinkItem[];

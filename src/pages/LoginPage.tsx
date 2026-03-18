@@ -5,7 +5,7 @@ import { Button } from '../components/common/Button';
 import { ContentCard } from '../components/common/ContentCard';
 import { ContentPage } from '../components/common/ContentPage';
 import { Input } from '../components/common/Input';
-import { useLogin } from '../hooks/useAuth';
+import { useLogin } from '../services/auth/hooks';
 
 export const LoginPage = () => {
     const [userName, setUsername] = useState('');

@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { SkillItem } from '../../types/skillTypes';
-import { getGroupedSkillsNames } from '../../utils/skillUtils';
-import { Button } from '../common/Button';
-import { ContentCard } from '../common/ContentCard';
+import { SkillItem } from '../../../types/skillTypes';
+import { getGroupedSkillsNames } from '../../../utils/skillUtils';
+import { Button } from '../../common/Button';
+import { ContentCard } from '../../common/ContentCard';
 
 export interface ResumeCardSkillsProps {
     skills: SkillItem[];

@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { ProjectItemPartial } from '../../types/projectTypes';
-import { Button } from '../common/Button';
-import { ContentCard } from '../common/ContentCard';
-import { Input } from '../common/Input';
-import { Modal } from '../common/Modal';
+import { ProjectItemPartial } from '../../../types/projectTypes';
+import { Button } from '../../common/Button';
+import { ContentCard } from '../../common/ContentCard';
+import { Input } from '../../common/Input';
+import { Modal } from '../../common/Modal';
 
 interface ResumeEditProjectsModalProps {
     projects: ProjectItemPartial[];

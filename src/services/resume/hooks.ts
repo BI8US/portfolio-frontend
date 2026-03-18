@@ -1,5 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
+import { EducationItemPartial } from '../../types/educationTypes';
+import { MediaLinkItemPartial } from '../../types/mediaLinkTypes';
+import { ProjectItemPartial } from '../../types/projectTypes';
+import { ResumeHeaderItemPartial } from '../../types/resumeHeaderTypes';
+import { ResumeItem, ResumeListItem } from '../../types/resumeTypes';
+import { SkillItemPartial } from '../../types/skillTypes';
+import { WorkExperienceItemPartial } from '../../types/workExperienceTypes';
 import {
     createResume,
     deleteResume,
@@ -7,20 +14,11 @@ import {
     getAllResumes,
     getResumeById,
     updateEducations,
-    updateHeader,
     updateHeaderWithMediaLinks,
-    updateMediaLinks,
     updateProjects,
     updateSkills,
     updateWorkExperiences,
-} from '../api/resumeApi';
-import { EducationItemPartial } from '../types/educationTypes';
-import { MediaLinkItemPartial } from '../types/mediaLinkTypes';
-import { ProjectItemPartial } from '../types/projectTypes';
-import { ResumeHeaderItemPartial } from '../types/resumeHeaderTypes';
-import { ResumeItem, ResumeListItem } from '../types/resumeTypes';
-import { SkillItemPartial } from '../types/skillTypes';
-import { WorkExperienceItemPartial } from '../types/workExperienceTypes';
+} from './api';
 
 export function useGetAllResumes() {
     return useQuery<ResumeListItem[]>({
@@ -67,36 +65,11 @@ export function useUpdateHeaderWithMediaLinks() {
     });
 }
 
-export function useUpdateHeader() {
-    const queryClient = useQueryClient();
-    return useMutation({
-        mutationFn: ({ id, partial }: { id: number; partial: Partial<ResumeHeaderItemPartial> }) =>
-            updateHeader(id, partial),
-        onSuccess: (_, { id }) => {
-            queryClient.invalidateQueries({ queryKey: ['resume'] });
-            queryClient.invalidateQueries({ queryKey: ['resume', id] });
-            queryClient.invalidateQueries({ queryKey: ['resume/active'] });
-        },
-    });
-}
-
 export function useUpdateEducations() {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: ({ id, educations }: { id: number; educations: EducationItemPartial[] }) =>
             updateEducations(id, educations),
-        onSuccess: (_, { id }) => {
-            queryClient.invalidateQueries({ queryKey: ['resume'] });
-            queryClient.invalidateQueries({ queryKey: ['resume', id] });
-        },
-    });
-}
-
-export function useUpdateMediaLinks() {
-    const queryClient = useQueryClient();
-    return useMutation({
-        mutationFn: ({ id, mediaLinks }: { id: number; mediaLinks: MediaLinkItemPartial[] }) =>
-            updateMediaLinks(id, mediaLinks),
         onSuccess: (_, { id }) => {
             queryClient.invalidateQueries({ queryKey: ['resume'] });
             queryClient.invalidateQueries({ queryKey: ['resume', id] });

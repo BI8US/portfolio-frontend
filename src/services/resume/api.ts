@@ -1,11 +1,11 @@
-import { EducationItemPartial } from '../types/educationTypes';
-import { MediaLinkItemPartial } from '../types/mediaLinkTypes';
-import { ProjectItemPartial } from '../types/projectTypes';
-import { ResumeHeaderItemPartial } from '../types/resumeHeaderTypes';
-import { ResumeItem, ResumeListItem } from '../types/resumeTypes';
-import { SkillItemPartial } from '../types/skillTypes';
-import { WorkExperienceItemPartial } from '../types/workExperienceTypes';
-import { api } from './client';
+import { EducationItemPartial } from '../../types/educationTypes';
+import { MediaLinkItemPartial } from '../../types/mediaLinkTypes';
+import { ProjectItemPartial } from '../../types/projectTypes';
+import { ResumeHeaderItemPartial } from '../../types/resumeHeaderTypes';
+import { ResumeItem, ResumeListItem } from '../../types/resumeTypes';
+import { SkillItemPartial } from '../../types/skillTypes';
+import { WorkExperienceItemPartial } from '../../types/workExperienceTypes';
+import { api } from '../client';
 
 export const getAllResumes = async (): Promise<ResumeListItem[]> => {
     const response = await api.get<ResumeListItem[]>('/resume');

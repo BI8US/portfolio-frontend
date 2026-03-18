@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { ProjectItem } from '../../types/projectTypes';
-import { Button } from '../common/Button';
-import { ContentCard } from '../common/ContentCard';
-import { MarkdownText } from '../common/MarkdownText';
+import { ProjectItem } from '../../../types/projectTypes';
+import { Button } from '../../common/Button';
+import { ContentCard } from '../../common/ContentCard';
+import { MarkdownText } from '../../common/MarkdownText';
 
 export interface ResumeCardProjectsProps {
     projects: ProjectItem[];

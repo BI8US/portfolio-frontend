@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { EducationItemPartial } from '../../types/educationTypes';
-import { Button } from '../common/Button';
-import { ContentCard } from '../common/ContentCard';
-import { Input } from '../common/Input';
-import { Modal } from '../common/Modal';
+import { EducationItemPartial } from '../../../types/educationTypes';
+import { Button } from '../../common/Button';
+import { ContentCard } from '../../common/ContentCard';
+import { Input } from '../../common/Input';
+import { Modal } from '../../common/Modal';
 
 interface ResumeEditEducationsModalProps {
     educations: EducationItemPartial[];

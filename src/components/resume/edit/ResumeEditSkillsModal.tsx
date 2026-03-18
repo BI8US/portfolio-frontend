@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
-import { SkillItemPartial } from '../../types/skillTypes';
-import { getGroupedSkills } from '../../utils/skillUtils';
-import { Button } from '../common/Button';
-import { ContentCard } from '../common/ContentCard';
-import { Input } from '../common/Input';
-import { Modal } from '../common/Modal';
+import { SkillItemPartial } from '../../../types/skillTypes';
+import { getGroupedSkills } from '../../../utils/skillUtils';
+import { Button } from '../../common/Button';
+import { ContentCard } from '../../common/ContentCard';
+import { Input } from '../../common/Input';
+import { Modal } from '../../common/Modal';
 
 interface ResumeEditSkillsModalProps {
     skills: SkillItemPartial[];

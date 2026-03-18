@@ -7,7 +7,7 @@ import { ContentCard } from '../components/common/ContentCard';
 import { ContentPage } from '../components/common/ContentPage';
 import { Input } from '../components/common/Input';
 import { ResumeListItemCard } from '../components/resume/ResumeListItemCard';
-import { useCreateResume, useDeleteResume, useGetAllResumes } from '../hooks/useResume';
+import { useCreateResume, useDeleteResume, useGetAllResumes } from '../services/resume/hooks';
 
 export const ResumeListPage: React.FC = () => {
     const { data: resumes, isLoading } = useGetAllResumes();

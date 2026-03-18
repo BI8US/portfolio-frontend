@@ -12,7 +12,7 @@ import {
 } from '../components/jobApplication/JobApplicationEditModal';
 import { STATUS_COLORS } from '../constants/statusColors';
 import { STATUSES } from '../constants/Statuses';
-import { useGetApplicationById, useUpdateApplication } from '../hooks/useJobApplication';
+import { useGetApplicationById, useUpdateApplication } from '../services/jobs/hooks';
 
 export const JobApplicationEditPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();

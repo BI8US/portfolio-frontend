@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { MediaLinkItemPartial } from '../../types/mediaLinkTypes';
-import { ResumeHeaderItemPartial } from '../../types/resumeHeaderTypes';
-import { ResumeItem } from '../../types/resumeTypes';
-import { Button } from '../common/Button';
-import { ContentCard } from '../common/ContentCard';
-import { Input } from '../common/Input';
-import { Modal } from '../common/Modal';
+import { MediaLinkItemPartial } from '../../../types/mediaLinkTypes';
+import { ResumeHeaderItemPartial } from '../../../types/resumeHeaderTypes';
+import { ResumeItem } from '../../../types/resumeTypes';
+import { Button } from '../../common/Button';
+import { ContentCard } from '../../common/ContentCard';
+import { Input } from '../../common/Input';
+import { Modal } from '../../common/Modal';
 
 export interface Payload {
     header: ResumeHeaderItemPartial;

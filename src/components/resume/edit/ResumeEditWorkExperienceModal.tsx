@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { WorkExperienceItemPartial } from '../../types/workExperienceTypes';
-import { Button } from '../common/Button';
-import { ContentCard } from '../common/ContentCard';
-import { Input } from '../common/Input';
-import { Modal } from '../common/Modal';
+import { WorkExperienceItemPartial } from '../../../types/workExperienceTypes';
+import { Button } from '../../common/Button';
+import { ContentCard } from '../../common/ContentCard';
+import { Input } from '../../common/Input';
+import { Modal } from '../../common/Modal';
 
 interface ResumeEditWorkExperiencesModalProps {
     workExperiences: WorkExperienceItemPartial[];

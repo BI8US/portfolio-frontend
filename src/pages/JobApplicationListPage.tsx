@@ -15,7 +15,7 @@ import {
     useDeleteApplication,
     useGetAllApplications,
     useUpdateApplication,
-} from '../hooks/useJobApplication';
+} from '../services/jobs/hooks';
 import { JobApplicationItemPartial } from '../types/jobApplicationTypes';
 
 type SortKey = 'company' | 'role' | 'status' | 'updatedAt' | 'createdAt';

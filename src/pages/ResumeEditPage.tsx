@@ -3,16 +3,16 @@ import { useParams } from 'react-router-dom';
 
 import { ContentPage } from '../components/common/ContentPage';
 import { StatusMessage } from '../components/common/StatusMessage';
-import { ResumeCardEducations } from '../components/resume/ResumeCardEducations';
-import { ResumeCardHeader } from '../components/resume/ResumeCardHeader';
-import { ResumeCardProjects } from '../components/resume/ResumeCardProjects';
-import { ResumeCardSkills } from '../components/resume/ResumeCardSkills';
-import { ResumeCardWorkExperiences } from '../components/resume/ResumeCardWorkExperiences';
-import { ResumeEditEducationsModal } from '../components/resume/ResumeEditEducationsModal';
-import { Payload, ResumeEditHeaderModal } from '../components/resume/ResumeEditHeaderModal';
-import { ResumeEditProjectsModal } from '../components/resume/ResumeEditProjectsModal';
-import { ResumeEditSkillsModal } from '../components/resume/ResumeEditSkillsModal';
-import { ResumeEditWorkExperiencesModal } from '../components/resume/ResumeEditWorkExperienceModal';
+import { ResumeEditEducationsModal } from '../components/resume/edit/ResumeEditEducationsModal';
+import { Payload, ResumeEditHeaderModal } from '../components/resume/edit/ResumeEditHeaderModal';
+import { ResumeEditProjectsModal } from '../components/resume/edit/ResumeEditProjectsModal';
+import { ResumeEditSkillsModal } from '../components/resume/edit/ResumeEditSkillsModal';
+import { ResumeEditWorkExperiencesModal } from '../components/resume/edit/ResumeEditWorkExperienceModal';
+import { ResumeCardEducations } from '../components/resume/view/ResumeCardEducations';
+import { ResumeCardHeader } from '../components/resume/view/ResumeCardHeader';
+import { ResumeCardProjects } from '../components/resume/view/ResumeCardProjects';
+import { ResumeCardSkills } from '../components/resume/view/ResumeCardSkills';
+import { ResumeCardWorkExperiences } from '../components/resume/view/ResumeCardWorkExperiences';
 import {
     useGetResumeById,
     useUpdateEducations,
@@ -20,7 +20,7 @@ import {
     useUpdateProjects,
     useUpdateSkills,
     useUpdateWorkExperiences,
-} from '../hooks/useResume';
+} from '../services/resume/hooks';
 import { EducationItemPartial } from '../types/educationTypes';
 import { ProjectItemPartial } from '../types/projectTypes';
 import { SkillItemPartial } from '../types/skillTypes';
