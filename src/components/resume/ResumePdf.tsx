@@ -1,11 +1,11 @@
 import { Document, Link, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
 import React from 'react';
 
-import { ResumeItem } from '../../types/resumeTypes';
+import { ResumeResponse } from '../../types/resume'; //
 
 // --- CONSTANTS ---
 const PORTFOLIO_LINK = {
-    id: 'portfolio',
+    id: 999,
     name: 'Portfolio',
     link: 'https://asmirnov.ee',
 };
@@ -173,20 +173,6 @@ const renderDescription = (text: string) => {
         });
 };
 
-const groupSkills = (skills: ResumeItem['skills']): [string, string[]][] => {
-    if (!skills) return [];
-    const grouped = skills.reduce(
-        (acc, skill) => {
-            const group = skill.skillGroup || 'Other';
-            if (!acc[group]) acc[group] = [];
-            acc[group].push(skill.name);
-            return acc;
-        },
-        {} as Record<string, string[]>,
-    );
-    return Object.entries(grouped);
-};
-
 const stripMarkdown = (text: string) => {
     if (!text) return '';
     return text.replace(/(\*\*|__)(.*?)\1/g, '$2').replace(/\n/g, ' ');
@@ -194,8 +180,7 @@ const stripMarkdown = (text: string) => {
 
 // --- COMPONENT ---
 
-export const ResumePdf = ({ resume }: { resume: ResumeItem }) => {
-    const groupedSkills = groupSkills(resume.skills);
+export const ResumePdf = ({ resume }: { resume: ResumeResponse }) => {
     const allMediaLinks = [...(resume.mediaLinks || []), PORTFOLIO_LINK];
 
     return (
@@ -236,20 +221,21 @@ export const ResumePdf = ({ resume }: { resume: ResumeItem }) => {
                     </View>
                 )}
 
-                {/* SKILLS */}
-                {groupedSkills.length > 0 && (
+                {resume.skillGroups && resume.skillGroups.length > 0 && (
                     <React.Fragment>
                         <Text style={styles.sectionTitle}>Skills</Text>
-                        {groupedSkills.map(([group, skills], index) => {
-                            const isLast = index === groupedSkills.length - 1;
+                        {resume.skillGroups.map((group, index) => {
+                            const isLast = index === resume.skillGroups.length - 1;
                             return (
                                 <View
-                                    key={group}
+                                    key={group.id}
                                     style={[styles.skillRow, isLast ? { marginBottom: 8 } : {}]}
                                     wrap={false}
                                 >
-                                    <Text style={styles.skillCategory}>{group}:</Text>
-                                    <Text style={styles.skillList}>{skills.join(', ')}</Text>
+                                    <Text style={styles.skillCategory}>{group.name}:</Text>
+                                    <Text style={styles.skillList}>
+                                        {group.skills.map((s) => s.name).join(', ')}
+                                    </Text>
                                 </View>
                             );
                         })}

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { WorkExperienceItem } from '../../../types/workExperienceTypes';
+import { WorkExperienceItem } from '../../../types/resume';
 import { Button } from '../../common/Button';
 import { ContentCard } from '../../common/ContentCard';
 import { MarkdownText } from '../../common/MarkdownText';
@@ -37,6 +37,7 @@ export const ResumeCardWorkExperiences = ({
                 <div className="flex flex-col gap-4">
                     {workExperiences.map((item) => (
                         <div key={item.id}>
+                            {' '}
                             <div className="flex flex-col md:flex-row md:items-center md:space-x-2 font-semibold text-lg text-text-primary">
                                 <div>{item.company}</div>
                                 <span className="hidden md:inline">|</span>

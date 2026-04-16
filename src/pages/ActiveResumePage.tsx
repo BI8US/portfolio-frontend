@@ -24,13 +24,15 @@ export default function ActiveResumePage() {
         return <StatusMessage message="Active resume not found" />;
     }
 
-    const { educations, projects, skills, workExperiences } = activeResume;
+    const { educations, projects, skillGroups, workExperiences } = activeResume;
 
     return (
         <ContentPage className="max-w-4xl">
             <ResumeCardHeader resume={activeResume} />
 
-            {skills && skills.length > 0 && <ResumeCardSkills skills={skills} />}
+            {skillGroups && skillGroups.length > 0 && (
+                <ResumeCardSkills skillGroups={skillGroups} />
+            )}
 
             {workExperiences && workExperiences.length > 0 && (
                 <ResumeCardWorkExperiences workExperiences={workExperiences} />

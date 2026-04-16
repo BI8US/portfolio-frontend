@@ -2,7 +2,7 @@ import { PDFDownloadLink } from '@react-pdf/renderer';
 import React from 'react';
 import { toast } from 'sonner';
 
-import { ResumeItem } from '../../../types/resumeTypes';
+import { ResumeResponse } from '../../../types/resume';
 import { Button } from '../../common/Button';
 import { ContentCard } from '../../common/ContentCard';
 import { MarkdownText } from '../../common/MarkdownText';
@@ -10,7 +10,7 @@ import { ResumePdf } from '../ResumePdf';
 import { ResumeCardMediaLinks } from './ResumeCardMediaLinks';
 
 interface ResumeCardProps {
-    resume: ResumeItem;
+    resume: ResumeResponse;
     onEditClick?: () => void;
 }
 

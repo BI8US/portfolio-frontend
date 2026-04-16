@@ -1,10 +1,12 @@
-import { EducationItemPartial } from '../../types/educationTypes';
-import { MediaLinkItemPartial } from '../../types/mediaLinkTypes';
-import { ProjectItemPartial } from '../../types/projectTypes';
-import { ResumeHeaderItemPartial } from '../../types/resumeHeaderTypes';
-import { ResumeItem, ResumeListItem } from '../../types/resumeTypes';
-import { SkillItemPartial } from '../../types/skillTypes';
-import { WorkExperienceItemPartial } from '../../types/workExperienceTypes';
+import type {
+    EducationItem,
+    ProjectItem,
+    ResumeListItem,
+    ResumeResponse,
+    SkillGroupItem,
+    UpdateHeaderDto,
+    WorkExperienceItem,
+} from '../../types/resume';
 import { api } from '../client';
 
 export const getAllResumes = async (): Promise<ResumeListItem[]> => {
@@ -12,80 +14,56 @@ export const getAllResumes = async (): Promise<ResumeListItem[]> => {
     return response.data;
 };
 
-export const getResumeById = async (id: number): Promise<ResumeItem> => {
-    const response = await api.get<ResumeItem>(`/resume/${id}`);
+export const getResumeById = async (id: number): Promise<ResumeResponse> => {
+    const response = await api.get<ResumeResponse>(`/resume/${id}`);
     return response.data;
 };
 
-export const createResume = async (resumeName: string): Promise<ResumeItem> => {
-    const response = await api.post<ResumeItem>(
-        '/resume',
-        { resumeName },
-        {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        },
-    );
-    return response.data;
-};
-
-export const updateHeaderWithMediaLinks = async (
-    id: number,
-    headerPartial: Partial<ResumeHeaderItemPartial>,
-    mediaLinks: MediaLinkItemPartial[],
-): Promise<ResumeItem> => {
-    const payload = {
-        ...headerPartial,
-        mediaLinks,
-    };
-
-    const response = await api.patch<ResumeItem>(`/resume/${id}`, payload);
+export const createResume = async (resumeName: string): Promise<ResumeResponse> => {
+    const response = await api.post<ResumeResponse>('/resume', { resumeName });
     return response.data;
 };
 
 export const updateHeader = async (
     id: number,
-    partial: Partial<ResumeHeaderItemPartial>,
-): Promise<ResumeItem> => {
-    const response = await api.patch<ResumeItem>(`/resume/${id}`, partial);
+    payload: UpdateHeaderDto,
+): Promise<ResumeResponse> => {
+    const response = await api.patch<ResumeResponse>(`/resume/${id}`, payload);
     return response.data;
 };
 
 export const updateEducations = async (
     id: number,
-    educations: EducationItemPartial[],
-): Promise<ResumeItem> => {
-    const response = await api.patch<ResumeItem>(`/resume/${id}/educations`, educations);
-    return response.data;
-};
-
-export const updateMediaLinks = async (
-    id: number,
-    mediaLinks: MediaLinkItemPartial[],
-): Promise<ResumeItem> => {
-    const response = await api.patch<ResumeItem>(`/resume/${id}/medialinks`, mediaLinks);
+    educations: EducationItem[],
+): Promise<ResumeResponse> => {
+    const response = await api.patch<ResumeResponse>(`/resume/${id}/educations`, educations);
     return response.data;
 };
 
 export const updateProjects = async (
     id: number,
-    projects: ProjectItemPartial[],
-): Promise<ResumeItem> => {
-    const response = await api.patch<ResumeItem>(`/resume/${id}/projects`, projects);
+    projects: ProjectItem[],
+): Promise<ResumeResponse> => {
+    const response = await api.patch<ResumeResponse>(`/resume/${id}/projects`, projects);
     return response.data;
 };
 
-export const updateSkills = async (id: number, skills: SkillItemPartial[]): Promise<ResumeItem> => {
-    const response = await api.patch<ResumeItem>(`/resume/${id}/skills`, skills);
+export const updateSkillGroups = async (
+    id: number,
+    skillGroups: SkillGroupItem[],
+): Promise<ResumeResponse> => {
+    const response = await api.patch<ResumeResponse>(`/resume/${id}/skills`, skillGroups);
     return response.data;
 };
 
 export const updateWorkExperiences = async (
     id: number,
-    workExperiences: WorkExperienceItemPartial[],
-): Promise<ResumeItem> => {
-    const response = await api.patch<ResumeItem>(`/resume/${id}/workexperiences`, workExperiences);
+    workExperiences: WorkExperienceItem[],
+): Promise<ResumeResponse> => {
+    const response = await api.patch<ResumeResponse>(
+        `/resume/${id}/workexperiences`,
+        workExperiences,
+    );
     return response.data;
 };
 
@@ -93,7 +71,7 @@ export const deleteResume = async (id: number): Promise<void> => {
     await api.delete(`/resume/${id}`);
 };
 
-export const getActiveResume = async (): Promise<ResumeItem> => {
-    const response = await api.get<ResumeItem>(`/resume/active`);
+export const getActiveResume = async (): Promise<ResumeResponse> => {
+    const response = await api.get<ResumeResponse>(`/resume/active`);
     return response.data;
 };

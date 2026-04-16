@@ -16,10 +16,8 @@ import {
     useGetAllApplications,
     useUpdateApplication,
 } from '../services/jobs/hooks';
-import { JobApplicationItemPartial } from '../types/jobApplicationTypes';
-
-type SortKey = 'company' | 'role' | 'status' | 'updatedAt' | 'createdAt';
-type SortDirection = 'asc' | 'desc';
+import { SortDirection } from '../types/common';
+import { CreateApplicationDto, JobApplicationSortField } from '../types/jobApplication';
 
 export const JobApplicationListPage: React.FC = () => {
     const { data: applications, isLoading } = useGetAllApplications();
@@ -32,14 +30,14 @@ export const JobApplicationListPage: React.FC = () => {
     const [applicationToDeleteId, setApplicationToDeleteId] = React.useState<number | null>(null);
 
     const [sortConfig, setSortConfig] = React.useState<{
-        key: SortKey;
+        key: JobApplicationSortField;
         direction: SortDirection;
     } | null>({
         key: 'updatedAt',
         direction: 'desc',
     });
 
-    const [newApplication, setNewApplication] = React.useState<JobApplicationItemPartial>({
+    const [newApplication, setNewApplication] = React.useState<CreateApplicationDto>({
         status: '',
         company: '',
         role: '',
@@ -50,7 +48,7 @@ export const JobApplicationListPage: React.FC = () => {
         value: status,
     }));
 
-    const handleSort = (key: SortKey) => {
+    const handleSort = (key: JobApplicationSortField) => {
         let direction: SortDirection = 'asc';
         if (sortConfig && sortConfig.key === key && sortConfig.direction === 'asc') {
             direction = 'desc';
@@ -73,8 +71,8 @@ export const JobApplicationListPage: React.FC = () => {
                     return sortConfig.direction === 'asc' ? result : -result;
                 }
 
-                const aTime = new Date(aValue).getTime();
-                const bTime = new Date(bValue).getTime();
+                const aTime = new Date(aValue as string).getTime();
+                const bTime = new Date(bValue as string).getTime();
 
                 if (aTime < bTime) return sortConfig.direction === 'asc' ? -1 : 1;
                 if (aTime > bTime) return sortConfig.direction === 'asc' ? 1 : -1;
@@ -97,6 +95,7 @@ export const JobApplicationListPage: React.FC = () => {
                     company: '',
                     role: '',
                 });
+                toast.success('Application added successfully');
             },
         });
     };
@@ -123,6 +122,7 @@ export const JobApplicationListPage: React.FC = () => {
                 onSuccess: () => {
                     setIsDeleteModalOpen(false);
                     setApplicationToDeleteId(null);
+                    toast.success('Application deleted');
                 },
             });
         }
@@ -142,7 +142,9 @@ export const JobApplicationListPage: React.FC = () => {
         setNewApplication((prev) => ({ ...prev, [name]: value }));
     };
 
-    if (isLoading) return <p>Loading job applications...</p>;
+    if (isLoading) {
+        return <p className="text-center p-8 text-text-secondary">Loading job applications...</p>;
+    }
 
     return (
         <ContentPage className="max-w-6xl">
@@ -151,43 +153,50 @@ export const JobApplicationListPage: React.FC = () => {
                     <h2 className="text-lg font-semibold mb-2 text-text-primary">
                         Add job application
                     </h2>
-                    <Select
-                        name="status"
-                        placeholder="Status"
-                        options={statusOptions}
-                        value={newApplication.status}
-                        onChange={handleSelectChange}
-                    />
-                    <Input
-                        type="text"
-                        name="company"
-                        placeholder="Company"
-                        value={newApplication.company}
-                        onChange={handleInputChange}
-                    />
-                    <Input
-                        type="text"
-                        name="role"
-                        placeholder="Role"
-                        value={newApplication.role}
-                        onChange={handleInputChange}
-                    />
-                    <Button type={'primary'}>Create</Button>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
+                        <Select
+                            name="status"
+                            placeholder="Status"
+                            options={statusOptions}
+                            value={newApplication.status}
+                            onChange={handleSelectChange}
+                        />
+                        <Input
+                            type="text"
+                            name="company"
+                            placeholder="Company"
+                            value={newApplication.company}
+                            onChange={handleInputChange}
+                        />
+                        <Input
+                            type="text"
+                            name="role"
+                            placeholder="Role"
+                            value={newApplication.role}
+                            onChange={handleInputChange}
+                        />
+                        <Button type={'primary'} className="mb-4 lg:mb-0 h-[42px]">
+                            Create
+                        </Button>
+                    </div>
                 </form>
             </ContentCard>
+
             {applications && applications.length > 0 && (
-                <JobApplicationTable
-                    applications={sortedApplications}
-                    onEdit={handleEdit}
-                    onDelete={handleDelete}
-                    onChangeStatus={handleChangeStatus}
-                    onSort={handleSort}
-                    sortConfig={sortConfig}
-                />
+                <div className="mt-6">
+                    <JobApplicationTable
+                        applications={sortedApplications}
+                        onEdit={handleEdit}
+                        onDelete={handleDelete}
+                        onChangeStatus={handleChangeStatus}
+                        onSort={handleSort}
+                        sortConfig={sortConfig}
+                    />
+                </div>
             )}
 
             {applications && applications.length === 0 && (
-                <div className="mt-6 text-center text-gray-500 p-4 border rounded-3xl bg-white">
+                <div className="mt-6 text-center text-text-muted p-4 border border-border rounded-3xl bg-content">
                     You haven't added any job applications yet.
                 </div>
             )}

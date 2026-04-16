@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ProjectItem } from '../../../types/projectTypes';
+import { ProjectItem } from '../../../types/resume';
 import { Button } from '../../common/Button';
 import { ContentCard } from '../../common/ContentCard';
 import { MarkdownText } from '../../common/MarkdownText';
@@ -34,6 +34,7 @@ export const ResumeCardProjects = ({ projects, onEditClick }: ResumeCardProjects
                 <div className="flex flex-col gap-4">
                     {projects.map((item) => (
                         <div key={item.id}>
+                            {' '}
                             <div className="flex flex-col md:flex-row md:items-center md:space-x-2 font-semibold text-lg text-text-primary">
                                 <div>{item.title}</div>
                                 <div>({item.subTitle})</div>

@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { ContentPage } from '../components/common/ContentPage';
 import { StatusMessage } from '../components/common/StatusMessage';
 import { ResumeEditEducationsModal } from '../components/resume/edit/ResumeEditEducationsModal';
-import { Payload, ResumeEditHeaderModal } from '../components/resume/edit/ResumeEditHeaderModal';
+import { ResumeEditHeaderModal } from '../components/resume/edit/ResumeEditHeaderModal';
 import { ResumeEditProjectsModal } from '../components/resume/edit/ResumeEditProjectsModal';
 import { ResumeEditSkillsModal } from '../components/resume/edit/ResumeEditSkillsModal';
 import { ResumeEditWorkExperiencesModal } from '../components/resume/edit/ResumeEditWorkExperienceModal';
@@ -16,18 +16,22 @@ import { ResumeCardWorkExperiences } from '../components/resume/view/ResumeCardW
 import {
     useGetResumeById,
     useUpdateEducations,
-    useUpdateHeaderWithMediaLinks,
+    useUpdateHeader,
     useUpdateProjects,
-    useUpdateSkills,
+    useUpdateSkillGroups,
     useUpdateWorkExperiences,
 } from '../services/resume/hooks';
-import { EducationItemPartial } from '../types/educationTypes';
-import { ProjectItemPartial } from '../types/projectTypes';
-import { SkillItemPartial } from '../types/skillTypes';
-import { WorkExperienceItemPartial } from '../types/workExperienceTypes';
+import {
+    EducationItem,
+    ProjectItem,
+    SkillGroupItem,
+    UpdateHeaderDto,
+    WorkExperienceItem,
+} from '../types/resume';
 
 export const ResumeEditPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
+    const resumeId = Number(id);
 
     const [activeModal, setActiveModal] = React.useState<string | null>(null);
 
@@ -42,9 +46,10 @@ export const ResumeEditPage: React.FC = () => {
         };
     }, [activeModal]);
 
-    const { data: resume, isLoading, isError } = useGetResumeById(Number(id));
-    const updateHeaderWithMediaLinksMutation = useUpdateHeaderWithMediaLinks();
-    const updateSkillsMutation = useUpdateSkills();
+    const { data: resume, isLoading, isError } = useGetResumeById(resumeId);
+
+    const updateHeaderMutation = useUpdateHeader();
+    const updateSkillGroupsMutation = useUpdateSkillGroups();
     const updateEducationsMutation = useUpdateEducations();
     const updateProjectsMutation = useUpdateProjects();
     const updateWorkExperiencesMutation = useUpdateWorkExperiences();
@@ -59,14 +64,13 @@ export const ResumeEditPage: React.FC = () => {
         return <StatusMessage message={`Resume with id ${id} not found`} />;
     }
 
-    const { educations, projects, skills, workExperiences } = resume;
+    const { educations, projects, skillGroups, workExperiences } = resume;
 
-    const handleHeaderSubmit = async (payload: Payload) => {
-        updateHeaderWithMediaLinksMutation.mutate(
+    const handleHeaderSubmit = async (payload: UpdateHeaderDto) => {
+        updateHeaderMutation.mutate(
             {
-                id: Number(id),
-                headerPartial: payload.header,
-                mediaLinks: payload.mediaLinks,
+                id: resumeId,
+                payload: payload,
             },
             {
                 onSuccess: () => {
@@ -79,9 +83,9 @@ export const ResumeEditPage: React.FC = () => {
         );
     };
 
-    const handleSkillsSubmit = (skills: SkillItemPartial[]) => {
-        updateSkillsMutation.mutate(
-            { id: Number(id), skills },
+    const handleSkillGroupsSubmit = (skillGroups: SkillGroupItem[]) => {
+        updateSkillGroupsMutation.mutate(
+            { id: resumeId, skillGroups },
             {
                 onSuccess: () => {
                     handleCloseModal();
@@ -93,9 +97,9 @@ export const ResumeEditPage: React.FC = () => {
         );
     };
 
-    const handleEducationsSubmit = (educations: EducationItemPartial[]) => {
+    const handleEducationsSubmit = (educations: EducationItem[]) => {
         updateEducationsMutation.mutate(
-            { id: Number(id), educations },
+            { id: resumeId, educations },
             {
                 onSuccess: () => {
                     handleCloseModal();
@@ -107,9 +111,9 @@ export const ResumeEditPage: React.FC = () => {
         );
     };
 
-    const handleProjectsSubmit = (projects: ProjectItemPartial[]) => {
+    const handleProjectsSubmit = (projects: ProjectItem[]) => {
         updateProjectsMutation.mutate(
-            { id: Number(id), projects },
+            { id: resumeId, projects },
             {
                 onSuccess: () => {
                     handleCloseModal();
@@ -121,9 +125,9 @@ export const ResumeEditPage: React.FC = () => {
         );
     };
 
-    const handleWorkExperiencesSubmit = (workExperiences: WorkExperienceItemPartial[]) => {
+    const handleWorkExperiencesSubmit = (workExperiences: WorkExperienceItem[]) => {
         updateWorkExperiencesMutation.mutate(
-            { id: Number(id), workExperiences },
+            { id: resumeId, workExperiences },
             {
                 onSuccess: () => {
                     handleCloseModal();
@@ -142,23 +146,28 @@ export const ResumeEditPage: React.FC = () => {
     const handleCloseModal = () => {
         setActiveModal(null);
     };
+
     return (
         <ContentPage>
             <ResumeCardHeader resume={resume} onEditClick={() => handleOpenModal('header')} />
+
             <ResumeCardSkills
-                skills={skills ? skills : []}
+                skillGroups={skillGroups || []}
                 onEditClick={() => handleOpenModal('skills')}
             />
+
             <ResumeCardWorkExperiences
-                workExperiences={workExperiences ? workExperiences : []}
+                workExperiences={workExperiences || []}
                 onEditClick={() => handleOpenModal('workExperiences')}
             />
+
             <ResumeCardProjects
-                projects={projects ? projects : []}
+                projects={projects || []}
                 onEditClick={() => handleOpenModal('projects')}
             />
+
             <ResumeCardEducations
-                educations={educations ? educations : []}
+                educations={educations || []}
                 onEditClick={() => handleOpenModal('educations')}
             />
 
@@ -169,30 +178,34 @@ export const ResumeEditPage: React.FC = () => {
                     onCancel={handleCloseModal}
                 />
             )}
+
             {activeModal === 'skills' && (
                 <ResumeEditSkillsModal
-                    skills={skills ? skills : []}
-                    onSubmit={handleSkillsSubmit}
+                    initialGroups={skillGroups || []}
+                    onSubmit={handleSkillGroupsSubmit}
                     onCancel={handleCloseModal}
                 />
             )}
+
             {activeModal === 'workExperiences' && (
                 <ResumeEditWorkExperiencesModal
-                    workExperiences={workExperiences ? workExperiences : []}
+                    initialWorkExperiences={workExperiences || []}
                     onSubmit={handleWorkExperiencesSubmit}
                     onCancel={handleCloseModal}
                 />
             )}
+
             {activeModal === 'projects' && (
                 <ResumeEditProjectsModal
-                    projects={projects ? projects : []}
+                    initialProjects={projects || []}
                     onSubmit={handleProjectsSubmit}
                     onCancel={handleCloseModal}
                 />
             )}
+
             {activeModal === 'educations' && (
                 <ResumeEditEducationsModal
-                    educations={educations ? educations : []}
+                    initialEducations={educations || []}
                     onSubmit={handleEducationsSubmit}
                     onCancel={handleCloseModal}
                 />

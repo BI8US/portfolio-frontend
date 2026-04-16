@@ -1,11 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { LoginRequest, LoginResponse } from '../../types/authTypes';
+import { LoginDto } from '../../types/auth';
 import { setToken } from '../../utils/auth';
-import { login } from './api';
+import { login, LoginResponse } from './api';
 
 export function useLogin() {
-    return useMutation<LoginResponse, Error, LoginRequest>({
+    return useMutation<LoginResponse, Error, LoginDto>({
         mutationFn: login,
         onSuccess: (data) => {
             setToken(data.token);

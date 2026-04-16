@@ -1,10 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import {
-    JobApplicationItem,
-    JobApplicationItemPartial,
+import type {
+    CreateApplicationDto,
     JobApplicationListItem,
-} from '../../types/jobApplicationTypes';
+    JobApplicationResponse,
+    UpdateApplicationDto,
+} from '../../types/jobApplication';
 import {
     createApplication,
     deleteApplication,
@@ -21,7 +22,7 @@ export function useGetAllApplications() {
 }
 
 export function useGetApplicationById(id: number) {
-    return useQuery<JobApplicationItem>({
+    return useQuery<JobApplicationResponse>({
         queryKey: ['jobApplications', id],
         queryFn: () => getApplicationById(id),
         enabled: !!id,
@@ -31,8 +32,7 @@ export function useGetApplicationById(id: number) {
 export function useCreateApplication() {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (applicationData: JobApplicationItemPartial) =>
-            createApplication(applicationData),
+        mutationFn: (applicationData: CreateApplicationDto) => createApplication(applicationData),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['jobApplications'] });
         },
@@ -47,7 +47,7 @@ export function useUpdateApplication() {
             applicationData,
         }: {
             id: number;
-            applicationData: JobApplicationItemPartial;
+            applicationData: UpdateApplicationDto;
         }) => updateApplication(id, applicationData),
         onSuccess: (_, { id }) => {
             queryClient.invalidateQueries({ queryKey: ['jobApplications'] });

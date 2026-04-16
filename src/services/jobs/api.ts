@@ -1,8 +1,9 @@
-import {
-    JobApplicationItem,
-    JobApplicationItemPartial,
+import type {
+    CreateApplicationDto,
     JobApplicationListItem,
-} from '../../types/jobApplicationTypes';
+    JobApplicationResponse,
+    UpdateApplicationDto,
+} from '../../types/jobApplication';
 import { api } from '../client';
 
 export const getAllApplications = async (): Promise<JobApplicationListItem[]> => {
@@ -10,23 +11,26 @@ export const getAllApplications = async (): Promise<JobApplicationListItem[]> =>
     return response.data;
 };
 
-export const getApplicationById = async (id: number): Promise<JobApplicationItem> => {
-    const response = await api.get<JobApplicationItem>(`/applications/${id}`);
+export const getApplicationById = async (id: number): Promise<JobApplicationResponse> => {
+    const response = await api.get<JobApplicationResponse>(`/applications/${id}`);
     return response.data;
 };
 
 export const createApplication = async (
-    applicationData: JobApplicationItemPartial,
-): Promise<JobApplicationItem> => {
-    const response = await api.post<JobApplicationItem>('/applications', applicationData);
+    applicationData: CreateApplicationDto,
+): Promise<JobApplicationResponse> => {
+    const response = await api.post<JobApplicationResponse>('/applications', applicationData);
     return response.data;
 };
 
 export const updateApplication = async (
     id: number,
-    applicationData: JobApplicationItemPartial,
-): Promise<JobApplicationItem> => {
-    const response = await api.patch<JobApplicationItem>(`/applications/${id}`, applicationData);
+    applicationData: UpdateApplicationDto,
+): Promise<JobApplicationResponse> => {
+    const response = await api.patch<JobApplicationResponse>(
+        `/applications/${id}`,
+        applicationData,
+    );
     return response.data;
 };
 

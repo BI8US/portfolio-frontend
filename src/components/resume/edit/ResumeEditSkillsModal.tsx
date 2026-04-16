@@ -1,200 +1,197 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
-import { SkillItemPartial } from '../../../types/skillTypes';
-import { getGroupedSkills } from '../../../utils/skillUtils';
+import { SkillGroupItem, SkillItem } from '../../../types/resume';
+import { moveItemInArray } from '../../../utils/sortUtils';
 import { Button } from '../../common/Button';
 import { ContentCard } from '../../common/ContentCard';
 import { Input } from '../../common/Input';
 import { Modal } from '../../common/Modal';
+import { SortButtons } from '../../common/SortButtons';
 
 interface ResumeEditSkillsModalProps {
-    skills: SkillItemPartial[];
-    onSubmit: (skills: SkillItemPartial[]) => void;
+    initialGroups: SkillGroupItem[];
+    onSubmit: (groups: SkillGroupItem[]) => void;
     onCancel: () => void;
 }
 
 export const ResumeEditSkillsModal: React.FC<ResumeEditSkillsModalProps> = ({
-    skills,
+    initialGroups,
     onSubmit,
     onCancel,
 }) => {
-    const [groupedSkills, setGroupedSkills] = useState<{ [groupName: string]: SkillItemPartial[] }>(
-        {},
+    const [groups, setGroups] = useState<SkillGroupItem[]>(
+        initialGroups.length > 0 ? initialGroups : [],
     );
-    const [inputValues, setInputValues] = useState<{ [groupName: string]: string }>({});
 
-    useEffect(() => {
-        const skillsGrouped = getGroupedSkills(skills);
-        setGroupedSkills(skillsGrouped);
-        const initialInputValues = Object.entries(skillsGrouped).reduce(
-            (acc, [groupName, skills]) => {
-                acc[`skills-${groupName}`] = skills.map((s) => s.name).join(', ');
-                acc[groupName] = groupName;
-                return acc;
-            },
-            {} as { [groupName: string]: string },
-        );
-        setInputValues(initialInputValues);
-    }, [skills]);
-
-    const handleSkillsStringChange = (groupName: string, skillsString: string) => {
-        const currentSkillsInGroup = groupedSkills[groupName] || [];
-
-        const parsedSkillNames = skillsString
-            .split(',')
-            .map((skill) => skill.trim())
-            .filter((skill) => skill !== '');
-
-        const uniqueSkillNames = [...new Set(parsedSkillNames)];
-
-        const newSkills = uniqueSkillNames.map((skillName) => {
-            const existingSkill = currentSkillsInGroup.find((s) => s.name === skillName);
-
-            if (existingSkill) {
-                return existingSkill;
-            } else {
-                return {
-                    skillGroup: groupName,
-                    name: skillName,
-                };
-            }
+    const [skillStrings, setSkillStrings] = useState<Record<number, string>>(() => {
+        const initialStrings: Record<number, string> = {};
+        initialGroups.forEach((group, index) => {
+            initialStrings[index] = group.skills.map((s) => s.name).join(', ');
         });
+        return initialStrings;
+    });
 
-        setGroupedSkills((prevGroups) => ({
-            ...prevGroups,
-            [groupName]: newSkills,
-        }));
+    const handleGroupNameChange = (index: number, name: string) => {
+        const updated = [...groups];
+        updated[index] = { ...updated[index], name };
+        setGroups(updated);
     };
 
-    const handleGroupNameBlur = (oldGroupName: string, newGroupName: string) => {
-        if (oldGroupName === newGroupName) {
-            return;
-        }
+    const handleSkillsStringChange = (index: number, value: string) => {
+        setSkillStrings((prev) => ({ ...prev, [index]: value }));
+    };
 
-        setGroupedSkills((prevGroups) => {
-            const newGroups = { ...prevGroups };
-            const skillsToMove = newGroups[oldGroupName];
-            delete newGroups[oldGroupName];
+    const syncSkillsOnBlur = (index: number) => {
+        const text = skillStrings[index] || '';
+        const currentGroup = groups[index];
 
-            const updatedSkills = skillsToMove.map((s) => ({ ...s, skillGroup: newGroupName }));
+        const names = text
+            .split(',')
+            .map((s) => s.trim())
+            .filter((s) => s !== '');
 
-            newGroups[newGroupName] = [...(newGroups[newGroupName] || []), ...updatedSkills];
-            return newGroups;
+        const uniqueNames = [...new Set(names)];
+
+        const newSkills: SkillItem[] = uniqueNames.map((name, i) => {
+            const existing = currentGroup.skills.find((s) => s.name === name);
+            return {
+                id: existing?.id,
+                name: name,
+                sortOrder: i,
+            };
         });
+
+        const updated = [...groups];
+        updated[index] = { ...updated[index], skills: newSkills };
+        setGroups(updated);
     };
 
     const handleAddGroup = () => {
-        let i = 1;
-        let newGroupName = `New Group ${i}`;
-        while (groupedSkills.hasOwnProperty(newGroupName)) {
-            i++;
-            newGroupName = `New Group ${i}`;
-        }
-
-        setGroupedSkills((prevGroups) => ({
-            ...prevGroups,
-            [newGroupName]: [],
-        }));
+        const newGroup: SkillGroupItem = {
+            name: '',
+            sortOrder: groups.length,
+            skills: [],
+        };
+        const newIndex = groups.length;
+        setGroups([...groups, newGroup]);
+        setSkillStrings((prev) => ({ ...prev, [newIndex]: '' }));
     };
 
-    const handleRemoveGroup = (groupName: string) => {
-        setGroupedSkills((prevGroups) => {
-            const newGroups = { ...prevGroups };
-            delete newGroups[groupName];
-            return newGroups;
+    const handleRemoveGroup = (index: number) => {
+        const filtered = groups.filter((_, i) => i !== index);
+        const reordered = filtered.map((g, i) => ({ ...g, sortOrder: i }));
+        setGroups(reordered);
+
+        const newStrings: Record<number, string> = {};
+        reordered.forEach((group, i) => {
+            newStrings[i] = group.skills.map((s) => s.name).join(', ');
         });
+        setSkillStrings(newStrings);
+    };
+
+    const handleMoveGroup = (index: number, direction: 'up' | 'down') => {
+        const moved = moveItemInArray<SkillGroupItem>(groups, index, direction);
+        setGroups(moved);
+
+        const newStrings: Record<number, string> = {};
+        moved.forEach((group, i) => {
+            newStrings[i] = group.skills.map((s) => s.name).join(', ');
+        });
+        setSkillStrings(newStrings);
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        const flatSkills = Object.values(groupedSkills).flat();
-        onSubmit(flatSkills);
+        const finalGroups = groups.map((group, index) => {
+            const text = skillStrings[index] || '';
+            const names = text
+                .split(',')
+                .map((s) => s.trim())
+                .filter((s) => s !== '');
+            const skills: SkillItem[] = names.map((name, i) => {
+                const existing = group.skills.find((s) => s.name === name);
+                return { id: existing?.id, name, sortOrder: i };
+            });
+            return { ...group, skills };
+        });
+
+        onSubmit(finalGroups);
     };
 
     return (
         <Modal>
-            <ContentCard>
+            <ContentCard className="max-w-3xl w-full">
                 <form onSubmit={handleSubmit}>
                     <h2 className="text-xl font-bold mb-4 text-text-primary">Edit Skills</h2>
 
-                    <div className="flex gap-2 mb-2 font-semibold text-text-secondary">
-                        <div className="flex-1">Skill Group</div>
-                        <div className="flex-1">Skills (comma-separated)</div>
+                    <div className="flex gap-2 mb-2 font-semibold text-text-secondary text-sm">
                         <div className="w-8"></div>
+                        <div className="basis-1/3">Skill Group</div>
+                        <div className="basis-2/3">Skills (comma-separated)</div>
+                        <div className="w-10"></div>
                     </div>
 
-                    {Object.entries(groupedSkills).map(([groupName, skillsInGroup]) => (
-                        <div key={groupName} className="flex gap-2 mb-2 items-center">
-                            <div className="basis-1/3">
-                                <Input
-                                    type="text"
-                                    value={inputValues[groupName] ?? groupName}
-                                    onChange={(e) =>
-                                        setInputValues((prev) => ({
-                                            ...prev,
-                                            [groupName]: e.target.value,
-                                        }))
-                                    }
-                                    onBlur={(e) => handleGroupNameBlur(groupName, e.target.value)}
-                                    placeholder="Skill Group Name"
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter') {
-                                            e.preventDefault();
-                                            e.currentTarget.blur();
-                                        }
-                                    }}
-                                    className="mb-0"
+                    <div className="space-y-3 max-h-[60vh] overflow-y-auto pr-2">
+                        {groups.map((group, index) => (
+                            <div key={index} className="flex gap-2 items-center">
+                                <SortButtons
+                                    onMoveUp={() => handleMoveGroup(index, 'up')}
+                                    onMoveDown={() => handleMoveGroup(index, 'down')}
+                                    disableUp={index === 0}
+                                    disableDown={index === groups.length - 1}
                                 />
-                            </div>
-                            <div className="basis-2/3">
-                                <Input
-                                    type="text"
-                                    value={
-                                        inputValues[`skills-${groupName}`] ??
-                                        skillsInGroup.map((s) => s.name).join(', ')
-                                    }
-                                    onChange={(e) =>
-                                        setInputValues((prev) => ({
-                                            ...prev,
-                                            [`skills-${groupName}`]: e.target.value,
-                                        }))
-                                    }
-                                    onBlur={(e) =>
-                                        handleSkillsStringChange(groupName, e.target.value)
-                                    }
-                                    placeholder="e.g., React, JavaScript, TypeScript"
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter') {
-                                            e.preventDefault();
-                                            e.currentTarget.blur();
-                                        }
-                                    }}
-                                    className="mb-0"
-                                />
-                            </div>
-                            <Button
-                                type="danger"
-                                onClick={() => handleRemoveGroup(groupName)}
-                                htmlType="button"
-                                className="border-transparent"
-                            >
-                                <span className="material-symbols-outlined text-2xl">delete</span>
-                            </Button>
-                        </div>
-                    ))}
 
-                    <div className="flex justify-end mt-4">
+                                <div className="basis-1/3">
+                                    <Input
+                                        type="text"
+                                        value={group.name}
+                                        onChange={(e) =>
+                                            handleGroupNameChange(index, e.target.value)
+                                        }
+                                        placeholder="Frontend"
+                                        className="mb-0"
+                                    />
+                                </div>
+
+                                <div className="basis-2/3">
+                                    <Input
+                                        type="text"
+                                        value={skillStrings[index] ?? ''}
+                                        onChange={(e) =>
+                                            handleSkillsStringChange(index, e.target.value)
+                                        }
+                                        onBlur={() => syncSkillsOnBlur(index)}
+                                        placeholder="React, Vue, HTML"
+                                        className="mb-0"
+                                    />
+                                </div>
+
+                                <Button
+                                    type="danger"
+                                    onClick={() => handleRemoveGroup(index)}
+                                    htmlType="button"
+                                    className="border-transparent p-1"
+                                >
+                                    <span className="material-symbols-outlined text-2xl">
+                                        delete
+                                    </span>
+                                </Button>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="flex justify-end mt-6">
                         <Button type="secondary" onClick={handleAddGroup} htmlType="button">
-                            <span className="material-symbols-outlined text-2xl">add_2</span>
+                            <span className="material-symbols-outlined text-2xl">add</span>
                         </Button>
                     </div>
 
-                    <div className="flex justify-end gap-2 mt-4">
+                    <div className="flex justify-end gap-2 mt-6 border-t pt-4">
                         <Button type="secondary" onClick={onCancel} htmlType="button">
                             Cancel
                         </Button>
-                        <Button type="primary" htmlType={'submit'}>
+                        <Button type="primary" htmlType="submit">
                             Save changes
                         </Button>
                     </div>

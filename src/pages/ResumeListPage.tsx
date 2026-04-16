@@ -8,6 +8,7 @@ import { ContentPage } from '../components/common/ContentPage';
 import { Input } from '../components/common/Input';
 import { ResumeListItemCard } from '../components/resume/ResumeListItemCard';
 import { useCreateResume, useDeleteResume, useGetAllResumes } from '../services/resume/hooks';
+import { ResumeListItem } from '../types/resume';
 
 export const ResumeListPage: React.FC = () => {
     const { data: resumes, isLoading } = useGetAllResumes();
@@ -20,7 +21,7 @@ export const ResumeListPage: React.FC = () => {
 
     const [newResumeName, setNewResumeName] = React.useState('');
 
-    const sortedResumes = resumes?.slice().sort((a, b) => {
+    const sortedResumes = resumes?.slice().sort((a: ResumeListItem, b: ResumeListItem) => {
         if (a.isActive) return -1;
         if (b.isActive) return 1;
         return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
@@ -28,6 +29,8 @@ export const ResumeListPage: React.FC = () => {
 
     const handleCreateSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        if (!newResumeName.trim()) return;
+
         createResumeMutation.mutate(newResumeName, {
             onSuccess: () => {
                 setNewResumeName('');
@@ -60,25 +63,32 @@ export const ResumeListPage: React.FC = () => {
         setResumeToDeleteId(null);
     };
 
-    if (isLoading) return <p>Loading resumes...</p>;
+    if (isLoading) return <p className="text-center p-8">Loading resumes...</p>;
 
     return (
         <ContentPage className="max-w-4xl">
             <ContentCard>
-                <form onSubmit={handleCreateSubmit}>
+                <form onSubmit={handleCreateSubmit} className="flex flex-col gap-2">
                     <h2 className="text-lg font-semibold mb-2 text-text-primary">
                         Create new resume
                     </h2>
-                    <Input
-                        type="text"
-                        placeholder="Resume name"
-                        value={newResumeName}
-                        onChange={(e) => setNewResumeName(e.target.value)}
-                        required
-                    />
-                    <Button type={'primary'}>Create</Button>
+                    <div className="flex flex-col sm:flex-row gap-2">
+                        <div className="flex-1">
+                            <Input
+                                type="text"
+                                placeholder="Resume name"
+                                value={newResumeName}
+                                onChange={(e) => setNewResumeName(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <Button type={'primary'} className="h-[42px]">
+                            Create
+                        </Button>
+                    </div>
                 </form>
             </ContentCard>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                 {sortedResumes?.map((resume) => (
                     <ResumeListItemCard
