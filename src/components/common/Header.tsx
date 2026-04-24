@@ -77,12 +77,12 @@ const Header: React.FC = () => {
         'hover:bg-button-secondary ' +
         'active:text-content active:bg-button-secondary';
     return (
-        <header className="bg-content text-text-primary p-4 flex justify-between items-center border-b border-border">
+        <header className="bg-content text-text-primary p-3 md:p-4 flex justify-between items-center border-b border-border">
             <Link to="/resume/active" className={navButtonClasses}>
                 <span className="material-symbols-outlined text-2xl">home</span>
                 <span className="hidden md:inline font-bold">Resume</span>
             </Link>
-            <nav className="flex space-x-4 items-center">
+            <nav className="flex flex-wrap gap-2 md:gap-4 items-center justify-end">
                 {token ? (
                     <>
                         <Link to="/games/snake" className={navButtonClasses}>
@@ -90,6 +90,13 @@ const Header: React.FC = () => {
                                 sports_esports
                             </span>
                             <span className="hidden md:inline">Snake game</span>
+                        </Link>
+
+                        <Link to="/fitness" className={navButtonClasses}>
+                            <span className="material-symbols-outlined text-2xl">
+                                fitness_center
+                            </span>
+                            <span className="hidden md:inline">Fitness</span>
                         </Link>
 
                         <Link to="/resumes" className={navButtonClasses}>
@@ -118,6 +125,12 @@ const Header: React.FC = () => {
                                 sports_esports
                             </span>
                             <span className="hidden md:inline">Snake game</span>
+                        </Link>
+                        <Link to="/fitness" className={navButtonClasses}>
+                            <span className="material-symbols-outlined text-2xl">
+                                fitness_center
+                            </span>
+                            <span className="hidden md:inline">Fitness</span>
                         </Link>
                         <Link to="/login" className={navButtonClasses}>
                             <span className="material-symbols-outlined text-2xl">person</span>

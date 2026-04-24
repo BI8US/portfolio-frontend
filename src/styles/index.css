@@ -6,7 +6,10 @@
     html {
         background-color: rgb(var(--color-page));
         color: rgb(var(--color-text-primary));
-        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        transition:
+            background-color 0.3s ease,
+            color 0.3s ease,
+            border-color 0.3s ease;
     }
 }
 
@@ -87,11 +90,32 @@
 }
 
 @keyframes floatUp {
-    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
 }
 .animate-float-up {
     animation: floatUp linear infinite;
+}
+
+.no-spin::-webkit-outer-spin-button,
+.no-spin::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.no-spin[type='number'] {
+    -moz-appearance: textfield; /* Firefox */
+    appearance: textfield;
 }

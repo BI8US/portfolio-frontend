@@ -1,0 +1,2 @@
+{"sessionId":"f9a3bb","runId":"pre-fix","hypothesisId":"H1","location":"src/services/workouts/api.ts:createWorkoutPlan","message":"POST create workout plan","data":{"baseURL":"http://127.0.0.1:8080/api","path":"/workouts/plan"},"timestamp":1777044746333}
+{"sessionId":"f9a3bb","runId":"pre-fix","hypothesisId":"H1","location":"src/services/workouts/api.ts:createWorkoutPlan","message":"POST create workout plan","data":{"baseURL":"http://127.0.0.1:8080/api","path":"/workouts/plan"},"timestamp":1777044831453}

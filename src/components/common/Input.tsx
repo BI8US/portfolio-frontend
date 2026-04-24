@@ -14,34 +14,58 @@ interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement
     label?: string;
 }
 
-const InputComponent: React.FC<InputProps> = ({ label, className, ...props }) => {
-    return (
-        <div className="flex flex-col w-full">
-            {label && <label className={labelClasses}>{label}</label>}
-            <input {...props} className={`${baseInputClasses} ${className || ''}`} />
-        </div>
-    );
+type InputFieldProps = InputProps & { textarea?: false };
+type TextAreaFieldProps = TextAreaProps & { textarea: true };
+
+const InputComponent = React.forwardRef<HTMLInputElement, InputProps>(
+    ({ label, className, ...props }, ref) => {
+        return (
+            <div className="flex flex-col w-full">
+                {label && <label className={labelClasses}>{label}</label>}
+                <input ref={ref} {...props} className={`${baseInputClasses} ${className || ''}`} />
+            </div>
+        );
+    },
+);
+InputComponent.displayName = 'InputComponent';
+
+const TextAreaComponent = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
+    ({ label, className, ...props }, ref) => {
+        return (
+            <div className="flex flex-col w-full">
+                {label && <label className={labelClasses}>{label}</label>}
+                <textarea
+                    ref={ref}
+                    {...props}
+                    className={`${baseInputClasses} ${className || ''}`}
+                    rows={props.rows || 4}
+                />
+            </div>
+        );
+    },
+);
+TextAreaComponent.displayName = 'TextAreaComponent';
+
+type InputOverloads = {
+    (props: InputFieldProps & React.RefAttributes<HTMLInputElement>): JSX.Element;
+    (props: TextAreaFieldProps & React.RefAttributes<HTMLTextAreaElement>): JSX.Element;
 };
 
-const TextAreaComponent: React.FC<TextAreaProps> = ({ label, className, ...props }) => {
-    return (
-        <div className="flex flex-col w-full">
-            {label && <label className={labelClasses}>{label}</label>}
-            <textarea
-                {...props}
-                className={`${baseInputClasses} ${className || ''}`}
-                rows={props.rows || 4}
-            />
-        </div>
-    );
-};
+const InputForwarded = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, any>(
+    ({ textarea = false, ...props }: InputFieldProps | TextAreaFieldProps, ref) => {
+        if (textarea) {
+            return (
+                <TextAreaComponent
+                    ref={ref as React.Ref<HTMLTextAreaElement>}
+                    {...(props as TextAreaProps)}
+                />
+            );
+        }
+        return (
+            <InputComponent ref={ref as React.Ref<HTMLInputElement>} {...(props as InputProps)} />
+        );
+    },
+);
+InputForwarded.displayName = 'Input';
 
-export const Input = ({
-    textarea = false,
-    ...props
-}: InputProps & TextAreaProps & { textarea?: boolean }) => {
-    if (textarea) {
-        return <TextAreaComponent {...(props as TextAreaProps)} />;
-    }
-    return <InputComponent {...(props as InputProps)} />;
-};
+export const Input = InputForwarded as unknown as InputOverloads;

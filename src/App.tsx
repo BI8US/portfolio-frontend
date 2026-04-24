@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Navigate, Outlet, Route, Routes } from 'react-
 
 import Header from './components/common/Header';
 import ActiveResumePage from './pages/ActiveResumePage';
+import { FitnessPage } from './pages/FitnessPage';
 import { JobApplicationEditPage } from './pages/JobApplicationEditPage';
 import { JobApplicationListPage } from './pages/JobApplicationListPage';
 import { LoginPage } from './pages/LoginPage';
@@ -39,6 +40,14 @@ function App() {
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/resume/active" element={<ActiveResumePage />} />
                         <Route path="/games/snake/" element={<TestSnakePage />} />
+                        <Route
+                            path="/fitness"
+                            element={
+                                <PrivateRoute>
+                                    <FitnessPage />
+                                </PrivateRoute>
+                            }
+                        />
 
                         <Route path="/" element={<Navigate to="/resume/active" replace />} />
 
