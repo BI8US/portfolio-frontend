@@ -25,6 +25,96 @@ function newId() {
     return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
+function storageKey(workoutId: string) {
+    return `fitness.workoutDraft.v1.${workoutId}`;
+}
+
+function safeJsonParse<T>(raw: string | null): T | null {
+    if (!raw) return null;
+    try {
+        return JSON.parse(raw) as T;
+    } catch {
+        return null;
+    }
+}
+
+function normalizeExerciseName(name: string) {
+    return name
+        .trim()
+        .toLocaleLowerCase()
+        .replaceAll('ё', 'е')
+        .replaceAll(/[\s\-–—_]+/g, ' ')
+        .replaceAll(/[^\p{L}\p{N} ]/gu, '')
+        .trim();
+}
+
+function mergePlanWithProgress(nextPlan: WorkoutPlan, savedDraft: WorkoutPlan | null): WorkoutPlan {
+    if (!savedDraft) return nextPlan;
+
+    const savedByExerciseId = new Map(savedDraft.exercises.map((e) => [e.id, e]));
+    const savedByName = new Map<string, ExerciseData[]>();
+    for (const ex of savedDraft.exercises) {
+        const key = normalizeExerciseName(ex.name);
+        const list = savedByName.get(key) ?? [];
+        list.push(ex);
+        savedByName.set(key, list);
+    }
+
+    const usedSavedExerciseIds = new Set<string>();
+
+    const mergedPlannedExercises = nextPlan.exercises.map((plannedExercise) => {
+        let savedExercise = savedByExerciseId.get(plannedExercise.id) ?? null;
+        if (!savedExercise) {
+            const key = normalizeExerciseName(plannedExercise.name);
+            const candidates = savedByName.get(key) ?? [];
+            const next = candidates.find((c) => !usedSavedExerciseIds.has(c.id)) ?? null;
+            if (next) {
+                savedExercise = next;
+            }
+        }
+
+        if (!savedExercise) return plannedExercise;
+        const savedEx = savedExercise;
+        usedSavedExerciseIds.add(savedEx.id);
+
+        const savedSetsById = new Map(savedEx.sets.map((s) => [s.id, s]));
+        const mergedSets: SetData[] = plannedExercise.sets.map((plannedSet, idx) => {
+            const byId = savedSetsById.get(plannedSet.id);
+            if (byId) return byId;
+
+            const byIndex = savedEx.sets[idx];
+            return byIndex ?? plannedSet;
+        });
+
+        // Preserve any extra user-added sets (beyond what the updated plan has).
+        const extraSavedSets = savedEx.sets.filter(
+            (s, idx) =>
+                !plannedExercise.sets.some((p) => p.id === s.id) &&
+                idx >= plannedExercise.sets.length,
+        );
+
+        return {
+            ...plannedExercise,
+            // If user renamed an exercise mid-workout, keep it.
+            name: savedEx.name,
+            sets: [...mergedSets, ...extraSavedSets],
+        };
+    });
+
+    // If user had extra exercises in draft (rare, but can happen with older drafts),
+    // keep them at the end so progress isn't silently dropped.
+    const extraSavedExercises = savedDraft.exercises.filter(
+        (e) =>
+            !nextPlan.exercises.some((p) => p.id === e.id) &&
+            !mergedPlannedExercises.some((p) => p.id === e.id),
+    );
+
+    return {
+        ...nextPlan,
+        exercises: [...mergedPlannedExercises, ...extraSavedExercises],
+    };
+}
+
 export const ActiveWorkoutBoard: React.FC<ActiveWorkoutBoardProps> = ({
     workoutId,
     plan,
@@ -35,11 +125,34 @@ export const ActiveWorkoutBoard: React.FC<ActiveWorkoutBoardProps> = ({
         () => JSON.parse(JSON.stringify(plan)) as WorkoutPlan,
         [plan],
     );
-    const [draft, setDraft] = useState<WorkoutPlan>(initial);
+    const [draft, setDraft] = useState<WorkoutPlan>(() => {
+        if (typeof window === 'undefined') return initial;
+        const saved = safeJsonParse<WorkoutPlan>(
+            window.localStorage.getItem(storageKey(workoutId)),
+        );
+        return mergePlanWithProgress(initial, saved);
+    });
+
+    const [editingExerciseId, setEditingExerciseId] = useState<string | null>(null);
+    const [editingName, setEditingName] = useState('');
 
     useEffect(() => {
-        setDraft(initial);
-    }, [initial]);
+        if (typeof window === 'undefined') {
+            setDraft(initial);
+            return;
+        }
+
+        const saved = safeJsonParse<WorkoutPlan>(
+            window.localStorage.getItem(storageKey(workoutId)),
+        );
+        setDraft(mergePlanWithProgress(initial, saved));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [workoutId, initial]);
+
+    useEffect(() => {
+        if (typeof window === 'undefined') return;
+        window.localStorage.setItem(storageKey(workoutId), JSON.stringify(draft));
+    }, [workoutId, draft]);
 
     const updateSet = (exerciseId: string, setId: string, updater: (prev: SetData) => SetData) => {
         setDraft((prev) => ({
@@ -97,6 +210,21 @@ export const ActiveWorkoutBoard: React.FC<ActiveWorkoutBoardProps> = ({
         );
     };
 
+    const startRename = (exercise: ExerciseData) => {
+        setEditingExerciseId(exercise.id);
+        setEditingName(exercise.name);
+    };
+
+    const commitRename = (exerciseId: string) => {
+        const next = editingName.trim();
+        if (!next) {
+            setEditingExerciseId(null);
+            return;
+        }
+        updateExercise(exerciseId, (ex) => ({ ...ex, name: next }));
+        setEditingExerciseId(null);
+    };
+
     return (
         <div>
             <div className="px-0">
@@ -118,20 +246,53 @@ export const ActiveWorkoutBoard: React.FC<ActiveWorkoutBoardProps> = ({
                         <div key={exercise.id} className="py-4 first:pt-0 last:pb-0">
                             <div className="flex items-start justify-between gap-3">
                                 <div className="min-w-0">
-                                    <div className="text-text-primary font-semibold text-lg">
-                                        {exerciseIdx + 1}. {exercise.name}
-                                    </div>
+                                    {editingExerciseId === exercise.id ? (
+                                        <div className="flex items-center gap-2">
+                                            <div className="text-text-primary font-semibold text-lg shrink-0">
+                                                {exerciseIdx + 1}.
+                                            </div>
+                                            <input
+                                                value={editingName}
+                                                onChange={(e) => setEditingName(e.target.value)}
+                                                onBlur={() => commitRename(exercise.id)}
+                                                onKeyDown={(e) => {
+                                                    if (e.key === 'Enter') {
+                                                        commitRename(exercise.id);
+                                                    }
+                                                    if (e.key === 'Escape') {
+                                                        setEditingExerciseId(null);
+                                                    }
+                                                }}
+                                                autoFocus
+                                                className="h-10 w-full bg-content border border-border rounded-md px-3 text-text-primary font-semibold focus:outline-none focus:ring-2 focus:ring-text-accent"
+                                                aria-label="Exercise name"
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="text-text-primary font-semibold text-lg">
+                                            {exerciseIdx + 1}. {exercise.name}
+                                        </div>
+                                    )}
                                     <div className="text-text-muted text-sm mt-1">
                                         Rest: {exercise.restTimeSeconds}s
                                     </div>
                                 </div>
-                                <button
-                                    type="button"
-                                    className="shrink-0 text-sm text-text-muted hover:text-text-primary"
-                                    onClick={() => resetExerciseToPlanned(exercise.id)}
-                                >
-                                    Reset
-                                </button>
+                                <div className="shrink-0 flex items-center gap-3">
+                                    <button
+                                        type="button"
+                                        className="text-sm text-text-muted hover:text-text-primary"
+                                        onClick={() => startRename(exercise)}
+                                    >
+                                        Rename
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="text-sm text-text-muted hover:text-text-primary"
+                                        onClick={() => resetExerciseToPlanned(exercise.id)}
+                                    >
+                                        Reset
+                                    </button>
+                                </div>
                             </div>
 
                             <div className="mt-3 space-y-2">

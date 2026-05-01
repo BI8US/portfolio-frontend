@@ -53,9 +53,11 @@ export const completeWorkout = async (
 export const sendWorkoutChatMessage = async (
     workoutId: string,
     message: string,
+    draft?: WorkoutPlan | null,
 ): Promise<WorkoutChatResponse> => {
     const response = await api.post<WorkoutChatResponse>(`/workouts/${workoutId}/chat`, {
         message,
+        draft: draft ?? undefined,
     });
     return response.data;
 };

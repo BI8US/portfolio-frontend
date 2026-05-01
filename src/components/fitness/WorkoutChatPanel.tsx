@@ -3,6 +3,7 @@ import React from 'react';
 import type { ChatMessage } from '../../services/workouts/api';
 import { getWorkoutChatMessages } from '../../services/workouts/api';
 import { useWorkoutChat } from '../../services/workouts/hooks';
+import type { WorkoutPlan } from '../../types/workout';
 import { Button } from '../common/Button';
 import { Input } from '../common/Input';
 
@@ -132,6 +133,17 @@ export const WorkoutChatPanel: React.FC<WorkoutChatPanelProps> = ({ workoutId, c
         return d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
     };
 
+    const readDraftFromStorage = (): WorkoutPlan | null => {
+        if (typeof window === 'undefined') return null;
+        try {
+            const raw = window.localStorage.getItem(`fitness.workoutDraft.v1.${workoutId}`);
+            if (!raw) return null;
+            return JSON.parse(raw) as WorkoutPlan;
+        } catch {
+            return null;
+        }
+    };
+
     const send = () => {
         const text = draft.trim();
         if (!text || chatMutation.isPending) return;
@@ -142,24 +154,27 @@ export const WorkoutChatPanel: React.FC<WorkoutChatPanelProps> = ({ workoutId, c
         ]);
         setDraft('');
 
-        chatMutation.mutate(text, {
-            onSuccess: (data) => {
-                setMessages((prev) => [
-                    ...prev,
-                    { role: 'ai', text: data.reply, timestamp: data.timestamp },
-                ]);
+        chatMutation.mutate(
+            { message: text, draft: readDraftFromStorage() },
+            {
+                onSuccess: (data) => {
+                    setMessages((prev) => [
+                        ...prev,
+                        { role: 'ai', text: data.reply, timestamp: data.timestamp },
+                    ]);
+                },
+                onError: () => {
+                    setMessages((prev) => [
+                        ...prev,
+                        {
+                            role: 'ai',
+                            text: "Couldn't send the message. Please try again.",
+                            timestamp: new Date().toISOString(),
+                        },
+                    ]);
+                },
             },
-            onError: () => {
-                setMessages((prev) => [
-                    ...prev,
-                    {
-                        role: 'ai',
-                        text: "Couldn't send the message. Please try again.",
-                        timestamp: new Date().toISOString(),
-                    },
-                ]);
-            },
-        });
+        );
     };
 
     return (

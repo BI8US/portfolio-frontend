@@ -64,7 +64,8 @@ export function useCompleteWorkout() {
 export function useWorkoutChat(workoutId: string) {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (message: string) => sendWorkoutChatMessage(workoutId, message),
+        mutationFn: ({ message, draft }: { message: string; draft?: WorkoutPlan | null }) =>
+            sendWorkoutChatMessage(workoutId, message, draft),
         onSuccess: (data) => {
             const updatedPlan = data.updatedPlan;
             if (!updatedPlan) {

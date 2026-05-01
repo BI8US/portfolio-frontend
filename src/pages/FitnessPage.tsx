@@ -38,6 +38,8 @@ export const FitnessPage: React.FC = () => {
         noPlannedWorkout: 'No planned workout yet. Create one below.',
         newWorkoutTitle: 'New workout',
         requestPlaceholder: 'What are we training today? Any constraints or preferences?',
+        requestRequired: 'Please enter what you want to train today.',
+        planningFailed: "Couldn't create a workout plan. Please try again.",
         planning: 'Planning…',
         planWorkout: 'Plan workout',
         profileRequired: 'To plan workouts, please complete your profile first.',
@@ -60,6 +62,7 @@ export const FitnessPage: React.FC = () => {
 
     const [isProfileModalOpen, setIsProfileModalOpen] = React.useState(false);
     const [userRequest, setUserRequest] = React.useState('');
+    const [requestError, setRequestError] = React.useState<string | null>(null);
     const [workoutIdToDelete, setWorkoutIdToDelete] = React.useState<string | null>(null);
 
     const sortedWorkouts = React.useMemo(() => {
@@ -148,7 +151,10 @@ export const FitnessPage: React.FC = () => {
                         <Input
                             placeholder={t.requestPlaceholder}
                             value={userRequest}
-                            onChange={(e) => setUserRequest(e.target.value)}
+                            onChange={(e) => {
+                                setUserRequest(e.target.value);
+                                if (requestError) setRequestError(null);
+                            }}
                             className="text-lg p-3"
                         />
                     </div>
@@ -158,12 +164,28 @@ export const FitnessPage: React.FC = () => {
                             type="primary"
                             htmlType="button"
                             className="w-full text-lg py-3"
-                            onClick={() => createPlanMutation.mutate(userRequest)}
+                            onClick={() => {
+                                const trimmed = userRequest.trim();
+                                if (!trimmed) {
+                                    setRequestError(t.requestRequired);
+                                    return;
+                                }
+
+                                createPlanMutation.mutate(trimmed, {
+                                    onError: () => setRequestError(t.planningFailed),
+                                });
+                            }}
                             disabled={!isProfileFilled(profile) || createPlanMutation.isPending}
                         >
                             {createPlanMutation.isPending ? t.planning : t.planWorkout}
                         </Button>
                     </div>
+
+                    {requestError && (
+                        <div className="mt-3 text-text-danger text-sm font-semibold">
+                            {requestError}
+                        </div>
+                    )}
 
                     {!isProfileFilled(profile) && (
                         <div className="mt-3 text-text-muted text-sm">{t.profileRequired}</div>
